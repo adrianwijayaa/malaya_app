@@ -1,0 +1,105 @@
+.editable-field {
+  margin-bottom: 1rem;
+}
+
+.editable-field label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+  color: #333;
+}
+
+.editable-field input,
+.editable-field select,
+.editable-field textarea {
+  width: 100%;
+  padding: 0.5rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 1rem;
+}
+
+.editable-field textarea {
+  min-height: 100px;
+  resize: vertical;
+}
+
+.editable-field .array-input {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.editable-field .array-item {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.editable-field .array-item input {
+  flex: 1;
+}
+
+.editable-field .array-item button {
+  padding: 0 0.75rem;
+  background-color: #f44336;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.editable-field .add-item {
+  margin-top: 0.5rem;
+  padding: 0.5rem;
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.editable-field .boolean-input {
+  display: flex;
+  gap: 2rem;
+}
+
+.editable-field .boolean-input label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+}
+
+.editable-field .select-input {
+  background-color: white;
+}
+
+.editable-field input:focus,
+.editable-field select:focus,
+.editable-field textarea:focus {
+  outline: none;
+  border-color: #2196f3;
+  box-shadow: 0 0 0 2px rgba(33, 150, 243, 0.1);
+}
+
+.editable-field .add-item:hover {
+  background-color: #45a049;
+}
+
+.editable-field .array-item button:hover {
+  background-color: #d32f2f;
+}
+
+.editable-field input[type="date"] {
+  font-family: inherit;
+}
+
+.editable-field input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+.editable-field input[type="number"]::-webkit-outer-spin-button,
+.editable-field input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}

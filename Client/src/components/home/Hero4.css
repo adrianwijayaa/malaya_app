@@ -1,0 +1,746 @@
+.hero4-container {
+  width: 100%;
+  transition: all 0.3s ease;
+  background: linear-gradient(
+    90deg,
+    rgba(184, 253, 255, 0.95) 55%,
+    rgba(25, 98, 155, 0.85) 100%
+  );
+  height: 100%;
+  padding: 50px 0;
+  border-radius: 0 30px 30px 0;
+}
+
+.card-pair-container {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 30px;
+  width: 100%;
+  max-width: 1230px;
+  height: 100%;
+  margin: 0 auto;
+  padding: 0 20px 30px 20px;
+}
+
+.card-pair-container2 {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 30px;
+  width: 100%;
+  max-width: 1230px;
+  height: 100%;
+  margin: 0 auto;
+  padding: 0 20px 30px 20px;
+}
+
+.card-pair-container3 {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 30px;
+  width: 100%;
+  max-width: 1230px;
+  height: 100%;
+  margin: 0 auto;
+  padding: 0 20px 30px 20px;
+}
+
+.card-pair-container4 {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 30px;
+  width: 100%;
+  max-width: 1230px;
+  height: 100%;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.card-pair-container-div1,
+.card-pair-container-div2,
+.card-pair-container2-div1,
+.card-pair-container2-div2,
+.card-pair-container3-div1,
+.card-pair-container3-div2,
+.card-pair-container4-div1,
+.card-pair-container4-div2 {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.home-content3-img3,
+.home-content4-img4,
+.home-content5-img5,
+.home-content6-img6,
+.home-content7-img7,
+.home-content8-img8,
+.home-content9-img9,
+.home-content10-img10 {
+  width: 100%;
+  max-width: 580px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: repeat(2, 1fr);
+  gap: 10px;
+  z-index: 3;
+  padding: 15px;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border-radius: 25px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+  transition: transform 0.4s ease;
+  aspect-ratio: 1;
+  height: 450px;
+  position: relative;
+}
+
+.home-content3-img3 img,
+.home-content4-img4 img,
+.home-content5-img5 img,
+.home-content6-img6 img,
+.home-content7-img7 img,
+.home-content8-img8 img,
+.home-content9-img9 img,
+.home-content10-img10 img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 20px;
+  transition: all 0.4s ease;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+  filter: brightness(0.95);
+}
+.home-content3-img3:hover img,
+.home-content4-img4:hover img,
+.home-content5-img5:hover img,
+.home-content6-img6:hover img,
+.home-content7-img7:hover img,
+.home-content8-img8:hover img,
+.home-content9-img9:hover img,
+.home-content10-img10:hover img {
+  transform: scale(1.05);
+  filter: brightness(1.1);
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+}
+.home-content3-card,
+.home-content4-card,
+.home-content5-card,
+.home-content6-card,
+.home-content7-card,
+.home-content8-card,
+.home-content9-card,
+.home-content10-card {
+  width: 100%;
+  max-width: 350px;
+  margin: 30px auto;
+  background: rgba(255, 255, 255, 0.95);
+  padding: 25px;
+  border-radius: 25px;
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+  z-index: 4;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  transform-origin: center;
+  overflow: hidden;
+  position: absolute;
+}
+
+.home-content3-card {
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -59%);
+}
+
+.home-content4-card {
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -59%);
+}
+
+.home-content5-card {
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -59%);
+}
+
+.home-content6-card {
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -59%);
+}
+
+.home-content7-card {
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -59%);
+}
+
+.home-content8-card {
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -59%);
+}
+
+.home-content9-card {
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -59%);
+}
+
+.home-content10-card {
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -59%);
+}
+
+.home-content3-card:hover {
+  transform: translate(-50%, -58%) scale(1.1);
+  z-index: 5;
+}
+
+.home-content4-card:hover {
+  transform: translate(-50%, -58%) scale(1.1);
+  z-index: 5;
+}
+
+.home-content5-card:hover {
+  transform: translate(-50%, -59%) scale(1.1);
+  z-index: 5;
+}
+
+.home-content6-card:hover {
+  transform: translate(-50%, -58%) scale(1.1);
+  z-index: 5;
+}
+
+.home-content7-card:hover {
+  transform: translate(-50%, -57%) scale(1.1);
+  z-index: 5;
+}
+
+.home-content8-card:hover {
+  transform: translate(-50%, -57%) scale(1.1);
+  z-index: 5;
+}
+
+.home-content9-card:hover {
+  transform: translate(-50%, -59%) scale(1.1);
+  z-index: 5;
+}
+
+.home-content10-card:hover {
+  transform: translate(-50%, -58%) scale(1.1);
+  z-index: 5;
+}
+
+.card-content {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+.card-header {
+  transform: translateY(0);
+  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.card-details {
+  max-height: 0;
+  opacity: 0;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow: hidden;
+  margin-top: 10px;
+}
+.card-points {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.card-points li {
+  color: #666;
+  font-size: 14px;
+  position: relative;
+  padding-left: 20px;
+  line-height: 1.4;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: all 0.3s ease;
+}
+.card-points li::before {
+  content: "•";
+  position: absolute;
+  left: 0;
+  color: #35b7b3;
+}
+.card-footer {
+  transform: translateY(0);
+  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.home-content3-card:hover .card-details,
+.home-content4-card:hover .card-details,
+.home-content5-card:hover .card-details,
+.home-content6-card:hover .card-details,
+.home-content7-card:hover .card-details,
+.home-content8-card:hover .card-details,
+.home-content9-card:hover .card-details,
+.home-content10-card:hover .card-details {
+  max-height: 200px;
+  opacity: 1;
+}
+.home-content3-card:hover .card-points li,
+.home-content4-card:hover .card-points li,
+.home-content5-card:hover .card-points li,
+.home-content6-card:hover .card-points li,
+.home-content7-card:hover .card-points li,
+.home-content8-card:hover .card-points li,
+.home-content9-card:hover .card-points li,
+.home-content10-card:hover .card-points li {
+  opacity: 1;
+  transform: translateY(0);
+  transition-delay: 0.1s;
+}
+.home-content3-title,
+.home-content4-title,
+.home-content5-title,
+.home-content6-title,
+.home-content7-title,
+.home-content8-title,
+.home-content9-title,
+.home-content10-title {
+  font-size: 28px;
+  font-weight: 800;
+  background: linear-gradient(135deg, #196299, #35b7b3);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  margin-bottom: 20px;
+  font-family: "Unbounded", sans-serif;
+  line-height: 1.2;
+}
+.home-content3-subtitle,
+.home-content4-subtitle,
+.home-content5-subtitle,
+.home-content6-subtitle,
+.home-content7-subtitle,
+.home-content8-subtitle,
+.home-content9-subtitle,
+.home-content10-subtitle {
+  font-size: 17px;
+  color: #35b7b3;
+  font-weight: 500;
+  position: relative;
+  padding-left: 25px;
+  margin-bottom: 5px;
+  transition: all 0.3s ease;
+  transform: translateX(0);
+  letter-spacing: 0.2px;
+}
+.home-content3-subtitle::before,
+.home-content4-subtitle::before,
+.home-content5-subtitle::before,
+.home-content6-subtitle::before,
+.home-content7-subtitle::before,
+.home-content8-subtitle::before,
+.home-content9-subtitle::before,
+.home-content10-subtitle::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 50%;
+  width: 4px;
+  height: 25px;
+  background: linear-gradient(to bottom, #35b7b3, #196299);
+  transform: translateY(-50%);
+  border-radius: 2px;
+  transition: all 0.3s ease;
+  box-shadow: 0 0 10px rgba(53, 183, 179, 0.2);
+}
+.home-content3-card:hover .home-content3-subtitle,
+.home-content4-card:hover .home-content4-subtitle,
+.home-content5-card:hover .home-content5-subtitle,
+.home-content6-card:hover .home-content6-subtitle,
+.home-content7-card:hover .home-content7-subtitle,
+.home-content8-card:hover .home-content8-subtitle,
+.home-content9-card:hover .home-content9-subtitle,
+.home-content10-card:hover .home-content10-subtitle {
+  color: #35b7b3;
+  transform: translateX(5px);
+  font-weight: 500;
+}
+.home-content3-subtitle::before,
+.home-content4-subtitle::before,
+.home-content5-subtitle::before,
+.home-content6-subtitle::before,
+.home-content7-subtitle::before,
+.home-content8-subtitle::before,
+.home-content9-subtitle::before,
+.home-content10-subtitle::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 50%;
+  width: 4px;
+  height: 25px;
+  background: linear-gradient(to bottom, #35b7b3, #196299);
+  transform: translateY(-50%);
+  border-radius: 2px;
+  transition: all 0.3s ease;
+  box-shadow: 0 0 10px rgba(53, 183, 179, 0.2);
+}
+.home-content3-button,
+.home-content4-button,
+.home-content5-button,
+.home-content6-button,
+.home-content7-button,
+.home-content8-button,
+.home-content9-button,
+.home-content10-button {
+  display: inline-flex;
+  align-items: center;
+  background: linear-gradient(135deg, #196299, #35b7b3);
+  color: white;
+  text-decoration: none;
+  padding: 15px 35px;
+  border-radius: 100px;
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  transition: all 0.3s ease;
+  box-shadow: 0 10px 20px rgba(25, 98, 155, 0.2);
+  position: relative;
+  overflow: hidden;
+  margin-top: 15px;
+  z-index: 1;
+}
+.home-content3-button::before,
+.home-content4-button::before,
+.home-content5-button::before,
+.home-content6-button::before,
+.home-content7-button::before,
+.home-content8-button::before,
+.home-content9-button::before,
+.home-content10-button::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, #35b7b3, #196299);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: -1;
+  border-radius: 100px;
+}
+.home-content3-button span,
+.home-content4-button span,
+.home-content5-button span,
+.home-content6-button span,
+.home-content7-button span,
+.home-content8-button span,
+.home-content9-button span,
+.home-content10-button span {
+  position: relative;
+  z-index: 2;
+}
+.home-content3-button:hover::before,
+.home-content4-button:hover::before,
+.home-content5-button:hover::before,
+.home-content6-button:hover::before,
+.home-content7-button:hover::before,
+.home-content8-button:hover::before,
+.home-content9-button:hover::before,
+.home-content10-button:hover::before {
+  opacity: 1;
+}
+.home-content3-button:hover,
+.home-content4-button:hover,
+.home-content5-button:hover,
+.home-content6-button:hover,
+.home-content7-button:hover,
+.home-content8-button:hover,
+.home-content9-button:hover,
+.home-content10-button:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 15px 30px rgba(25, 98, 155, 0.3);
+}
+.home-content3-card .card-content {
+  opacity: 1;
+  transition: opacity 0.4s ease;
+}
+.home-content3-card .card-details {
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  margin: 0;
+  padding: 0;
+}
+
+.home-content3-card:hover .card-details {
+  max-height: 200px;
+  opacity: 1;
+  margin-top: 15px;
+  margin-bottom: 15px;
+}
+.home-content3-card .card-points li {
+  transform: translateY(20px);
+  opacity: 0;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.home-content3-card:hover .card-points li {
+  transform: translateY(0);
+  opacity: 1;
+}
+.home-content3-card:hover .card-points li:nth-child(1) {
+  transition-delay: 0.1s;
+}
+.home-content3-card:hover .card-points li:nth-child(2) {
+  transition-delay: 0.2s;
+}
+.home-content3-card:hover .card-points li:nth-child(3) {
+  transition-delay: 0.3s;
+}
+.home-content3-card:hover .card-points li:nth-child(4) {
+  transition-delay: 0.4s;
+}
+
+.home-content4-card .card-content,
+.home-content5-card .card-content,
+.home-content6-card .card-content,
+.home-content7-card .card-content,
+.home-content8-card .card-content,
+.home-content9-card .card-content,
+.home-content10-card .card-content {
+  opacity: 1;
+  transition: opacity 0.4s ease;
+}
+.home-content4-card .card-details,
+.home-content5-card .card-details,
+.home-content6-card .card-details,
+.home-content7-card .card-details,
+.home-content8-card .card-details,
+.home-content9-card .card-details,
+.home-content10-card .card-details {
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  margin: 0;
+  padding: 0;
+}
+
+.home-content4-card:hover .card-details,
+.home-content5-card:hover .card-details,
+.home-content6-card:hover .card-details,
+.home-content7-card:hover .card-details,
+.home-content8-card:hover .card-details,
+.home-content9-card:hover .card-details,
+.home-content10-card:hover .card-details {
+  max-height: 200px;
+  opacity: 1;
+  margin-top: 15px;
+  margin-bottom: 15px;
+}
+.home-content4-card .card-points li,
+.home-content5-card .card-points li,
+.home-content6-card .card-points li,
+.home-content7-card .card-points li,
+.home-content8-card .card-points li,
+.home-content9-card .card-points li,
+.home-content10-card .card-points li {
+  transform: translateY(20px);
+  opacity: 0;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.home-content4-card:hover .card-points li,
+.home-content5-card:hover .card-points li,
+.home-content6-card:hover .card-points li,
+.home-content7-card:hover .card-points li,
+.home-content8-card:hover .card-points li,
+.home-content9-card:hover .card-points li,
+.home-content10-card:hover .card-points li {
+  transform: translateY(0);
+  opacity: 1;
+}
+.home-content4-card:hover .card-points li:nth-child(1),
+.home-content5-card:hover .card-points li:nth-child(1),
+.home-content6-card:hover .card-points li:nth-child(1),
+.home-content7-card:hover .card-points li:nth-child(1),
+.home-content8-card:hover .card-points li:nth-child(1),
+.home-content9-card:hover .card-points li:nth-child(1),
+.home-content10-card:hover .card-points li:nth-child(1) {
+  transition-delay: 0.1s;
+}
+.home-content4-card:hover .card-points li:nth-child(2),
+.home-content5-card:hover .card-points li:nth-child(2),
+.home-content6-card:hover .card-points li:nth-child(2),
+.home-content7-card:hover .card-points li:nth-child(2),
+.home-content8-card:hover .card-points li:nth-child(2),
+.home-content9-card:hover .card-points li:nth-child(2),
+.home-content10-card:hover .card-points li:nth-child(2) {
+  transition-delay: 0.2s;
+}
+.home-content4-card:hover .card-points li:nth-child(3),
+.home-content5-card:hover .card-points li:nth-child(3),
+.home-content6-card:hover .card-points li:nth-child(3),
+.home-content7-card:hover .card-points li:nth-child(3),
+.home-content8-card:hover .card-points li:nth-child(3),
+.home-content9-card:hover .card-points li:nth-child(3),
+.home-content10-card:hover .card-points li:nth-child(3) {
+  transition-delay: 0.3s;
+}
+.home-content4-card:hover .card-points li:nth-child(4),
+.home-content5-card:hover .card-points li:nth-child(4),
+.home-content6-card:hover .card-points li:nth-child(4),
+.home-content7-card:hover .card-points li:nth-child(4),
+.home-content8-card:hover .card-points li:nth-child(4),
+.home-content9-card:hover .card-points li:nth-child(4),
+.home-content10-card:hover .card-points li:nth-child(4) {
+  transition-delay: 0.4s;
+}
+
+@media screen and (max-width: 1024px) {
+  .card-pair-container,
+  .card-pair-container2,
+  .card-pair-container3,
+  .card-pair-container4 {
+    grid-template-columns: 1fr;
+    gap: 40px;
+    padding: 0 15px;
+  }
+
+  .home-content3-img3,
+  .home-content4-img4,
+  .home-content5-img5,
+  .home-content6-img6,
+  .home-content7-img7,
+  .home-content8-img8,
+  .home-content9-img9,
+  .home-content10-img10 {
+    height: 400px;
+    max-width: 500px;
+  }
+
+  .hero4-container {
+    padding: 30px 0;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .home-content3-img3,
+  .home-content4-img4,
+  .home-content5-img5,
+  .home-content6-img6,
+  .home-content7-img7,
+  .home-content8-img8,
+  .home-content9-img9,
+  .home-content10-img10 {
+    height: 350px;
+    padding: 10px;
+    gap: 8px;
+  }
+
+  .home-content3-card,
+  .home-content4-card,
+  .home-content5-card,
+  .home-content6-card,
+  .home-content7-card,
+  .home-content8-card,
+  .home-content9-card,
+  .home-content10-card {
+    max-width: 300px;
+    padding: 20px;
+  }
+
+  .home-content3-title,
+  .home-content4-title,
+  .home-content5-title,
+  .home-content6-title,
+  .home-content7-title,
+  .home-content8-title,
+  .home-content9-title,
+  .home-content10-title {
+    font-size: 24px;
+  }
+
+  .home-content3-subtitle,
+  .home-content4-subtitle,
+  .home-content5-subtitle,
+  .home-content6-subtitle,
+  .home-content7-subtitle,
+  .home-content8-subtitle,
+  .home-content9-subtitle,
+  .home-content10-subtitle {
+    font-size: 15px;
+  }
+
+  .home-content3-button,
+  .home-content4-button,
+  .home-content5-button,
+  .home-content6-button,
+  .home-content7-button,
+  .home-content8-button,
+  .home-content9-button,
+  .home-content10-button {
+    padding: 12px 25px;
+    font-size: 14px;
+  }
+
+  .card-points li {
+    font-size: 13px;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .home-content3-img3,
+  .home-content4-img4,
+  .home-content5-img5,
+  .home-content6-img6,
+  .home-content7-img7,
+  .home-content8-img8,
+  .home-content9-img9,
+  .home-content10-img10 {
+    height: 300px;
+  }
+
+  .home-content3-card,
+  .home-content4-card,
+  .home-content5-card,
+  .home-content6-card,
+  .home-content7-card,
+  .home-content8-card,
+  .home-content9-card,
+  .home-content10-card {
+    max-width: 280px;
+    padding: 15px;
+  }
+
+  .home-content3-title,
+  .home-content4-title,
+  .home-content5-title,
+  .home-content6-title,
+  .home-content7-title,
+  .home-content8-title,
+  .home-content9-title,
+  .home-content10-title {
+    font-size: 20px;
+    margin-bottom: 15px;
+  }
+
+  .hero4-container {
+    padding: 20px 0;
+    border-radius: 0 20px 20px 0;
+  }
+
+  .card-pair-container,
+  .card-pair-container2,
+  .card-pair-container3,
+  .card-pair-container4 {
+    gap: 30px;
+    padding: 0 10px 30px 10px;
+  }
+}
