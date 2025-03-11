@@ -1037,7 +1037,7 @@ const Form = ({ isOpen, onClose }) => {
     try {
       console.log(`Submitting to ${endpoint}:`, data); // Debug log
       const response = await fetch(
-        `demalayaapp-production.up.railway.app/api/v1/${endpoint}`,
+        `https://demalayaapp-production.up.railway.app/api/v1/${endpoint}`,
         {
           method: "POST",
           headers: {
