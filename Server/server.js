@@ -6,7 +6,11 @@ const app = express();
 
 // Set CORS options
 var corsOptions = {
-  origin: ["http://localhost:3000", "http://localhost:5174"],
+  origin: [
+    "http://localhost:3000",
+    "http://localhost:5174",
+    "https://demalayaapp-production.up.railway.app",
+  ],
   methods: ["GET", "POST", "PUT", "DELETE"],
 };
 
