@@ -85,7 +85,7 @@ const Admin = () => {
 
         // First fetch personal info
         const personalInfoRes = await fetch(
-          "http://localhost:3000/api/v1/personal-infos",
+          "https://demalayaapp-production.up.railway.app/api/v1/personal-infos",
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -113,7 +113,7 @@ const Admin = () => {
             try {
               // Get travel details for this personal info
               const travelDetailsRes = await fetch(
-                `http://localhost:3000/api/v1/travel-detail/${personalInfo.id}`,
+                `https://demalayaapp-production.up.railway.app/api/v1/travel-detail/${personalInfo.id}`,
                 {
                   headers: { Authorization: `Bearer ${token}` },
                 }
@@ -140,37 +140,37 @@ const Admin = () => {
                 budget,
               ] = await Promise.all([
                 fetch(
-                  `http://localhost:3000/api/v1/accommodation-prefference/${travelDetails.data.id}`,
+                  `https://demalayaapp-production.up.railway.app/api/v1/accommodation-prefference/${travelDetails.data.id}`,
                   {
                     headers: { Authorization: `Bearer ${token}` },
                   }
                 ).then((res) => res.json()),
                 fetch(
-                  `http://localhost:3000/api/v1/activity-interest/${travelDetails.data.id}`,
+                  `https://demalayaapp-production.up.railway.app/api/v1/activity-interest/${travelDetails.data.id}`,
                   {
                     headers: { Authorization: `Bearer ${token}` },
                   }
                 ).then((res) => res.json()),
                 fetch(
-                  `http://localhost:3000/api/v1/transportation-prefference/${travelDetails.data.id}`,
+                  `https://demalayaapp-production.up.railway.app/api/v1/transportation-prefference/${travelDetails.data.id}`,
                   {
                     headers: { Authorization: `Bearer ${token}` },
                   }
                 ).then((res) => res.json()),
                 fetch(
-                  `http://localhost:3000/api/v1/meal-prefference/${travelDetails.data.id}`,
+                  `https://demalayaapp-production.up.railway.app/api/v1/meal-prefference/${travelDetails.data.id}`,
                   {
                     headers: { Authorization: `Bearer ${token}` },
                   }
                 ).then((res) => res.json()),
                 fetch(
-                  `http://localhost:3000/api/v1/special-request/${travelDetails.data.id}`,
+                  `https://demalayaapp-production.up.railway.app/api/v1/special-request/${travelDetails.data.id}`,
                   {
                     headers: { Authorization: `Bearer ${token}` },
                   }
                 ).then((res) => res.json()),
                 fetch(
-                  `http://localhost:3000/api/v1/budget/${travelDetails.data.id}`,
+                  `https://demalayaapp-production.up.railway.app/api/v1/budget/${travelDetails.data.id}`,
                   {
                     headers: { Authorization: `Bearer ${token}` },
                   }
@@ -249,7 +249,7 @@ const Admin = () => {
     try {
       const token = localStorage.getItem("adminToken");
       const response = await fetch(
-        `http://localhost:3000/api/v1/personal-info/${requestId}`,
+        `https://demalayaapp-production.up.railway.app/api/v1/personal-info/${requestId}`,
         {
           method: "PUT",
           headers: {
@@ -376,7 +376,7 @@ const Admin = () => {
       await Promise.all(
         childEndpoints.map((endpoint) =>
           fetch(
-            `http://localhost:3000/api/v1/${endpoint}/${toDeleteRequest.travelDetailId}`,
+            `https://demalayaapp-production.up.railway.app/api/v1/${endpoint}/${toDeleteRequest.travelDetailId}`,
             {
               method: "DELETE",
               headers: { Authorization: `Bearer ${token}` },
@@ -387,7 +387,7 @@ const Admin = () => {
 
       // Delete travel detail
       await fetch(
-        `http://localhost:3000/api/v1/travel-detail/${toDeleteRequest.travelDetailId}`,
+        `https://demalayaapp-production.up.railway.app/api/v1/travel-detail/${toDeleteRequest.travelDetailId}`,
         {
           method: "DELETE",
           headers: { Authorization: `Bearer ${token}` },
@@ -396,7 +396,7 @@ const Admin = () => {
 
       // Finally delete personal info
       await fetch(
-        `http://localhost:3000/api/v1/personal-info/${toDeleteRequest.id}`,
+        `https://demalayaapp-production.up.railway.app/api/v1/personal-info/${toDeleteRequest.id}`,
         {
           method: "DELETE",
           headers: { Authorization: `Bearer ${token}` },
@@ -445,7 +445,7 @@ const Admin = () => {
 
       // First update personal info
       const personalInfoResponse = await fetch(
-        `http://localhost:3000/api/v1/personal-info/${editedRequest.id}`,
+        `https://demalayaapp-production.up.railway.app/api/v1/personal-info/${editedRequest.id}`,
         {
           method: "PUT",
           headers: {
@@ -466,7 +466,7 @@ const Admin = () => {
       }
 
       const travelDetailsResponse = await fetch(
-        `http://localhost:3000/api/v1/travel-detail/${editedRequest.travelDetailId}`,
+        `https://demalayaapp-production.up.railway.app/api/v1/travel-detail/${editedRequest.travelDetailId}`,
         {
           method: "PUT",
           headers: {
@@ -521,7 +521,7 @@ const Admin = () => {
       );
 
       const transportationResponse = await fetch(
-        `http://localhost:3000/api/v1/transportation-prefference/${editedRequest.travelDetailId}`,
+        `https://demalayaapp-production.up.railway.app/api/v1/transportation-prefference/${editedRequest.travelDetailId}`,
         {
           method: "PUT",
           headers: {
@@ -577,7 +577,7 @@ const Admin = () => {
       }
 
       const activityResponse = await fetch(
-        `http://localhost:3000/api/v1/activity-interest/${editedRequest.travelDetailId}`,
+        `https://demalayaapp-production.up.railway.app/api/v1/activity-interest/${editedRequest.travelDetailId}`,
         {
           method: "PUT",
           headers: {
@@ -606,7 +606,7 @@ const Admin = () => {
       }
 
       const accommodationResponse = await fetch(
-        `http://localhost:3000/api/v1/accommodation-prefference/${editedRequest.travelDetailId}`,
+        `https://demalayaapp-production.up.railway.app/api/v1/accommodation-prefference/${editedRequest.travelDetailId}`,
         {
           method: "PUT",
           headers: {
@@ -632,7 +632,7 @@ const Admin = () => {
       }
 
       const mealPreferenceResponse = await fetch(
-        `http://localhost:3000/api/v1/meal-prefference/${editedRequest.travelDetailId}`,
+        `https://demalayaapp-production.up.railway.app/api/v1/meal-prefference/${editedRequest.travelDetailId}`,
         {
           method: "PUT",
           headers: {
@@ -657,7 +657,7 @@ const Admin = () => {
       }
 
       const specialRequestResponse = await fetch(
-        `http://localhost:3000/api/v1/special-request/${editedRequest.travelDetailId}`,
+        `https://demalayaapp-production.up.railway.app/api/v1/special-request/${editedRequest.travelDetailId}`,
         {
           method: "PUT",
           headers: {
@@ -683,7 +683,7 @@ const Admin = () => {
       }
 
       const budgetResponse = await fetch(
-        `http://localhost:3000/api/v1/budget/${editedRequest.travelDetailId}`,
+        `https://demalayaapp-production.up.railway.app/api/v1/budget/${editedRequest.travelDetailId}`,
         {
           method: "PUT",
           headers: {
