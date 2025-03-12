@@ -70,10 +70,7 @@ const AdminAuth = () => {
       console.log("Response status:", response.status);
       console.log("Response data:", data);
 
-      if (
-        response.status === 500 &&
-        data.error?.includes("postgres.railway.internal")
-      ) {
+      if (response.status === 500) {
         throw new Error("Database connection error. Please try again later.");
       }
 
