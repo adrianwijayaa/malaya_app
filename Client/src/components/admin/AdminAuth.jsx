@@ -70,6 +70,13 @@ const AdminAuth = () => {
       console.log("Response status:", response.status);
       console.log("Response data:", data);
 
+      if (
+        response.status === 500 &&
+        data.error?.includes("postgres.railway.internal")
+      ) {
+        throw new Error("Database connection error. Please try again later.");
+      }
+
       if (!response.ok) {
         throw new Error(
           data.message ||
@@ -94,9 +101,10 @@ const AdminAuth = () => {
       }
     } catch (err) {
       console.error("Authentication error:", err);
-      setError(
-        err.message || "An unexpected error occurred. Please try again."
-      );
+      const errorMessage = err.message.includes("Database connection error")
+        ? err.message
+        : "Service temporarily unavailable. Please try again later.";
+      setError(errorMessage);
     } finally {
       setIsLoading(false);
     }
