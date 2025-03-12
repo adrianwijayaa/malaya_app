@@ -46,18 +46,29 @@ const AdminAuth = () => {
             password: credentials.password,
             email: credentials.email,
           };
+
+      // Log request details (remove in production)
+      console.log(
+        "Sending request to:",
+        `https://demalayaapp-production.up.railway.app/api/v1${endpoint}`
+      );
+      console.log("Request body:", JSON.stringify(requestBody, null, 2));
       const response = await fetch(
         `https://demalayaapp-production.up.railway.app/api/v1${endpoint}`,
         {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
+            Accept: "application/json",
           },
           body: JSON.stringify(requestBody),
         }
       );
 
       const data = await response.json();
+      // Log response details (remove in production)
+      console.log("Response status:", response.status);
+      console.log("Response data:", data);
 
       if (!response.ok) {
         throw new Error(
@@ -82,7 +93,10 @@ const AdminAuth = () => {
         setError("Registration successful! Please login.");
       }
     } catch (err) {
-      setError(err.message);
+      console.error("Authentication error:", err);
+      setError(
+        err.message || "An unexpected error occurred. Please try again."
+      );
     } finally {
       setIsLoading(false);
     }
