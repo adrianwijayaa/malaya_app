@@ -11,6 +11,7 @@ var corsOptions = {
     "http://localhost:5173",
     "http://localhost:5432",
     "https://demalayaapp-production.up.railway.app",
+    "https://demalaya-app.vercel.app/",
   ],
   methods: ["GET", "POST", "PUT", "DELETE"],
 };
