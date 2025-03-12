@@ -8,6 +8,7 @@ module.exports = {
     password: process.env.PGPASSWORD,
     database: process.env.PGDATABASE,
     host: process.env.PGHOST,
+    port: process.env.PGPORT,
     dialect: process.env.DB_DIALECT,
     dialectOptions: {
       ssl: {
@@ -21,6 +22,7 @@ module.exports = {
     password: process.env.PGPASSWORD,
     database: process.env.PGDATABASE,
     host: process.env.PGHOST,
+    port: process.env.PGPORT,
     dialect: process.env.DB_DIALECT,
     dialectOptions: {
       ssl: {
@@ -34,6 +36,7 @@ module.exports = {
     password: process.env.PGPASSWORD,
     database: process.env.PGDATABASE,
     host: process.env.PGHOST,
+    port: process.env.PGPORT,
     dialect: process.env.DB_DIALECT,
     dialectOptions: {
       ssl: {
