@@ -8,7 +8,8 @@ const app = express();
 var corsOptions = {
   origin: [
     "http://localhost:3000",
-    "http://localhost:5174",
+    "http://localhost:5173",
+    "http://localhost:5432",
     "https://demalayaapp-production.up.railway.app",
   ],
   methods: ["GET", "POST", "PUT", "DELETE"],
@@ -27,7 +28,7 @@ const router = require("./src/routes/index.js");
 app.use("/api/v1", router);
 
 // Set port, listen for requests
-const PORT = process.env.PGPORT || 5432;
+const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}.`);
 });

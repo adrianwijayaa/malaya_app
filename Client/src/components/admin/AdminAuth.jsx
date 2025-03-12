@@ -36,19 +36,16 @@ const AdminAuth = () => {
 
     try {
       const endpoint = isLogin ? "/login" : "/register";
-      const response = await fetch(
-        `https://demalayaapp-production.up.railway.app/api/v1/${endpoint}`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            username: credentials.username,
-            password: credentials.password,
-          }),
-        }
-      );
+      const response = await fetch(`http://localhost:3000/api/v1${endpoint}`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          username: credentials.username,
+          password: credentials.password,
+        }),
+      });
 
       const data = await response.json();
 
