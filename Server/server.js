@@ -11,6 +11,7 @@ var corsOptions = {
     "http://localhost:5173",
     "http://localhost:5432",
     "https://demalayaapp-production.up.railway.app",
+    "https://demalayaaa-production.up.railway.app",
     "https://demalaya-app.vercel.app",
   ],
   methods: ["GET", "POST", "PUT", "DELETE"],
@@ -29,7 +30,7 @@ const router = require("./src/routes/index.js");
 app.use("/api/v1", router);
 
 // Set port, listen for requests
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PGPORT || 3000;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}.`);
 });
