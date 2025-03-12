@@ -36,6 +36,16 @@ const AdminAuth = () => {
 
     try {
       const endpoint = isLogin ? "/login" : "/register";
+      const requestBody = isLogin
+        ? {
+            username: credentials.username,
+            password: credentials.password,
+          }
+        : {
+            username: credentials.username,
+            password: credentials.password,
+            email: credentials.email,
+          };
       const response = await fetch(
         `https://demalayaapp-production.up.railway.app/api/v1${endpoint}`,
         {
@@ -43,17 +53,17 @@ const AdminAuth = () => {
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({
-            username: credentials.username,
-            password: credentials.password,
-          }),
+          body: JSON.stringify(requestBody),
         }
       );
 
       const data = await response.json();
 
       if (!response.ok) {
-        throw new Error(data.message || "Authentication failed");
+        throw new Error(
+          data.message ||
+            `Authentication failed (${response.status}: ${response.statusText})`
+        );
       }
 
       if (isLogin) {
