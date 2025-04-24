@@ -157,7 +157,10 @@ function Navbars() {
         <Navbar.Brand>
           <img src={logo} alt="Demalaya Logo" width={100} className="logo" />
         </Navbar.Brand>
-
+        <div className="nav-title">
+          Malaya
+          <br /> Adventures
+        </div>
         <button
           className="mobile-menu-btn"
           onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}

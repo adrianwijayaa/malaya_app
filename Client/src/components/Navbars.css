@@ -1,4 +1,5 @@
 @import url("https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Unbounded:wght@400;500;600;700&display=swap");
 
 .navbar {
   background-color: transparent;
@@ -26,6 +27,10 @@
   color: white;
 }
 
+.navbar.colorChange .nav-title {
+  color: rgba(25, 98, 155);
+}
+
 .navbar.navbar.colorChange .nav-text.active {
   color: black;
   font-weight: 500;
@@ -35,12 +40,21 @@
   margin: 0;
 }
 
+.nav-title {
+  font-family: "Unbounded", sans-serif;
+  font-weight: 600;
+  font-size: 14px;
+  color: rgb(255, 255, 255);
+  letter-spacing: 0.4px;
+  text-transform: uppercase;
+}
+
 .nav-div {
   margin-left: auto;
   margin-right: auto;
   display: flex;
   gap: 25px;
-  padding: 0.5rem 1rem;
+  padding: 0.5rem 0rem;
   margin-top: 13px;
   position: relative;
   z-index: 1;
@@ -87,7 +101,7 @@
 .blur-bg {
   position: absolute;
   left: 50%;
-  transform: translateX(-63%);
+  transform: translateX(-51%);
   width: auto;
   min-width: 720px;
   height: 50px;
