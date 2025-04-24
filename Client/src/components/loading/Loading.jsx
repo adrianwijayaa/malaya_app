@@ -1,5 +1,5 @@
-import React from 'react';
-import './Loading.css';
+import React from "react";
+import "./Loading.css";
 
 const Loading = () => {
   return (
@@ -11,8 +11,6 @@ const Loading = () => {
           <div className="compass-arrow"></div>
         </div>
         <div className="loading-logo">
-          <span>D</span>
-          <span>E</span>
           <span>M</span>
           <span>A</span>
           <span>L</span>
@@ -20,7 +18,8 @@ const Loading = () => {
           <span>Y</span>
           <span>A</span>
         </div>
-        <div className="loading-tagline">Your Adventure Awaits</div>
+        <div className="loading-tagline">www.malayaadventures.com</div>
+        <div className="loading-tagline">under the maintainance</div>
         <div className="loading-progress">
           <div className="progress-bar"></div>
         </div>
