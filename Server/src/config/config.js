@@ -10,12 +10,12 @@ module.exports = {
     host: process.env.PGHOST,
     port: process.env.PGPORT,
     dialect: process.env.DB_DIALECT,
-    dialectOptions: {
-      ssl: {
-        require: true,
-        rejectUnauthorized: false, // Railway menggunakan self-signed certificate
-      },
-    },
+    // dialectOptions: {
+    //   ssl: {
+    //     require: true,
+    //     rejectUnauthorized: false, // Railway menggunakan self-signed certificate
+    //   },
+    // },
   },
   test: {
     username: process.env.PGUSER,
@@ -24,12 +24,12 @@ module.exports = {
     host: process.env.PGHOST,
     port: process.env.PGPORT,
     dialect: process.env.DB_DIALECT,
-    dialectOptions: {
-      ssl: {
-        require: true,
-        rejectUnauthorized: false, // Railway menggunakan self-signed certificate
-      },
-    },
+    // dialectOptions: {
+    //   ssl: {
+    //     require: true,
+    //     rejectUnauthorized: false, // Railway menggunakan self-signed certificate
+    //   },
+    // },
   },
   production: {
     username: process.env.PGUSER,
@@ -38,11 +38,11 @@ module.exports = {
     host: process.env.PGHOST,
     port: process.env.PGPORT,
     dialect: process.env.DB_DIALECT,
-    dialectOptions: {
-      ssl: {
-        require: true,
-        rejectUnauthorized: false, // Railway menggunakan self-signed certificate
-      },
-    },
+    // dialectOptions: {
+    //   ssl: {
+    //     require: true,
+    //     rejectUnauthorized: false, // Railway menggunakan self-signed certificate
+    //   },
+    // },
   },
 };

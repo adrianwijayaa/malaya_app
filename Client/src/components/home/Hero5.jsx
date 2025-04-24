@@ -11,11 +11,11 @@ function Hero5() {
           <div className="home-content11-left">
             <h2 className="home-content11-title">
               Why Choose <br />
-              <span>Demalaya</span> <br />
-              Tour?
+              <span>Malaya</span> <br />
+              Adventures?
             </h2>
             <p className="home-content11-subtitle">
-              At Demalaya Tour, we believe every journey should be
+              At Malaya Adventures, we believe every journey should be
               extraordinary. Discover why travelers consistently choose us for
               their Indonesian adventures.
             </p>

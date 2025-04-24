@@ -11,7 +11,7 @@
 .navbar.colorChange {
   background: linear-gradient(
     135deg,
-    rgba(53, 183, 179, 0.85),
+    rgba(255, 255, 255, 0.85),
     rgba(25, 98, 155, 0.85)
   );
   backdrop-filter: blur(12px);
@@ -87,7 +87,7 @@
 .blur-bg {
   position: absolute;
   left: 50%;
-  transform: translateX(-58%);
+  transform: translateX(-63%);
   width: auto;
   min-width: 720px;
   height: 50px;

@@ -33,10 +33,10 @@ function Hero2() {
               Indonesian Journeys
             </h1>
             <p className="content-description">
-              Demalaya Tour specializes in creating bespoke travel experiences
-              across Indonesia's vast and diverse destinations. From vibrant
-              cultural encounters to serene natural escapes, we design trips
-              that are as unique as you are.
+              Malaya Adventures specializes in creating bespoke travel
+              experiences across Indonesia's vast and diverse destinations. From
+              vibrant cultural encounters to serene natural escapes, we design
+              trips that are as unique as you are.
             </p>
             <div className="content-cta">
               <a

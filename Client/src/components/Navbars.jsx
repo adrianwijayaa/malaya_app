@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Navbar from "react-bootstrap/Navbar";
 import Container from "react-bootstrap/Container";
-import logo from "../assets/img/Demalaya_Logo.png";
+import logo from "../assets/img/MalayaAdventures.png";
 import ukFlag from "../assets/img/flag.png";
 import idFlag from "../assets/img/indonesia-flag.png";
 import arrow from "../assets/img/arrow.png";
@@ -155,7 +155,7 @@ function Navbars() {
     <Navbar fixed="top" className={`nav ${colorChange ? "colorChange" : ""}`}>
       <Container fluid className="px-4">
         <Navbar.Brand>
-          <img src={logo} alt="Demalaya Logo" width={150} className="logo" />
+          <img src={logo} alt="Demalaya Logo" width={100} className="logo" />
         </Navbar.Brand>
 
         <button

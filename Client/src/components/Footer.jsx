@@ -1,5 +1,6 @@
 import React from "react";
 import "./Footer.css";
+import logo1 from "../assets/img/liveaboard.png";
 
 const Footer = ({ onBookNowClick, page }) => {
   const handleWhatsAppClick = (e) => {
@@ -20,14 +21,20 @@ const Footer = ({ onBookNowClick, page }) => {
             <div className="contact-item">
               <i className="fas fa-map-marker-alt"></i>
               <p>
-                Jl. Uluwatu 2 no 6, Jimbaran
+                Customer Support Office: Jl Uluwatu 2 no 6, Jimbaran, Kuta
+                Selatan, Badung, Bali 80361, Indonesia
                 <br />
-                Kuta Selatan, Badung Bali, 80361
+                <br />
+                Head Office PT. Malaya Auriga Teja: Jl Poh Gading II no 1
+                Jimbaran, Kuta Selatan, Badung Bali 80361, Indonesia
               </p>
             </div>
             <div className="contact-item">
               <i className="fas fa-envelope"></i>
-              <p>hello@demalaya.com</p>
+              <p>
+                hello@malayaadventures.com <br />
+                bookingliveaboard@gmail.com
+              </p>
             </div>
             <div className="contact-item">
               <i className="fas fa-phone"></i>
@@ -36,7 +43,7 @@ const Footer = ({ onBookNowClick, page }) => {
                 onClick={handleWhatsAppClick}
                 style={{ color: "inherit", textDecoration: "none" }}
               >
-                +62 858 1447 0914
+                +6285814470914‬
               </a>
             </div>
           </div>
@@ -82,7 +89,20 @@ const Footer = ({ onBookNowClick, page }) => {
             </a>
           </div>
           <p className="copyright-text">
-            © 2025 Demalaya Tour. All rights reserved.
+            © 2025 Malaya Adventures. All rights reserved.
+          </p>
+          <div style={{ marginTop: "0px" }}>
+            <img
+              src={logo1}
+              alt="Logo"
+              width={250}
+              className="footer-logo"
+              style={{ marginLeft: "35px" }}
+            />
+          </div>
+          <p style={{ marginLeft: "45px", marginTop: "10px" }}>
+            www.malayaadventures.com <br />
+            www.bookingliveaboard.com
           </p>
         </div>
       </div>

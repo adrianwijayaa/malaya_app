@@ -30,7 +30,7 @@ const router = require("./src/routes/index.js");
 app.use("/api/v1", router);
 
 // Set port, listen for requests
-const PORT = process.env.PGPORT || 3000;
+const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}.`);
 });
