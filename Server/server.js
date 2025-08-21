@@ -13,6 +13,7 @@ var corsOptions = {
     "https://demalayaapp-production.up.railway.app",
     "https://demalayaaa-production.up.railway.app",
     "https://demalaya-app.vercel.app",
+    "https://malayaadventures.com",
   ],
   methods: ["GET", "POST", "PUT", "DELETE"],
 };
