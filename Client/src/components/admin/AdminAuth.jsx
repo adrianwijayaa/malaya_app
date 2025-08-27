@@ -50,11 +50,11 @@ const AdminAuth = () => {
       // Log request details (remove in production)
       console.log(
         "Sending request to:",
-        `http://malayaadventures.com/api/v1${endpoint}`
+        `https://api.malayaadventures.com/api/v1${endpoint}`
       );
       console.log("Request body:", JSON.stringify(requestBody, null, 2));
       const response = await fetch(
-        `http://malayaadventures.com/api/v1${endpoint}`,
+        `https://api.malayaadventures.com/api/v1${endpoint}`,
         {
           method: "POST",
           headers: {
