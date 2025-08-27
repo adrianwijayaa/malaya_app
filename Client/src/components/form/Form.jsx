@@ -1036,13 +1036,16 @@ const Form = ({ isOpen, onClose }) => {
   const submitFormSection = async (endpoint, data) => {
     try {
       console.log(`Submitting to ${endpoint}:`, data); // Debug log
-      const response = await fetch(`http://localhost:3000/api/v1/${endpoint}`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
-      });
+      const response = await fetch(
+        `http://malayaadventures.com/api/v1/${endpoint}`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(data),
+        }
+      );
 
       if (!response.ok) {
         const errorData = await response.json();

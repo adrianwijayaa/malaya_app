@@ -50,16 +50,19 @@ const AdminAuth = () => {
       // Log request details (remove in production)
       console.log(
         "Sending request to:",
-        `http://localhost:3000/api/v1${endpoint}`
+        `http://malayaadventures.com/api/v1${endpoint}`
       );
       console.log("Request body:", JSON.stringify(requestBody, null, 2));
-      const response = await fetch(`http://localhost:3000/api/v1${endpoint}`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(requestBody),
-      });
+      const response = await fetch(
+        `http://malayaadventures.com/api/v1${endpoint}`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(requestBody),
+        }
+      );
 
       const data = await response.json();
       // Log response details (remove in production)
