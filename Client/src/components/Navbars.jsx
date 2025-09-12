@@ -24,7 +24,7 @@ function Navbars() {
 
   useEffect(() => {
     const changeNavbarColor = () => {
-      if (window.scrollY >= 80) {
+      if (window.scrollY >= 30) {
         setColorChange(true);
       } else {
         setColorChange(false);
@@ -92,7 +92,7 @@ function Navbars() {
               document.getElementsByClassName("content-container")
             )[0]?.children[1];
             if (tailormadeSection) {
-              const yOffset = -80; // Adjust this value to control how much lower it scrolls
+              const yOffset = -30;
               const y =
                 tailormadeSection.getBoundingClientRect().top +
                 window.pageYOffset +
@@ -105,7 +105,7 @@ function Navbars() {
             document.getElementsByClassName("content-container")
           )[0]?.children[1];
           if (tailormadeSection) {
-            const yOffset = -80; // Adjust this value to control how much lower it scrolls
+            const yOffset = -30; // Adjust this value to control how much lower it scrolls
             const y =
               tailormadeSection.getBoundingClientRect().top +
               window.pageYOffset +
@@ -122,7 +122,7 @@ function Navbars() {
               document.getElementsByClassName("content-container")
             )[0]?.children[2]; // Hero4 is at index 2
             if (joinSection) {
-              const yOffset = -80;
+              const yOffset = -30;
               const y =
                 joinSection.getBoundingClientRect().top +
                 window.pageYOffset +
@@ -135,7 +135,7 @@ function Navbars() {
             document.getElementsByClassName("content-container")
           )[0]?.children[2]; // Hero4 is at index 2
           if (joinSection) {
-            const yOffset = -80;
+            const yOffset = -30;
             const y =
               joinSection.getBoundingClientRect().top +
               window.pageYOffset +
@@ -152,10 +152,15 @@ function Navbars() {
   };
 
   return (
-    <Navbar fixed="top" className={`nav ${colorChange ? "colorChange" : ""}`}>
+    <Navbar
+      fixed="top"
+      className={`nav ${colorChange ? "colorChange" : ""} ${
+        location.pathname === "/about-us" ? "about-nav" : ""
+      }`}
+    >
       <Container fluid className="px-4">
         <Navbar.Brand>
-          <img src={logo} alt="Demalaya Logo" width={100} className="logo" />
+          <img src={logo} alt="Demalaya Logo" width={80} className="logo" />
         </Navbar.Brand>
         <div className="nav-title">
           Malaya
@@ -167,74 +172,73 @@ function Navbars() {
         >
           {isMobileMenuOpen ? <FaTimes /> : <FaBars />}
         </button>
-
-        <div className="blur-bg" />
-
-        <div className={`nav-div ${isMobileMenuOpen ? "active" : ""}`}>
-          {navItems.map((item) => (
-            <h5
-              key={item}
-              className={`nav-text ${activeItem === item ? "active" : ""}`}
-              onClick={() => handleNavItemClick(item)}
-            >
-              {item}
-            </h5>
-          ))}
-        </div>
-
-        <div className="nav-img">
-          <div className="language-selector" onClick={() => setOpen(!open)}>
-            <div className="language-selector-flag">
-              <img
-                src={currentLanguage.flag}
-                alt={`${currentLanguage.name} Flag`}
-                className="flag"
-              />
-            </div>
-            <div className="language-selector-code">
-              <span>{currentLanguage.code}</span>
-            </div>
-            <div className="language-selector-arrow">
-              <img
-                src={arrow}
-                alt="Toggle Language"
-                className={`arrow ${open ? "rotate" : ""}`}
-              />
-            </div>
+        <div className={`nav-menu ${isMobileMenuOpen ? "active" : ""}`}>
+          <div className="nav-div">
+            <div className="blur-bg" />
+            {navItems.map((item) => (
+              <h5
+                key={item}
+                className={`nav-text ${activeItem === item ? "active" : ""}`}
+                onClick={() => handleNavItemClick(item)}
+              >
+                {item}
+              </h5>
+            ))}
           </div>
-
-          {open && (
-            <div className="language-dropdown">
-              {languageOptions.map((lang) => (
-                <div
-                  key={lang.code}
-                  className={`dropdown-item ${
-                    currentLanguage.code === lang.code ? "active" : ""
-                  }`}
-                  onClick={() => {
-                    setCurrentLanguage(lang);
-                    setOpen(false);
-                  }}
-                >
-                  <img
-                    src={lang.flag}
-                    alt={`${lang.name} Flag`}
-                    className="flag-small"
-                  />
-                  <span>
-                    {lang.code} - {lang.name}
-                  </span>
-                </div>
-              ))}
+          <div className="nav-img">
+            <div className="language-selector" onClick={() => setOpen(!open)}>
+              <div className="language-selector-flag">
+                <img
+                  src={currentLanguage.flag}
+                  alt={`${currentLanguage.name} Flag`}
+                  className="flag"
+                />
+              </div>
+              <div className="language-selector-code">
+                <span>{currentLanguage.code}</span>
+              </div>
+              <div className="language-selector-arrow">
+                <img
+                  src={arrow}
+                  alt="Toggle Language"
+                  className={`arrow ${open ? "rotate" : ""}`}
+                />
+              </div>
             </div>
-          )}
 
-          <img
-            src={hotline}
-            alt="Demalaya Hotline"
-            width={150}
-            className="hotline-img"
-          />
+            {open && (
+              <div className="language-dropdown">
+                {languageOptions.map((lang) => (
+                  <div
+                    key={lang.code}
+                    className={`dropdown-item ${
+                      currentLanguage.code === lang.code ? "active" : ""
+                    }`}
+                    onClick={() => {
+                      setCurrentLanguage(lang);
+                      setOpen(false);
+                    }}
+                  >
+                    <img
+                      src={lang.flag}
+                      alt={`${lang.name} Flag`}
+                      className="flag-small"
+                    />
+                    <span>
+                      {lang.code} - {lang.name}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            )}
+
+            <img
+              src={hotline}
+              alt="Demalaya Hotline"
+              width={150}
+              className="hotline-img"
+            />
+          </div>
         </div>
       </Container>
     </Navbar>

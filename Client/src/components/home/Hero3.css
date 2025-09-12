@@ -214,8 +214,7 @@
   height: 36px;
 }
 
-/* Responsive Styles */
-@media screen and (max-width: 1200px) {
+@media screen and (max-width: 1024px) {
   .content2-title {
     font-size: 2.8rem;
   }
@@ -233,67 +232,180 @@
   }
 }
 
-@media screen and (max-width: 992px) {
+@media screen and (max-width: 820px) {
+  .hero3-container {
+    padding: 40px 0;
+    border-radius: 25px 0 0 25px;
+  }
+
   .home-content2 {
-    flex-direction: column;
     width: 95%;
-    margin: 0 auto;
+    padding: 20px;
   }
-  .content2-left,
-  .content2-right {
-    flex: none;
-    width: 100%;
+
+  .content2-left {
+    padding: 18px;
   }
-  .content2-right {
-    padding: 30px;
-  }
-  .content2-image-wrapper {
-    padding: 30px 0;
-  }
+
   .content2-card {
-    width: 90%;
-    max-width: 480px;
+    width: 320px;
+    padding: 20px 22px;
+    border-radius: 14px;
   }
+
+  .card-title {
+    font-size: 20px;
+    margin-bottom: 10px;
+  }
+
+  .card-subtitle {
+    font-size: 15px;
+    margin-bottom: 16px;
+  }
+
+  .traveler-types li {
+    font-size: 13.5px;
+    margin-bottom: 4px;
+  }
+
+  .inquire-link {
+    padding: 10px 20px;
+    font-size: 13.5px;
+  }
+
+  .content2-right {
+    padding: 28px 30px;
+  }
+
   .content2-title {
-    font-size: 2.5rem;
-    text-align: center;
+    font-size: 2.2rem;
+    margin-bottom: 12px;
   }
+
   .content2-subtitle {
-    text-align: center;
-    margin-bottom: 30px;
+    font-size: 1.15rem;
+    margin-bottom: 35px;
+  }
+
+  .contact-expert {
+    padding: 12px 16px;
+    margin-top: 25px;
+  }
+
+  .expert-text h4 {
+    font-size: 14.5px;
   }
 }
 
 @media screen and (max-width: 768px) {
+  .home-content13 {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 0 20px;
+    margin: 0 auto;
+  }
+
+  .home-content13 img {
+    width: 100%;
+    height: 350px;
+    object-fit: cover;
+    border-radius: 20px;
+  }
+
+  .home-content13 .text-13 {
+    width: 100%;
+    max-width: 650px;
+    font-size: 36px;
+    padding: 35px 15px;
+  }
+
+  .home-content13 .text-13 h1 {
+    font-size: 46px;
+  }
+}
+
+@media screen and (max-width: 600px) {
   .hero3-container {
     padding: 30px 0;
     border-radius: 20px 0 0 20px;
   }
-  .content2-title {
-    font-size: 2rem;
-  }
-  .content2-subtitle {
-    font-size: 1.1rem;
-  }
-  .card-title {
-    font-size: 20px;
-  }
-  .card-subtitle {
-    font-size: 15px;
-  }
-  .traveler-types li {
-    font-size: 14px;
-  }
-  .contact-expert {
+
+  .home-content2 {
+    width: 95%;
     flex-direction: column;
-    gap: 15px;
+    padding: 15px;
+    border-radius: 20px;
+  }
+
+  .content2-left {
+    padding: 15px;
+  }
+
+  .content2-card {
+    width: 100%;
+    max-width: 300px;
+    margin: 0 auto 25px;
+    padding: 18px 20px;
+    border-radius: 12px;
+  }
+
+  .card-title {
+    font-size: 18px;
+    margin-bottom: 8px;
+  }
+
+  .card-subtitle {
+    font-size: 14px;
+    margin-bottom: 14px;
+  }
+
+  .traveler-types li {
+    font-size: 13px;
+    margin-bottom: 3px;
+  }
+
+  .inquire-link {
+    padding: 9px 18px;
+    font-size: 13px;
+  }
+
+  .content2-right {
+    padding: 20px;
     text-align: center;
   }
-  .expert-text h4 {
-    font-size: 15px;
+
+  .content2-title {
+    font-size: 1.9rem;
+    margin-bottom: 10px;
   }
-  .home-content2 {
-    margin: 0 15px;
+
+  .content2-subtitle {
+    font-size: 1rem;
+    margin-bottom: 30px;
+  }
+
+  .contact-expert {
+    padding: 10px 14px;
+    margin-top: 20px;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .expert-text h4 {
+    font-size: 13px;
+  }
+
+  .whatsapp-button {
+    width: 36px;
+    height: 36px;
+  }
+
+  .wa-icon {
+    width: 32px;
+    height: 32px;
   }
 }
 
@@ -322,5 +434,79 @@
   .inquire-link {
     padding: 10px 20px;
     font-size: 13px;
+  }
+}
+
+@media screen and (max-width: 375px) {
+  .hero3-container {
+    padding: 25px 0;
+    border-radius: 18px 0 0 18px;
+  }
+
+  .home-content2 {
+    width: 96%;
+    padding: 12px;
+    border-radius: 18px;
+  }
+
+  .content2-card {
+    max-width: 260px;
+    padding: 15px 16px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+  }
+
+  .card-title {
+    font-size: 16px;
+    margin-bottom: 6px;
+  }
+
+  .card-subtitle {
+    font-size: 13px;
+    margin-bottom: 10px;
+  }
+
+  .traveler-types li {
+    font-size: 12px;
+    margin-bottom: 2px;
+  }
+
+  .inquire-link {
+    padding: 8px 16px;
+    font-size: 12px;
+  }
+
+  .content2-right {
+    padding: 15px;
+    text-align: center;
+  }
+
+  .content2-title {
+    font-size: 1.6rem;
+    margin-bottom: 8px;
+  }
+
+  .content2-subtitle {
+    font-size: 0.95rem;
+    margin-bottom: 22px;
+  }
+
+  .contact-expert {
+    padding: 8px 12px;
+    gap: 8px;
+  }
+
+  .expert-text h4 {
+    font-size: 12px;
+  }
+
+  .whatsapp-button {
+    width: 32px;
+    height: 32px;
+  }
+
+  .wa-icon {
+    width: 28px;
+    height: 28px;
   }
 }

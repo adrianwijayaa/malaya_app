@@ -54,7 +54,7 @@ const AboutUs = () => {
         <div className="about-section">
           <div className="section-card">
             <p>
-              At De Malaya Tour, we redefine travel by offering unparalleled
+              At Malaya Adventures, we redefine travel by offering unparalleled
               journeys through the breathtaking landscapes and diverse cultures
               of Indonesia. Our commitment to creating transformative
               experiences ensures every journey becomes an unforgettable story.
@@ -102,17 +102,17 @@ const AboutUs = () => {
           </p>
           <div className="contact-buttons">
             <a
-              href="mailto:info@demalayatour.com"
-              className="contact-button email-button"
+              href="mailto:hello@malayaadventures.com"
+              className="email-button"
             >
               <i className="fas fa-envelope"></i>
               Contact Us
             </a>
             <a
-              href="https://wa.me/yourphonenumber"
-              className="contact-button whatsapp-button"
+              href="https://wa.me/+62818520525?text=Hello%20Malaya%20Adventures%2C%20I%27d%20like%20to%20inquire%20about%20your%20travel%20packages."
+              className="whatsapp-button"
             >
-              <i class="fab fa-whatsapp"></i>
+              <i className="fab fa-whatsapp"></i>
               WhatsApp
             </a>
           </div>

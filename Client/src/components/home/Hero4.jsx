@@ -4,6 +4,30 @@ import image1 from "../../assets/img/image1.jpg";
 import image2 from "../../assets/img/image2.jpg";
 import image3 from "../../assets/img/image3.jpg";
 import image4 from "../../assets/img/image4.jpg";
+import culture1 from "../../assets/img/culture1.jpeg";
+import culture2 from "../../assets/img/culture2.jpeg";
+import culture3 from "../../assets/img/culture3.jpeg";
+import culture4 from "../../assets/img/culture4.jpeg";
+import luxury1 from "../../assets/img/luxury1.jpeg";
+import luxury2 from "../../assets/img/luxury2.jpeg";
+import luxury3 from "../../assets/img/luxury3.jpeg";
+import luxury4 from "../../assets/img/luxury4.jpeg";
+import family1 from "../../assets/img/family1.jpeg";
+import family2 from "../../assets/img/family2.jpeg";
+import family3 from "../../assets/img/family3.jpeg";
+import family4 from "../../assets/img/family4.jpeg";
+import honeymoon1 from "../../assets/img/honeymoon1.jpg";
+import honeymoon2 from "../../assets/img/honeymoon2.jpg";
+import honeymoon3 from "../../assets/img/honeymoon3.jpg";
+import honeymoon4 from "../../assets/img/honeymoon4.jpg";
+import eco1 from "../../assets/img/eco1.jpg";
+import eco2 from "../../assets/img/eco2.jpg";
+import eco3 from "../../assets/img/eco3.jpeg";
+import eco4 from "../../assets/img/eco4.jpeg";
+import dive1 from "../../assets/img/dive1.jpg";
+import dive2 from "../../assets/img/dive2.jpg";
+import dive3 from "../../assets/img/dive3.jpg";
+import dive4 from "../../assets/img/dive4.jpg";
 
 function Hero4() {
   const handleInquireClick = (packageType) => (e) => {
@@ -72,22 +96,22 @@ function Hero4() {
         <div className="card-pair-container-div2">
           <div className="home-content4-img4">
             <img
-              src={image1}
+              src={culture1}
               alt="Cultural Journeys - Traditional Ceremony"
               style={{ borderRadius: "20px 0 0 0" }}
             />
             <img
-              src={image4}
+              src={culture2}
               alt="Cultural Journeys - Temple Visit"
               style={{ borderRadius: "0 20px 0 0" }}
             />
             <img
-              src={image3}
+              src={culture3}
               alt="Cultural Journeys - Local Crafts"
               style={{ borderRadius: "0 0 0 20px" }}
             />
             <img
-              src={image2}
+              src={culture4}
               alt="Cultural Journeys - Village Life"
               style={{ borderRadius: "0 0 20px 0" }}
             />
@@ -125,22 +149,22 @@ function Hero4() {
         <div className="card-pair-container2-div1">
           <div className="home-content5-img5">
             <img
-              src={image1}
+              src={luxury1}
               alt="Luxury Escapes - Villa View"
               style={{ borderRadius: "20px 0 0 0" }}
             />
             <img
-              src={image4}
+              src={luxury2}
               alt="Luxury Escapes - Spa Treatment"
               style={{ borderRadius: "0 20px 0 0" }}
             />
             <img
-              src={image3}
+              src={luxury3}
               alt="Luxury Escapes - Fine Dining"
               style={{ borderRadius: "0 0 0 20px" }}
             />
             <img
-              src={image2}
+              src={luxury4}
               alt="Luxury Escapes - Private Pool"
               style={{ borderRadius: "0 0 20px 0" }}
             />
@@ -176,22 +200,22 @@ function Hero4() {
         <div className="card-pair-container2-div2">
           <div className="home-content6-img6">
             <img
-              src={image1}
+              src={family1}
               alt="Family Vacations - Beach Activities"
               style={{ borderRadius: "20px 0 0 0" }}
             />
             <img
-              src={image4}
+              src={family4}
               alt="Family Vacations - Water Park"
               style={{ borderRadius: "0 20px 0 0" }}
             />
             <img
-              src={image3}
+              src={family3}
               alt="Family Vacations - Kids Club"
               style={{ borderRadius: "0 0 0 20px" }}
             />
             <img
-              src={image2}
+              src={family2}
               alt="Family Vacations - Family Dinner"
               style={{ borderRadius: "0 0 20px 0" }}
             />
@@ -229,22 +253,22 @@ function Hero4() {
         <div className="card-pair-container3-div1">
           <div className="home-content7-img7">
             <img
-              src={image1}
+              src={honeymoon1}
               alt="Romantic Getaways - Sunset View"
               style={{ borderRadius: "20px 0 0 0" }}
             />
             <img
-              src={image4}
+              src={honeymoon2}
               alt="Romantic Getaways - Couple Spa"
               style={{ borderRadius: "0 20px 0 0" }}
             />
             <img
-              src={image3}
+              src={honeymoon3}
               alt="Romantic Getaways - Beach Dinner"
               style={{ borderRadius: "0 0 0 20px" }}
             />
             <img
-              src={image2}
+              src={honeymoon4}
               alt="Romantic Getaways - Villa Interior"
               style={{ borderRadius: "0 0 20px 0" }}
             />
@@ -282,22 +306,22 @@ function Hero4() {
         <div className="card-pair-container3-div2">
           <div className="home-content8-img8">
             <img
-              src={image1}
+              src={eco1}
               alt="Eco Travel - Nature Reserve"
               style={{ borderRadius: "20px 0 0 0" }}
             />
             <img
-              src={image4}
+              src={eco2}
               alt="Eco Travel - Local Community"
               style={{ borderRadius: "0 20px 0 0" }}
             />
             <img
-              src={image3}
+              src={eco3}
               alt="Eco Travel - Sustainable Practices"
               style={{ borderRadius: "0 0 0 20px" }}
             />
             <img
-              src={image2}
+              src={eco4}
               alt="Eco Travel - Wildlife"
               style={{ borderRadius: "0 0 20px 0" }}
             />
@@ -337,22 +361,22 @@ function Hero4() {
         <div className="card-pair-container4-div1">
           <div className="home-content9-img9">
             <img
-              src={image1}
+              src={dive1}
               alt="Diving - Coral Reef"
               style={{ borderRadius: "20px 0 0 0" }}
             />
             <img
-              src={image4}
+              src={dive4}
               alt="Diving - Marine Life"
               style={{ borderRadius: "0 20px 0 0" }}
             />
             <img
-              src={image3}
+              src={dive3}
               alt="Diving - Equipment"
               style={{ borderRadius: "0 0 0 20px" }}
             />
             <img
-              src={image2}
+              src={dive2}
               alt="Diving - Beach"
               style={{ borderRadius: "0 0 20px 0" }}
             />

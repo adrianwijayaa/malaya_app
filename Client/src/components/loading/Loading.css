@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Unbounded:wght@400;500;600;700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Unbounded:wght@400;500;600;700&display=swap");
 
 .loading-container {
   position: fixed;
@@ -71,7 +71,7 @@
 }
 
 .loading-logo span {
-  font-family: 'Unbounded', sans-serif;
+  font-family: "Unbounded", sans-serif;
   font-size: 32px;
   font-weight: 600;
   color: #ffffff;
@@ -82,7 +82,7 @@
 }
 
 .loading-tagline {
-  font-family: 'Unbounded', sans-serif;
+  font-family: "Unbounded", sans-serif;
   font-size: 16px;
   color: rgba(255, 255, 255, 0.9);
   margin-top: 10px;
@@ -92,7 +92,6 @@
   text-shadow: 1px 1px 10px rgba(0, 0, 0, 0.15);
 }
 
-/* Progress Bar */
 .loading-progress {
   width: 200px;
   height: 3px;
@@ -112,7 +111,6 @@
   box-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
 }
 
-/* Mountain Background */
 .loading-mountains {
   position: absolute;
   bottom: 0;
@@ -148,7 +146,6 @@
   animation-delay: 0.4s;
 }
 
-/* Animations */
 @keyframes fadeInUp {
   to {
     opacity: 1;
@@ -204,17 +201,31 @@
   }
 }
 
-/* Letter Animation Delays */
-.loading-logo span:nth-child(1) { animation-delay: 0.1s; }
-.loading-logo span:nth-child(2) { animation-delay: 0.2s; }
-.loading-logo span:nth-child(3) { animation-delay: 0.3s; }
-.loading-logo span:nth-child(4) { animation-delay: 0.4s; }
-.loading-logo span:nth-child(5) { animation-delay: 0.5s; }
-.loading-logo span:nth-child(6) { animation-delay: 0.6s; }
-.loading-logo span:nth-child(7) { animation-delay: 0.7s; }
-.loading-logo span:nth-child(8) { animation-delay: 0.8s; }
+.loading-logo span:nth-child(1) {
+  animation-delay: 0.1s;
+}
+.loading-logo span:nth-child(2) {
+  animation-delay: 0.2s;
+}
+.loading-logo span:nth-child(3) {
+  animation-delay: 0.3s;
+}
+.loading-logo span:nth-child(4) {
+  animation-delay: 0.4s;
+}
+.loading-logo span:nth-child(5) {
+  animation-delay: 0.5s;
+}
+.loading-logo span:nth-child(6) {
+  animation-delay: 0.6s;
+}
+.loading-logo span:nth-child(7) {
+  animation-delay: 0.7s;
+}
+.loading-logo span:nth-child(8) {
+  animation-delay: 0.8s;
+}
 
-/* Exit Animation */
 .loading-exit {
   animation: fadeOut 0.5s ease forwards;
 }

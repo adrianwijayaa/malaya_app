@@ -43,7 +43,7 @@ const Footer = ({ onBookNowClick, page }) => {
                 onClick={handleWhatsAppClick}
                 style={{ color: "inherit", textDecoration: "none" }}
               >
-                +6285814470914‬
+                +62818520525‬
               </a>
             </div>
           </div>
