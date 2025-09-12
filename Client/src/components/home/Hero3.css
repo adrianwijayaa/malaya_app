@@ -437,6 +437,80 @@
   }
 }
 
+@media screen and (max-width: 390px) {
+  .hero3-container {
+    padding: 28px 0;
+    border-radius: 18px 0 0 18px;
+  }
+
+  .home-content2 {
+    width: 95%;
+    padding: 14px;
+    border-radius: 18px;
+  }
+
+  .content2-card {
+    max-width: 270px;
+    padding: 16px 18px;
+    border-radius: 12px;
+    margin-bottom: 22px;
+  }
+
+  .card-title {
+    font-size: 17px;
+    margin-bottom: 7px;
+  }
+
+  .card-subtitle {
+    font-size: 13.5px;
+    margin-bottom: 12px;
+  }
+
+  .traveler-types li {
+    font-size: 12.5px;
+    margin-bottom: 3px;
+  }
+
+  .inquire-link {
+    padding: 9px 18px;
+    font-size: 12.5px;
+  }
+
+  .content2-right {
+    padding: 18px;
+    text-align: center;
+  }
+
+  .content2-title {
+    font-size: 1.65rem;
+    margin-bottom: 9px;
+  }
+
+  .content2-subtitle {
+    font-size: 0.97rem;
+    margin-bottom: 25px;
+  }
+
+  .contact-expert {
+    padding: 10px 14px;
+    gap: 9px;
+  }
+
+  .expert-text h4 {
+    font-size: 12.5px;
+  }
+
+  .whatsapp-button {
+    width: 34px;
+    height: 34px;
+  }
+
+  .wa-icon {
+    width: 30px;
+    height: 30px;
+  }
+}
+
 @media screen and (max-width: 375px) {
   .hero3-container {
     padding: 25px 0;
