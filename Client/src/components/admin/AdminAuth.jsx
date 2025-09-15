@@ -47,7 +47,6 @@ const AdminAuth = () => {
             email: credentials.email,
           };
 
-      // Log request details (remove in production)
       console.log(
         "Sending request to:",
         `https://api.malayaadventures.com/api/v1${endpoint}`
@@ -65,7 +64,6 @@ const AdminAuth = () => {
       );
 
       const data = await response.json();
-      // Log response details (remove in production)
       console.log("Response status:", response.status);
       console.log("Response data:", data);
 
@@ -81,7 +79,6 @@ const AdminAuth = () => {
       }
 
       if (isLogin) {
-        // Store the JWT token received from the backend
         localStorage.setItem("adminToken", data.token);
         localStorage.setItem("adminAuth", "true");
         navigate("/admin");

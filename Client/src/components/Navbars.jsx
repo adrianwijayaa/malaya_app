@@ -105,7 +105,7 @@ function Navbars() {
             document.getElementsByClassName("content-container")
           )[0]?.children[1];
           if (tailormadeSection) {
-            const yOffset = -30; // Adjust this value to control how much lower it scrolls
+            const yOffset = -30;
             const y =
               tailormadeSection.getBoundingClientRect().top +
               window.pageYOffset +
@@ -120,7 +120,7 @@ function Navbars() {
           setTimeout(() => {
             const joinSection = Array.from(
               document.getElementsByClassName("content-container")
-            )[0]?.children[2]; // Hero4 is at index 2
+            )[0]?.children[2];
             if (joinSection) {
               const yOffset = -30;
               const y =
@@ -133,7 +133,7 @@ function Navbars() {
         } else {
           const joinSection = Array.from(
             document.getElementsByClassName("content-container")
-          )[0]?.children[2]; // Hero4 is at index 2
+          )[0]?.children[2];
           if (joinSection) {
             const yOffset = -30;
             const y =
@@ -144,7 +144,6 @@ function Navbars() {
           }
         }
         break;
-      // Add other cases for different nav items as needed
       default:
         navigate("/");
         window.scrollTo({ top: 0, behavior: "smooth" });

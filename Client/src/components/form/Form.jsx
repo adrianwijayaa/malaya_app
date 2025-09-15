@@ -34,7 +34,7 @@ const Form = ({ isOpen, onClose }) => {
     needsInternationalFlight: "No",
     departureCity: "",
     needsDomesticFlight: "No",
-    domesticDepartureCity: "", // Add this new property
+    domesticDepartureCity: "",
     transportType: "",
 
     // Meals
@@ -49,7 +49,7 @@ const Form = ({ isOpen, onClose }) => {
 
     // Budget
     budget: "",
-    currency: "USD - US Dollar", // Default value",
+    currency: "USD - US Dollar",
 
     // Source
     heardFrom: "",
@@ -58,10 +58,8 @@ const Form = ({ isOpen, onClose }) => {
 
   const [formData, setFormData] = useState(initialFormData);
 
-  // Add new state for validation
   const [isStepValid, setIsStepValid] = useState(false);
 
-  // Add validation function
   const validateStep = (step) => {
     switch (step) {
       case 1:
@@ -94,7 +92,7 @@ const Form = ({ isOpen, onClose }) => {
       case 6:
         return !!(formData.mealPlan && formData.dietaryRestrictions.length);
       case 7:
-        return true; // Special requests are optional
+        return true;
       case 8:
         return !!(formData.currency && formData.budget);
       case 9:
@@ -121,11 +119,9 @@ const Form = ({ isOpen, onClose }) => {
     }));
   };
 
-  // Update handleNext to include validation
   const handleNext = () => {
     if (currentStep < 9 && validateStep(currentStep)) {
       setCurrentStep((curr) => curr + 1);
-      // Add scroll to top
       const modalContent = document.querySelector(".modal-content");
       if (modalContent) {
         modalContent.scrollTop = 0;
@@ -136,7 +132,6 @@ const Form = ({ isOpen, onClose }) => {
   const handlePrev = () => {
     if (currentStep > 1) {
       setCurrentStep((curr) => curr - 1);
-      // Add scroll to top
       const modalContent = document.querySelector(".modal-content");
       if (modalContent) {
         modalContent.scrollTop = 0;
@@ -144,7 +139,6 @@ const Form = ({ isOpen, onClose }) => {
     }
   };
 
-  // Check validation on form data changes
   useEffect(() => {
     setIsStepValid(validateStep(currentStep));
   }, [formData, currentStep]);
@@ -359,13 +353,12 @@ const Form = ({ isOpen, onClose }) => {
                   value={formData.numberOfChildren}
                   onChange={(e) => {
                     const value = parseInt(e.target.value) || 0;
-                    const maxChildren = 5; // Maximum number of children allowed
+                    const maxChildren = 5;
                     const numberOfChildren = Math.min(
                       Math.max(0, value),
                       maxChildren
                     );
 
-                    // Update number of children and resize children array accordingly
                     setFormData((prev) => ({
                       ...prev,
                       numberOfChildren,
@@ -1035,7 +1028,7 @@ const Form = ({ isOpen, onClose }) => {
 
   const submitFormSection = async (endpoint, data) => {
     try {
-      console.log(`Submitting to ${endpoint}:`, data); // Debug log
+      console.log(`Submitting to ${endpoint}:`, data);
       const response = await fetch(
         `https://api.malayaadventures.com/api/v1/${endpoint}`,
         {
@@ -1049,14 +1042,14 @@ const Form = ({ isOpen, onClose }) => {
 
       if (!response.ok) {
         const errorData = await response.json();
-        console.error(`Server error for ${endpoint}:`, errorData); // Debug log
+        console.error(`Server error for ${endpoint}:`, errorData);
         throw new Error(
           errorData.message || `HTTP error! status: ${response.status}`
         );
       }
 
       const result = await response.json();
-      console.log(`Success response from ${endpoint}:`, result); // Debug log
+      console.log(`Success response from ${endpoint}:`, result);
       return result;
     } catch (error) {
       console.error(`Error submitting to ${endpoint}:`, error);
@@ -1072,12 +1065,11 @@ const Form = ({ isOpen, onClose }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      // Format data to match server expectations
       const personalInfo = await submitFormSection("personal-info", {
-        fullname: formData.fullName, // Changed from fullName to name
+        fullname: formData.fullName,
         email: formData.email,
-        phonenumber: formData.phone, // Changed from phone to phoneNumber
-        preferedcontactmethod: formData.preferredContact, // Changed from preferredContact to contactMethod
+        phonenumber: formData.phone,
+        preferedcontactmethod: formData.preferredContact,
       });
 
       console.log(personalInfo);
@@ -1085,13 +1077,13 @@ const Form = ({ isOpen, onClose }) => {
       const personalID = personalInfo.id;
 
       const travelDetails = await submitFormSection("travel-detail", {
-        personalID: personalID, // Use the ID from personalInfo response
-        preferredDestinations: formData.destinations.join(", "), // Convert array to string
+        personalID: personalID,
+        preferredDestinations: formData.destinations.join(", "),
         preferredStartDate: formData.startDate,
-        flexibleDates: formData.isFlexible, // Will now send "Yes" or "No"
-        tripDurationDays: parseInt(formData.duration), // Ensure number
-        adults: parseInt(formData.adults), // Ensure number
-        children: formData.numberOfChildren.toString(), // Convert to string
+        flexibleDates: formData.isFlexible,
+        tripDurationDays: parseInt(formData.duration),
+        adults: parseInt(formData.adults),
+        children: formData.numberOfChildren.toString(),
         childrenAges: formData.children.length
           ? formData.children.join(", ")
           : "0",
@@ -1103,16 +1095,16 @@ const Form = ({ isOpen, onClose }) => {
       const accommodation = await submitFormSection(
         "accommodation-prefference",
         {
-          travelDetailId: travelID, // Use the ID from travelDetails response
-          preferredAccommodationType: formData.accommodationType, // Changed from accommodationType to type
-          roomType: formData.roomType, // Changed from roomType to roomPreference
-          specialAccommodationRequests: formData.accommodationRequests, // Changed from accommodationRequests to specialRequests
+          travelDetailId: travelID,
+          preferredAccommodationType: formData.accommodationType,
+          roomType: formData.roomType,
+          specialAccommodationRequests: formData.accommodationRequests,
         }
       );
 
       const activities = await submitFormSection("activity-interest", {
-        travelDetailsId: travelID, // Use the ID from travelDetails response
-        prefferedActivities: formData.activities.join(", "), // Convert array to string
+        travelDetailsId: travelID,
+        prefferedActivities: formData.activities.join(", "),
         activityLevel: formData.activityLevel,
         specialInterest: formData.specialInterests,
       });
@@ -1120,49 +1112,46 @@ const Form = ({ isOpen, onClose }) => {
       const transportation = await submitFormSection(
         "transportation-prefference",
         {
-          travelDetailsID: travelID, // Use the ID from travelDetails response
+          travelDetailsID: travelID,
           internationalFlightRequired: formData.needsInternationalFlight,
           departureCity: formData.departureCity,
           domesticFlightRequired: formData.needsDomesticFlight,
           domesticDepartureCity: formData.domesticDepartureCity,
-          prefferedTransportType: formData.transportType, // Changed from transportType to transportationType
+          prefferedTransportType: formData.transportType,
         }
       );
 
       const meals = await submitFormSection("meal-prefference", {
-        travelDetailsID: travelID, // Use the ID from travelDetails response
-        dietaryRestrictions: formData.dietaryRestrictions.join(", "), // Convert array to string
-        mealPlanPreferences: formData.mealPlan, // Changed from mealPlan to mealPlanType
-        specialFoodRequests: formData.foodRequests, // Changed from foodRequests to specialRequests
+        travelDetailsID: travelID,
+        dietaryRestrictions: formData.dietaryRestrictions.join(", "),
+        mealPlanPreferences: formData.mealPlan,
+        specialFoodRequests: formData.foodRequests,
       });
 
       const specialRequests = await submitFormSection("special-request", {
-        travelDetailsID: travelID, // Use the ID from travelDetails response
-        occasionsToCelebrate: formData.occasion, // Changed from occasion to occasionType
-        additionalServicesNeeded: formData.additionalServices.join(", "), // Convert array to string
-        specialRequestsNotes: formData.specialRequests, // Changed from specialRequests to additionalNotes
+        travelDetailsID: travelID,
+        occasionsToCelebrate: formData.occasion,
+        additionalServicesNeeded: formData.additionalServices.join(", "),
+        specialRequestsNotes: formData.specialRequests,
       });
 
       const budget = await submitFormSection("budget", {
-        travelDetailsID: travelID, // Use the ID from travelDetails response
-        estimatedBudgetPerPerson: parseFloat(formData.budget), // Ensure number
+        travelDetailsID: travelID,
+        estimatedBudgetPerPerson: parseFloat(formData.budget),
         currency: formData.currency,
       });
 
-      // Final submission
       await submitFormSection("submission", {
         personalID: personalInfo.id,
-        howDidYouHear: formData.heardFrom, // Now using the enum values
-        consent: formData.agreeToTerms, // Changed from agreeToTerms to consentToPrivacyPolicys
+        howDidYouHear: formData.heardFrom,
+        consent: formData.agreeToTerms,
       });
 
       setShowSuccessPopup(true);
       resetForm();
 
-      // Close form immediately after successful submission
       onClose();
 
-      // Hide success popup after 3 seconds
       setTimeout(() => {
         setShowSuccessPopup(false);
       }, 5000);
@@ -1172,7 +1161,6 @@ const Form = ({ isOpen, onClose }) => {
     }
   };
 
-  // Close modal when pressing escape key
   useEffect(() => {
     const handleEscape = (e) => {
       if (e.key === "Escape") {
@@ -1184,7 +1172,6 @@ const Form = ({ isOpen, onClose }) => {
     return () => window.removeEventListener("keydown", handleEscape);
   }, [onClose]);
 
-  // Prevent body scroll when modal is open
   useEffect(() => {
     if (isOpen) {
       document.body.style.overflow = "hidden";
@@ -1277,7 +1264,6 @@ const Form = ({ isOpen, onClose }) => {
         </div>
       </div>
 
-      {/* Success Popup */}
       {showSuccessPopup && (
         <div className="success-popup-overlay">
           <div className="success-popup">

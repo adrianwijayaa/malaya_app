@@ -117,8 +117,8 @@ const getMealById = async (req, res) => {
     const travelDetail = await TravelDetails.findByPk(meal.TravelDetailsID);
 
     const mealWithTravelDetail = {
-      ...meal.dataValues, // Data dari TravelDetail
-      TravelDetailsID: travelDetail ? [travelDetail.dataValues] : [], // Data dari PersonalInfo
+      ...meal.dataValues,
+      TravelDetailsID: travelDetail ? [travelDetail.dataValues] : [],
     };
 
     return res.status(200).json({
@@ -182,8 +182,8 @@ const updateMeal = async (req, res) => {
     );
 
     const mealWithTravelDetail = {
-      ...mealPrefference.get(), // Data dari TravelDetail
-      TravelDetailsID: travelDetail ? [travelDetail.dataValues] : [], // Data dari PersonalInfo
+      ...mealPrefference.get(),
+      TravelDetailsID: travelDetail ? [travelDetail.dataValues] : [],
     };
 
     return res.status(200).json(mealWithTravelDetail);

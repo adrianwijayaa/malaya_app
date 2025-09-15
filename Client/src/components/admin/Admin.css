@@ -186,7 +186,7 @@
   font-weight: 600;
   text-transform: capitalize;
   font-family: "Inter", sans-serif;
-  margin-right: 40px; /* Add space for the menu trigger button */
+  margin-right: 40px;
 }
 
 .status-badge.pending {
@@ -754,7 +754,6 @@
   backdrop-filter: blur(10px);
 }
 
-/* Add styles for the card menu */
 .card-menu {
   position: absolute;
   top: 20px;
@@ -822,12 +821,10 @@
   color: #35b7b3;
 }
 
-/* Add a divider between menu items */
 .menu-dropdown button + button {
   border-top: 1px solid #eee;
 }
 
-/* Add styles for editable fields */
 .editable-input,
 .editable-select,
 .editable-textarea {
@@ -896,7 +893,6 @@
   border-radius: 8px;
 }
 
-/* Add styles for the new editable components */
 .editable-array {
   display: flex;
   flex-direction: column;
@@ -950,7 +946,6 @@
   margin-bottom: 5px;
 }
 
-/* Add styles for the editable field */
 .editable-field {
   display: flex;
   flex-direction: column;
@@ -964,7 +959,6 @@
   color: #196299;
 }
 
-/* Add styles for the modal overlay */
 .modal-overlay {
   position: fixed;
   top: 0;
@@ -1044,7 +1038,6 @@
   background: #c82333;
 }
 
-/* Add new styles for modal animation */
 .modal-overlay {
   position: fixed !important;
   inset: 0;
@@ -1105,7 +1098,6 @@
   box-shadow: 0 4px 15px rgba(229, 62, 62, 0.4);
 }
 
-/* Responsive styles */
 @media (max-width: 768px) {
   .admin-controls {
     flex-wrap: wrap;
@@ -1117,7 +1109,6 @@
   }
 }
 
-/* Add styles for the logout confirmation modal */
 .logout-confirm-modal {
   max-width: 400px;
 }

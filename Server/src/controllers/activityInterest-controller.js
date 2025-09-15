@@ -112,8 +112,8 @@ const getActivityById = async (req, res) => {
     const travelDetail = await TravelDetails.findByPk(activity.TravelDetailsID);
 
     const activityWithTravelDetail = {
-      ...activity.dataValues, // Data dari TravelDetail
-      TravelDetailsID: travelDetail ? [travelDetail.dataValues] : [], // Data dari PersonalInfo
+      ...activity.dataValues,
+      TravelDetailsID: travelDetail ? [travelDetail.dataValues] : [],
     };
 
     res.status(200).json({
@@ -173,8 +173,8 @@ const updateActivity = async (req, res) => {
     );
 
     const activityWithTravelDetail = {
-      ...activityInterest.get(), // Data dari TravelDetail
-      TravelDetailsID: travelDetail ? [travelDetail.dataValues] : [], // Data dari PersonalInfo
+      ...activityInterest.get(),
+      TravelDetailsID: travelDetail ? [travelDetail.dataValues] : [],
     };
 
     return res.status(200).json(activityWithTravelDetail);

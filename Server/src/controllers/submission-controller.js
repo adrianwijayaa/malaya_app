@@ -108,8 +108,8 @@ const getSubmissionById = async (req, res) => {
     const personalInfo = await PersonalInfo.findByPk(submission.PersonalID);
 
     const submissionWithPersonal = {
-      ...submission.dataValues, // Data dari TravelDetail
-      PersonalID: personalInfo ? [personalInfo.dataValues] : [], // Data dari PersonalInfo
+      ...submission.dataValues,
+      PersonalID: personalInfo ? [personalInfo.dataValues] : [],
     };
 
     res.status(200).json({
@@ -165,8 +165,8 @@ const updateSubmission = async (req, res) => {
     const personalInfo = await PersonalInfo.findByPk(submission.PersonalID);
 
     const submissionWithPersonal = {
-      ...submission.get(), // Data dari TravelDetail
-      PersonalID: personalInfo ? [personalInfo.dataValues] : [], // Data dari PersonalInfo
+      ...submission.get(),
+      PersonalID: personalInfo ? [personalInfo.dataValues] : [],
     };
 
     return res.status(200).json({

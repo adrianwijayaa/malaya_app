@@ -4,7 +4,6 @@ const { Model } = require("sequelize");
 module.exports = (sequelize, DataTypes) => {
   class Submission extends Model {
     static associate(models) {
-      // Foreign key ke PersonalInformation
       Submission.belongsTo(models.PersonalInformation, {
         foreignKey: "PersonalID",
       });
@@ -23,7 +22,7 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.INTEGER,
         allowNull: false,
         references: {
-          model: "PersonalInformation", // Pastikan tabel ini ada di database
+          model: "PersonalInformation",
           key: "id",
         },
       },

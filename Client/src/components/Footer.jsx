@@ -5,7 +5,7 @@ import logo1 from "../assets/img/liveaboard.png";
 const Footer = ({ onBookNowClick, page }) => {
   const handleWhatsAppClick = (e) => {
     e.preventDefault();
-    const phoneNumber = "6285814470914";
+    const phoneNumber = "62818520525";
     const message = "Hi, I would like to inquire about your services.";
     const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(
       message

@@ -8,13 +8,11 @@ const EditableField = ({
   label,
   options = [],
 }) => {
-  // Helper function to safely convert any value to string
   const safeToString = (val) => {
     if (val === null || val === undefined) return "";
     return String(val);
   };
 
-  // Helper function to safely handle array values
   const ensureArray = (val) => {
     if (!val) return [];
     if (Array.isArray(val)) return val;
@@ -23,7 +21,6 @@ const EditableField = ({
     return [safeToString(val)];
   };
 
-  // Helper function to safely handle boolean values
   const ensureBoolean = (val) => {
     if (typeof val === "boolean") return val;
     if (val === "true") return true;

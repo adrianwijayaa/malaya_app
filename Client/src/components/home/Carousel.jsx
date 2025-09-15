@@ -77,7 +77,7 @@ const Carousel = () => {
           }}
           grabCursor={true}
           centeredSlides={true}
-          slidesPerView={1.2} // Adjusted for better visibility
+          slidesPerView={1.2}
           spaceBetween={20}
           loop={true}
           speed={1000}

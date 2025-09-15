@@ -103,8 +103,8 @@ const getSpecialRequestById = async (req, res) => {
     );
 
     const specialRequestWithTravelDetail = {
-      ...specialRequest.dataValues, // Data dari TravelDetail
-      TravelDetailsID: travelDetail ? [travelDetail.dataValues] : [], // Data dari PersonalInfo
+      ...specialRequest.dataValues,
+      TravelDetailsID: travelDetail ? [travelDetail.dataValues] : [],
     };
 
     return res.status(200).json({
@@ -151,8 +151,8 @@ const updateSpecialRequest = async (req, res) => {
     );
 
     const specialRequestWithTravelDetail = {
-      ...specialRequest.get(), // Data dari TravelDetail
-      TravelDetailsID: travelDetail ? [travelDetail.dataValues] : [], // Data dari PersonalInfo
+      ...specialRequest.get(),
+      TravelDetailsID: travelDetail ? [travelDetail.dataValues] : [],
     };
 
     return res.status(200).json(specialRequestWithTravelDetail);

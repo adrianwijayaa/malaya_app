@@ -41,7 +41,6 @@ const createTravelDetail = async (req, res) => {
       });
     }
 
-    // Buat entri baru di TravelDetails
     const travelDetails = await TravelDetail.create({
       PersonalID: personalID,
       PreferredDestinations: preferredDestinations,
@@ -53,13 +52,11 @@ const createTravelDetail = async (req, res) => {
       ChildrenAges: childrenAges,
     });
 
-    // Kirimkan response sukses
     res.status(201).send({
       message: "Travel details created successfully.",
       data: travelDetails,
     });
   } catch (error) {
-    // Tangani error
     console.error("Error: ", error);
     res.status(500).send({
       message:
@@ -113,8 +110,8 @@ const getTravelDetailById = async (req, res) => {
     const personalInfo = await PersonalInfo.findByPk(travelDetail.PersonalID);
 
     const travelDetailsWithPersonal = {
-      ...travelDetail.dataValues, // Data dari TravelDetail
-      PersonalID: personalInfo ? [personalInfo.dataValues] : [], // Data dari PersonalInfo
+      ...travelDetail.dataValues,
+      PersonalID: personalInfo ? [personalInfo.dataValues] : [],
     };
 
     res.status(200).json({
@@ -149,7 +146,6 @@ const updateTravelDetail = async (req, res) => {
       });
     }
 
-    // 🔥 Paksa Sequelize mendeteksi perubahan
     travelDetail.set({
       PersonalID: travelDetail.PersonalID,
       PreferredDestinations: PreferredDestinations,
@@ -159,10 +155,10 @@ const updateTravelDetail = async (req, res) => {
       Adults: Adults,
       Children: Children,
       ChildrenAges: ChildrenAges,
-      updatedAt: new Date(), // ⬅ Paksa perubahan waktu update
+      updatedAt: new Date(),
     });
 
-    await travelDetail.save(); // ⬅ Simpan perubahan secara eksplisit
+    await travelDetail.save();
 
     const personalInfo = await PersonalInfo.findByPk(travelDetail.PersonalID);
 

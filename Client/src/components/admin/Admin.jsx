@@ -13,7 +13,6 @@ const accommodationTypes = [
   { value: "Eco Lodge", label: "Eco Lodge" },
   { value: "Glamping", label: "Glamping" },
   { value: "Traditional Stay", label: "Traditional Stay" },
-  // ...add more options
 ];
 
 const roomTypes = [
@@ -25,7 +24,6 @@ const roomTypes = [
   { value: "Ocean View Room", label: "Ocean View Room" },
   { value: "Garden View Room", label: "Garden View Room" },
   { value: "Connecting Room", label: "Connecting Room" },
-  // ...add more options
 ];
 
 const activityLevels = [
@@ -49,7 +47,6 @@ const activityLevels = [
     value: "Mixed (Combination of activity levels)",
     label: "Mixed (Combination of activity levels)",
   },
-  // ...add more options
 ];
 
 const Admin = () => {
@@ -83,7 +80,6 @@ const Admin = () => {
           return;
         }
 
-        // First fetch personal info
         const personalInfoRes = await fetch(
           "https://api.malayaadventures.com/api/v1/personal-infos",
           {
@@ -100,18 +96,15 @@ const Admin = () => {
         const personalInfos = await personalInfoRes.json();
         console.log("Personal infos:", personalInfos);
 
-        // Empty data is OK - just set empty array
         if (!personalInfos || personalInfos.length === 0) {
           setBookingRequests([]);
           setIsLoading(false);
           return;
         }
 
-        // For each personal info, first get their travel details
         const fullRequests = await Promise.all(
           personalInfos.map(async (personalInfo) => {
             try {
-              // Get travel details for this personal info
               const travelDetailsRes = await fetch(
                 `https://api.malayaadventures.com/api/v1/travel-detail/${personalInfo.id}`,
                 {
@@ -130,7 +123,6 @@ const Admin = () => {
 
               console.log("Travel details:", travelDetails);
 
-              // Then use travel details ID to fetch all related info
               const [
                 accommodation,
                 activities,
@@ -184,7 +176,6 @@ const Admin = () => {
               console.log("Special Request:", specialRequest);
               console.log("Budget:", budget);
 
-              // Combine all data into one request object (remove duplicates)
               return {
                 id: personalInfo.id,
                 travelDetailId: travelDetails.data.id,
@@ -225,7 +216,6 @@ const Admin = () => {
           })
         );
 
-        // Filter out any failed requests
         const validRequests = fullRequests.filter(
           (request) => request !== null
         );
@@ -233,11 +223,10 @@ const Admin = () => {
         setIsLoading(false);
       } catch (err) {
         console.error("Error fetching booking requests:", err);
-        // Only set error for actual fetch failures
         if (err.message !== "No data found") {
           setError("Failed to load booking requests. Please try again later.");
         }
-        setBookingRequests([]); // Set empty array for no data
+        setBookingRequests([]);
         setIsLoading(false);
       }
     };
@@ -271,7 +260,6 @@ const Admin = () => {
       );
     } catch (err) {
       console.error("Error updating status:", err);
-      // Add error feedback to user
     }
   };
 
@@ -311,7 +299,6 @@ const Admin = () => {
   };
 
   const handleCardClick = (request, e) => {
-    // Prevent card selection when clicking menu
     if (e.target.closest(".card-menu")) {
       e.stopPropagation();
       return;
@@ -321,7 +308,6 @@ const Admin = () => {
 
   console.log("selectedRequest:", selectedRequest);
 
-  // Add useEffect for click outside handler
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (activeMenu && !event.target.closest(".card-menu")) {
@@ -335,7 +321,6 @@ const Admin = () => {
     };
   }, [activeMenu]);
 
-  // Modify toggleMenu to not close when clicking inside
   const toggleMenu = (id, e) => {
     e.stopPropagation();
     setActiveMenu(activeMenu === id ? null : id);
@@ -362,7 +347,6 @@ const Admin = () => {
     try {
       const token = localStorage.getItem("adminToken");
 
-      // First delete all child records using travel detail ID
       const childEndpoints = [
         "accommodation-prefference",
         "activity-interest",
@@ -372,7 +356,6 @@ const Admin = () => {
         "budget",
       ];
 
-      // Delete all child records
       await Promise.all(
         childEndpoints.map((endpoint) =>
           fetch(
@@ -385,7 +368,6 @@ const Admin = () => {
         )
       );
 
-      // Delete travel detail
       await fetch(
         `https://api.malayaadventures.com/api/v1/travel-detail/${toDeleteRequest.travelDetailId}`,
         {
@@ -394,7 +376,6 @@ const Admin = () => {
         }
       );
 
-      // Finally delete personal info
       await fetch(
         `https://api.malayaadventures.com/api/v1/personal-info/${toDeleteRequest.id}`,
         {
@@ -415,7 +396,6 @@ const Admin = () => {
       setToDeleteRequest(null);
     } catch (err) {
       console.error("Error deleting request:", err);
-      // Add error feedback to user
     }
   };
 
@@ -443,7 +423,6 @@ const Admin = () => {
       const token = localStorage.getItem("adminToken");
       console.log("Starting save with data:", editedRequest);
 
-      // First update personal info
       const personalInfoResponse = await fetch(
         `https://api.malayaadventures.com/api/v1/personal-info/${editedRequest.id}`,
         {
@@ -703,7 +682,6 @@ const Admin = () => {
         throw new Error("Failed to update budget information");
       }
 
-      // Create deep copy for local state update
       const updatedRequest = {
         ...editedRequest,
         data: {
@@ -713,7 +691,6 @@ const Admin = () => {
         },
       };
 
-      // Update local state
       setBookingRequests(
         bookingRequests.map((request) =>
           request.id === editedRequest.id ? updatedRequest : request
@@ -726,7 +703,6 @@ const Admin = () => {
       console.log("Save completed successfully");
     } catch (error) {
       console.error("Error during save:", error);
-      // Add user feedback for error
     }
   };
 
@@ -737,7 +713,6 @@ const Admin = () => {
       const newRequest = { ...prev };
       console.log("Previous state:", prev);
 
-      // Log the change being made
       console.log(`Updating ${field} with value:`, value);
 
       switch (field) {
@@ -822,14 +797,14 @@ const Admin = () => {
         case "activityLevel":
           newData.ActivityID[0].ActivityLevel = value;
           break;
-        case "specialInterests": // Add this case
+        case "specialInterests":
           if (!newData.ActivityID?.[0]) {
             newData.ActivityID = [{}];
           }
           newData.ActivityID[0].SpecialInterests = value;
           break;
 
-        // Add these cases for meal preferences
+        // Meal Preferences
         case "MealPlanPreferences":
           if (!newData.MealPreferenceID?.[0]) {
             newData.MealPreferenceID = [{}];
@@ -850,8 +825,7 @@ const Admin = () => {
           }
           newData.MealPreferenceID[0].SpecialFoodRequests = value;
           break;
-
-        // Add to handleFieldChange switch statement
+        // Special Requests
         case "occasionsToCelebrate":
           if (!newData.SpecialRequestID?.[0]) {
             newData.SpecialRequestID = [{}];
@@ -965,12 +939,10 @@ const Admin = () => {
     navigate("/admin/auth");
   };
 
-  // Add effect to monitor modal state changes
   useEffect(() => {
     console.log("showLogoutModal changed to:", showLogoutModal);
   }, [showLogoutModal]);
 
-  // Log states for debugging
   useEffect(() => {
     console.log("Modal state:", { showDeleteModal, toDeleteRequest });
   }, [showDeleteModal, toDeleteRequest]);
@@ -986,20 +958,6 @@ const Admin = () => {
       </div>
     );
   }
-
-  // if (error) {
-  //   return (
-  //     <div className="error-container">
-  //       <p className="error-message">{error}</p>
-  //       <button
-  //         onClick={() => window.location.reload()}
-  //         className="retry-button"
-  //       >
-  //         <i className="fas fa-redo"></i> Retry
-  //       </button>
-  //     </div>
-  //   );
-  // }
 
   const renderRequestCard = (request) => (
     <div className="request-details">
@@ -1030,7 +988,6 @@ const Admin = () => {
       {isEditing ? (
         <>
           <div className="personal-info-section">
-            {/* Personal info fields */}
             <EditableField
               value={editedRequest.fullName}
               onChange={(value) => handleFieldChange("fullName", value)}
@@ -1048,7 +1005,6 @@ const Admin = () => {
             />
           </div>
 
-          {/* Read-only travel info */}
           <div className="readonly-field">
             <label>Travel Details:</label>
             <p>
@@ -1128,7 +1084,6 @@ const Admin = () => {
     <>
       <div className={`detail-section highlight ${isEditing ? "editing" : ""}`}>
         <div className="client-info">
-          {/* Only show these fields when not editing */}
           {!isEditing && (
             <div className="client-header">
               <h3>{selectedRequest.fullName}</h3>

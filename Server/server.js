@@ -4,7 +4,6 @@ const cors = require("cors");
 
 const app = express();
 
-// Set CORS options
 var corsOptions = {
   origin: [
     "http://localhost:3000",
@@ -20,17 +19,13 @@ var corsOptions = {
 
 app.use(cors(corsOptions));
 
-// Parse requests of content-type - application/json
 app.use(express.json());
 
-// Parse requests of content-type - application/x-www-form-urlencoded
 app.use(express.urlencoded({ extended: true }));
 
-// Import routes
 const router = require("./src/routes/index.js");
 app.use("/api/v1", router);
 
-// Set port, listen for requests
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, "127.0.0.1", () => {
   console.log(`Server is running on port http://127.0.0.1:${PORT}.`);

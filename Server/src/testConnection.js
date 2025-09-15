@@ -8,19 +8,19 @@ const sequelize = new Sequelize(process.env.DATABASE_URL, {
       require: true,
       rejectUnauthorized: false,
     },
-    connectTimeout: 60000, // 60 seconds
+    connectTimeout: 60000,
   },
   pool: {
     max: 5,
     min: 0,
-    acquire: 60000, // timeout after 60s
-    idle: 10000, // connection can be idle for 10s
-    evict: 1000, // run cleanup every second
+    acquire: 60000,
+    idle: 10000,
+    evict: 1000,
     handleDisconnects: true,
   },
   retry: {
-    max: 3, // maximum retry attempts
-    timeout: 60000, // timeout for each retry
+    max: 3,
+    timeout: 60000,
     match: [
       /SequelizeConnectionError/,
       /SequelizeConnectionRefusedError/,
@@ -28,7 +28,7 @@ const sequelize = new Sequelize(process.env.DATABASE_URL, {
       /ETIMEDOUT/,
     ],
   },
-  logging: console.log, // enable logging to debug connection issues
+  logging: console.log,
 });
 
 async function testConnection() {
@@ -50,13 +50,11 @@ async function testConnection() {
         process.exit(1);
       }
 
-      // Wait for 5 seconds before retrying
       await new Promise((resolve) => setTimeout(resolve, 5000));
     }
   }
 }
 
-// Verify DATABASE_URL before attempting connection
 console.log("Checking environment variables...");
 if (!process.env.DATABASE_URL) {
   console.error("❌ DATABASE_URL is not set in environment variables!");

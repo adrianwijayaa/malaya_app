@@ -22,7 +22,6 @@
   z-index: 2;
 }
 
-/* Compass Animation */
 .loading-compass {
   width: 80px;
   height: 80px;
@@ -64,7 +63,6 @@
   filter: drop-shadow(0 0 5px rgba(255, 215, 0, 0.5));
 }
 
-/* Logo Animation */
 .loading-logo {
   display: flex;
   gap: 5px;

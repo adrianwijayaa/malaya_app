@@ -1,14 +1,13 @@
-'use strict';
+"use strict";
 
-const { Model } = require('sequelize');
+const { Model } = require("sequelize");
 
 module.exports = (sequelize, DataTypes) => {
   class AccommodationPreferences extends Model {
     static associate(models) {
-      // Define association here
       AccommodationPreferences.belongsTo(models.TravelDetails, {
-        foreignKey: 'TravelDetailsID',
-        as:'Travel Detail'
+        foreignKey: "TravelDetailsID",
+        as: "Travel Detail",
       });
     }
   }
@@ -25,16 +24,33 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.INTEGER,
         allowNull: false,
         references: {
-          model: 'TravelDetails',
-          key: 'id',
+          model: "TravelDetails",
+          key: "id",
         },
       },
       PreferredAccommodationType: {
-        type: DataTypes.ENUM('Luxury Resort','Boutique Hotel','Private Villa','Guest House','Eco Lodge','Glamping','Traditional Stay'),
+        type: DataTypes.ENUM(
+          "Luxury Resort",
+          "Boutique Hotel",
+          "Private Villa",
+          "Guest House",
+          "Eco Lodge",
+          "Glamping",
+          "Traditional Stay"
+        ),
         allowNull: false,
       },
       RoomType: {
-        type: DataTypes.ENUM('Standard Room','Deluxe Room','Suite','Family Room','Pool Villa','Ocean View Room','Garden View Room','Connecting Room'),
+        type: DataTypes.ENUM(
+          "Standard Room",
+          "Deluxe Room",
+          "Suite",
+          "Family Room",
+          "Pool Villa",
+          "Ocean View Room",
+          "Garden View Room",
+          "Connecting Room"
+        ),
         allowNull: false,
       },
       SpecialAccommodationRequests: {
@@ -44,8 +60,8 @@ module.exports = (sequelize, DataTypes) => {
     },
     {
       sequelize,
-      modelName: 'AccommodationPreferences',
-      tableName: 'AccommodationPreferences',
+      modelName: "AccommodationPreferences",
+      tableName: "AccommodationPreferences",
       timestamps: true,
     }
   );

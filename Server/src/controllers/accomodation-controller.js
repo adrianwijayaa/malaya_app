@@ -32,7 +32,6 @@ const createAccomodation = async (req, res) => {
       });
     }
 
-    // Validasi ENUM untuk PreferredAccommodationType
     const validAccommodationTypes = [
       "Luxury Resort",
       "Boutique Hotel",
@@ -50,7 +49,6 @@ const createAccomodation = async (req, res) => {
       });
     }
 
-    // Validasi ENUM untuk RoomType
     const validRoomTypes = [
       "Standard Room",
       "Deluxe Room",
@@ -136,8 +134,8 @@ const getAccomodationById = async (req, res) => {
     );
 
     const accomodationWithTravelDetail = {
-      ...accomodation.dataValues, // Data dari TravelDetail
-      TravelDetailsID: travelDetail ? [travelDetail.dataValues] : [], // Data dari PersonalInfo
+      ...accomodation.dataValues,
+      TravelDetailsID: travelDetail ? [travelDetail.dataValues] : [],
     };
 
     res.status(200).json({
@@ -178,7 +176,6 @@ const updateAccomodation = async (req, res) => {
       }
     }
 
-    // Validasi ENUM untuk RoomType
     if (RoomType !== undefined) {
       const validRoomTypes = [
         "Standard Room",
@@ -219,8 +216,8 @@ const updateAccomodation = async (req, res) => {
     );
 
     const accomodationWithTravelDetail = {
-      ...accommodationPref.get(), // Data dari TravelDetail
-      TravelDetailsID: travelDetail ? [travelDetail.dataValues] : [], // Data dari PersonalInfo
+      ...accommodationPref.get(),
+      TravelDetailsID: travelDetail ? [travelDetail.dataValues] : [],
     };
 
     return res.status(200).json(accomodationWithTravelDetail);

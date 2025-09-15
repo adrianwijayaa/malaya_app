@@ -127,8 +127,8 @@ const getTransportationById = async (req, res) => {
     );
 
     const transportationWithTravelDetail = {
-      ...transportation.dataValues, // Data dari TravelDetail
-      TravelDetailsID: travelDetail ? [travelDetail.dataValues] : [], // Data dari PersonalInfo
+      ...transportation.dataValues,
+      TravelDetailsID: travelDetail ? [travelDetail.dataValues] : [],
     };
 
     return res.status(200).json({
@@ -197,8 +197,8 @@ const updateTransportation = async (req, res) => {
     );
 
     const transportationWithTravelDetail = {
-      ...transportationPrefference.get(), // Data dari TravelDetail
-      TravelDetailsID: travelDetail ? [travelDetail.dataValues] : [], // Data dari PersonalInfo
+      ...transportationPrefference.get(),
+      TravelDetailsID: travelDetail ? [travelDetail.dataValues] : [],
     };
 
     return res.status(200).json(transportationWithTravelDetail);

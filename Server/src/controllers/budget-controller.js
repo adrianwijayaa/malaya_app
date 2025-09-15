@@ -113,8 +113,8 @@ const getBudgetById = async (req, res) => {
     const travelDetail = await TravelDetails.findByPk(budget.TravelDetailsID);
 
     const budgetWithTravelDetail = {
-      ...budget.dataValues, // Data dari TravelDetail
-      TravelDetailsID: travelDetail ? [travelDetail.dataValues] : [], // Data dari PersonalInfo
+      ...budget.dataValues,
+      TravelDetailsID: travelDetail ? [travelDetail.dataValues] : [],
     };
 
     return res.status(200).json({
@@ -173,8 +173,8 @@ const updateBudget = async (req, res) => {
     const travelDetail = await TravelDetails.findByPk(budget.TravelDetailsID);
 
     const budgetWithTravelDetail = {
-      ...budget.get(), // Data dari TravelDetail
-      TravelDetailsID: travelDetail ? [travelDetail.dataValues] : [], // Data dari PersonalInfo
+      ...budget.get(),
+      TravelDetailsID: travelDetail ? [travelDetail.dataValues] : [],
     };
 
     return res.status(200).json(budgetWithTravelDetail);

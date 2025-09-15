@@ -11,12 +11,10 @@ function Hero({ onBookNow }) {
     const phoneNumber = "6285814470914";
     const message = "Hi, I would like to inquire about Luxury Escape packages.";
 
-    // Use wa.me format which is more reliable
     const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(
       message
     )}`;
 
-    // For debugging
     console.log("WhatsApp URL:", whatsappUrl);
 
     window.open(whatsappUrl, "_blank");

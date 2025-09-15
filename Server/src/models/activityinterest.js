@@ -1,12 +1,11 @@
-'use strict';
-const { Model } = require('sequelize');
+"use strict";
+const { Model } = require("sequelize");
 module.exports = (sequelize, DataTypes) => {
   class ActivityInterest extends Model {
     static associate(models) {
-      // Definisikan relasi di sini
       ActivityInterest.belongsTo(models.TravelDetails, {
-        foreignKey: 'TravelDetailsID',
-        as: 'travelDetail',
+        foreignKey: "TravelDetailsID",
+        as: "travelDetail",
       });
     }
   }
@@ -21,8 +20,8 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.INTEGER,
         allowNull: false,
         references: {
-          model: 'TravelDetails', // Nama tabel yang direferensikan
-          key: 'id', // Kolom yang direferensikan
+          model: "TravelDetails",
+          key: "id",
         },
       },
       PreferredActivities: {
@@ -30,7 +29,13 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: true,
       },
       ActivityLevel: {
-        type: DataTypes.ENUM('Relaxed (Minimal physical activity)','Moderate (Some Walking, Light Activities)','Active (Regular activities, longer walks)','Challenging (Strenuous activities, hiking)','Mixed (Combination of activity levels)'),
+        type: DataTypes.ENUM(
+          "Relaxed (Minimal physical activity)",
+          "Moderate (Some Walking, Light Activities)",
+          "Active (Regular activities, longer walks)",
+          "Challenging (Strenuous activities, hiking)",
+          "Mixed (Combination of activity levels)"
+        ),
         allowNull: false,
       },
       SpecialInterests: {
@@ -40,7 +45,7 @@ module.exports = (sequelize, DataTypes) => {
     },
     {
       sequelize,
-      modelName: 'ActivityInterest',
+      modelName: "ActivityInterest",
     }
   );
   return ActivityInterest;
