@@ -27,6 +27,10 @@ module.exports = {
         type: Sequelize.ENUM("Email", "Phone", "WhatsApp", "Other"),
         allowNull: false,
       },
+      status: {
+        type: Sequelize.ENUM("pending", "confirmed", "cancelled"),
+        defaultValue: "pending",
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE,

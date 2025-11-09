@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import api from "../../api/axiosConfig";
 import "./AdminAuth.css";
 
 const AdminAuth = () => {
@@ -47,23 +48,12 @@ const AdminAuth = () => {
             email: credentials.email,
           };
 
-      console.log(
-        "Sending request to:",
-        `https://api.malayaadventures.com/api/v1${endpoint}`
-      );
+      console.log("Sending request to:", endpoint);
       console.log("Request body:", JSON.stringify(requestBody, null, 2));
-      const response = await fetch(
-        `https://api.malayaadventures.com/api/v1${endpoint}`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(requestBody),
-        }
-      );
 
-      const data = await response.json();
+      const response = await api.post(endpoint, requestBody);
+      const data = response.data;
+
       console.log("Response status:", response.status);
       console.log("Response data:", data);
 
@@ -71,7 +61,7 @@ const AdminAuth = () => {
         throw new Error("Database connection error. Please try again later.");
       }
 
-      if (!response.ok) {
+      if (response.status < 200 || response.status >= 300) {
         throw new Error(
           data.message ||
             `Authentication failed (${response.status}: ${response.statusText})`
@@ -116,12 +106,12 @@ const AdminAuth = () => {
               >
                 Login
               </button>
-              <button
+              {/* <button
                 className={`tab-btn ${!isLogin ? "active" : ""}`}
                 onClick={() => setIsLogin(false)}
               >
                 Register
-              </button>
+              </button> */}
             </div>
           </div>
 
@@ -217,7 +207,7 @@ const AdminAuth = () => {
             </button>
           </form>
 
-          <div className="auth-footer">
+          {/* <div className="auth-footer">
             <p>
               {isLogin
                 ? "Don't have an account? "
@@ -238,7 +228,7 @@ const AdminAuth = () => {
                 {isLogin ? "Register here" : "Login here"}
               </button>
             </p>
-          </div>
+          </div> */}
         </div>
       </div>
     </div>

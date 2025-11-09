@@ -162,7 +162,10 @@ const updateMeal = async (req, res) => {
       }
     }
 
-    const mealPrefference = await MealPrefference.findByPk(id);
+    // const mealPrefference = await MealPrefference.findByPk(id);
+    const mealPrefference = await MealPrefference.findOne({
+      where: { TravelDetailsID: id },
+    });
 
     if (!mealPrefference) {
       return res.status(404).json({

@@ -1,0 +1,76 @@
+/* ==========================
+   EDITABLE FIELD COMPONENT
+   ========================== */
+
+.editable-field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 15px;
+}
+
+.editable-field label {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #196299;
+}
+
+/* Base Styles for All Inputs */
+.editable-input,
+.editable-select,
+.editable-textarea {
+  width: 100%;
+  padding: 10px 14px;
+  border: 1.5px solid rgba(53, 183, 179, 0.3);
+  border-radius: 8px;
+  background: #fff;
+  color: #333;
+  font-size: 0.95rem;
+  font-family: "Inter", sans-serif;
+  transition: all 0.3s ease;
+}
+
+/* Focus State */
+.editable-input:focus,
+.editable-select:focus,
+.editable-textarea:focus {
+  border-color: #35b7b3;
+  box-shadow: 0 0 0 3px rgba(53, 183, 179, 0.15);
+  outline: none;
+}
+
+/* Readonly Mode */
+.editable-input[readonly],
+.editable-select:disabled,
+.editable-textarea[readonly] {
+  background: #f8f9fa;
+  color: #777;
+  border-color: #e0e0e0;
+  cursor: not-allowed;
+}
+
+/* Textarea Specific */
+.editable-textarea {
+  min-height: 80px;
+  resize: vertical;
+  line-height: 1.5;
+}
+
+/* Select Specific */
+.editable-select {
+  cursor: pointer;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+  .editable-field label {
+    font-size: 0.9rem;
+  }
+
+  .editable-input,
+  .editable-select,
+  .editable-textarea {
+    font-size: 0.9rem;
+    padding: 9px 12px;
+  }
+}

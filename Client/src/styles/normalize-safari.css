@@ -1,0 +1,74 @@
+/* ===== Safari Reset & Fixes ===== */
+html {
+  -webkit-text-size-adjust: 100%; /* cegah zoom font otomatis */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+input,
+textarea,
+select,
+button {
+  -webkit-appearance: none;
+  appearance: none;
+  border-radius: 0;
+}
+
+/* Hilangkan spinner number Safari */
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
+}
+
+/* Safe area untuk iPhone notch */
+body {
+  padding: env(safe-area-inset-top, 0) env(safe-area-inset-right, 0)
+    env(safe-area-inset-bottom, 0) env(safe-area-inset-left, 0);
+}
+
+/* Backdrop & blur */
+[class*="card"],
+[class*="img"] {
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  will-change: transform;
+}
+
+/* Gradient text */
+.gradient-text {
+  background: linear-gradient(135deg, #196299, #35b7b3);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Flex/Grid bug fix */
+.flex-fix {
+  min-height: 0;
+  min-width: 0;
+}
+
+/* Aspect ratio fallback */
+.aspect-1-1 {
+  aspect-ratio: 1;
+  height: auto;
+  width: 100%;
+}
+
+/* Links */
+a {
+  -webkit-tap-highlight-color: transparent;
+  text-decoration-skip-ink: auto;
+}

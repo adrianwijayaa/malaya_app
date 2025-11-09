@@ -1,472 +1,244 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "./Hero4.css";
-import image1 from "../../assets/img/image1.jpg";
-import image2 from "../../assets/img/image2.jpg";
-import image3 from "../../assets/img/image3.jpg";
-import image4 from "../../assets/img/image4.jpg";
-import culture1 from "../../assets/img/culture1.jpeg";
-import culture2 from "../../assets/img/culture2.jpeg";
-import culture3 from "../../assets/img/culture3.jpeg";
-import culture4 from "../../assets/img/culture4.jpeg";
-import luxury1 from "../../assets/img/luxury1.jpeg";
-import luxury2 from "../../assets/img/luxury2.jpeg";
-import luxury3 from "../../assets/img/luxury3.jpeg";
-import luxury4 from "../../assets/img/luxury4.jpeg";
-import family1 from "../../assets/img/family1.jpeg";
-import family2 from "../../assets/img/family2.jpeg";
-import family3 from "../../assets/img/family3.jpeg";
-import family4 from "../../assets/img/family4.jpeg";
-import honeymoon1 from "../../assets/img/honeymoon1.jpg";
-import honeymoon2 from "../../assets/img/honeymoon2.jpg";
-import honeymoon3 from "../../assets/img/honeymoon3.jpg";
-import honeymoon4 from "../../assets/img/honeymoon4.jpg";
-import eco1 from "../../assets/img/eco1.jpg";
-import eco2 from "../../assets/img/eco2.jpg";
-import eco3 from "../../assets/img/eco3.jpeg";
-import eco4 from "../../assets/img/eco4.jpeg";
-import dive1 from "../../assets/img/dive1.jpg";
-import dive2 from "../../assets/img/dive2.jpg";
-import dive3 from "../../assets/img/dive3.jpg";
-import dive4 from "../../assets/img/dive4.jpg";
+import api, { BASE_URL } from "../../api/axiosConfig";
+import LazyImage from "../LazyImage";
 
-function Hero4() {
-  const handleInquireClick = (packageType) => (e) => {
+const Hero4 = () => {
+  const [trips, setTrips] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchTrips = async () => {
+      try {
+        const res = await api.get("/tailor-trips");
+        const active = (res.data || []).filter((t) => t.isActive);
+        setTrips(active);
+      } catch (err) {
+        console.error("Failed to fetch tailor trips:", err);
+        setTrips([]);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchTrips();
+  }, []);
+
+  const fullBox = { width: "100%", height: "100%" };
+
+  const getHeroUrl = (trip) => {
+    const src = trip?.heroImage || "";
+    if (!src) return "";
+    return src.startsWith("/uploads") ? `${BASE_URL}${src}` : src;
+  };
+
+  const getHighlightUrls = (trip) => {
+    const fromHL =
+      trip?.highlights
+        ?.slice(0, 4)
+        .map((h) =>
+          h?.imageUrl
+            ? h.imageUrl.startsWith("/uploads")
+              ? `${BASE_URL}${h.imageUrl}`
+              : h.imageUrl
+            : null
+        ) || [];
+
+    // fallback jika kurang dari 4
+    const hero = getHeroUrl(trip);
+    const out = [...fromHL];
+    while (out.length < 4) out.push(hero || fromHL[0] || hero);
+    return out.slice(0, 4);
+  };
+
+  const getIncludes = (trip) =>
+    (trip?.includes || [])
+      .slice(0, 4)
+      .map((inc) => inc?.label)
+      .filter(Boolean);
+
+  const trimOverview = (s = "", max = 160) => {
+    const t = String(s).trim();
+    if (t.length <= max) return t;
+    const cut = t.slice(0, max);
+    const lastSpace = cut.lastIndexOf(" ");
+    return `${cut.slice(0, lastSpace > 80 ? lastSpace : max)}…`;
+    // jaga biar potongannya rapi (hindari memotong di tengah kata)
+  };
+
+  const handleInquireClick = (title) => (e) => {
     e.preventDefault();
-    const phoneNumber = "6285814470914";
-    const message = `Hi, I would like to inquire about ${packageType} package.`;
+    const phoneNumber = "62818520525";
+    const message = `Hi, I would like to inquire about ${title} package.`;
     const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(
       message
     )}`;
     window.open(whatsappUrl, "_blank");
   };
+
+  // Mapping kelas per blok agar layout & CSS lama tetap kepakai
+  const blockClassMap = [
+    // pair 1
+    {
+      imgClass: "home-content3-img3",
+      cardClass: "home-content3-card",
+      titleClass: "home-content3-title",
+      subtitleClass: "home-content3-subtitle",
+      btnClass: "home-content3-button",
+    },
+    {
+      imgClass: "home-content4-img4",
+      cardClass: "home-content4-card",
+      titleClass: "home-content4-title",
+      subtitleClass: "home-content4-subtitle",
+      btnClass: "home-content4-button",
+    },
+    // pair 2
+    {
+      imgClass: "home-content5-img5",
+      cardClass: "home-content5-card",
+      titleClass: "home-content5-title",
+      subtitleClass: "home-content5-subtitle",
+      btnClass: "home-content5-button",
+    },
+    {
+      imgClass: "home-content6-img6",
+      cardClass: "home-content6-card",
+      titleClass: "home-content6-title",
+      subtitleClass: "home-content6-subtitle",
+      btnClass: "home-content6-button",
+    },
+    // pair 3
+    {
+      imgClass: "home-content7-img7",
+      cardClass: "home-content7-card",
+      titleClass: "home-content7-title",
+      subtitleClass: "home-content7-subtitle",
+      btnClass: "home-content7-button",
+    },
+    {
+      imgClass: "home-content8-img8",
+      cardClass: "home-content8-card",
+      titleClass: "home-content8-title",
+      subtitleClass: "home-content8-subtitle",
+      btnClass: "home-content8-button",
+    },
+    // pair 4
+    {
+      imgClass: "home-content9-img9",
+      cardClass: "home-content9-card",
+      titleClass: "home-content9-title",
+      subtitleClass: "home-content9-subtitle",
+      btnClass: "home-content9-button",
+    },
+    {
+      imgClass: "home-content10-img10",
+      cardClass: "home-content10-card",
+      titleClass: "home-content10-title",
+      subtitleClass: "home-content10-subtitle",
+      btnClass: "home-content10-button",
+    },
+  ];
+
+  // Bungkus per pair agar class container2/3/4 tetap sama
+  const pairContainerClasses = [
+    "card-pair-container",
+    "card-pair-container2",
+    "card-pair-container3",
+    "card-pair-container4",
+  ];
+
+  // Render satu blok kartu (grid 4 gambar + card teks + WA)
+  const renderBlock = (trip, classMeta) => {
+    const imgs = getHighlightUrls(trip);
+    const bullets = getIncludes(trip);
+
+    // sudut border mengikuti versi statis kamu
+    const radii = ["20px 0 0 0", "0 20px 0 0", "0 0 0 20px", "0 0 20px 0"];
+
+    return (
+      <>
+        <div className={classMeta.imgClass}>
+          {imgs.map((src, i) => (
+            <LazyImage
+              key={i}
+              src={src}
+              alt={`${trip.title} - image ${i + 1}`}
+              style={{ ...fullBox, borderRadius: radii[i] }}
+            />
+          ))}
+        </div>
+
+        <div className={classMeta.cardClass}>
+          <div className="card-content">
+            <div className="card-header">
+              <h2 className={classMeta.titleClass}>{trip.title}</h2>
+              <p className={classMeta.subtitleClass}>
+                {trimOverview(trip.overview, 160)}
+              </p>
+            </div>
+
+            {bullets.length > 0 && (
+              <div className="card-details">
+                <ul className="card-points">
+                  {bullets.map((b, idx) => (
+                    <li key={idx}>{b}</li>
+                  ))}
+                </ul>
+              </div>
+            )}
+
+            <div className="card-footer">
+              <a
+                href="#"
+                className={classMeta.btnClass}
+                onClick={handleInquireClick(trip.title)}
+              >
+                Inquire <span className="arrow">→</span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </>
+    );
+  };
+
+  if (loading) return null;
+
+  // Ambil maksimal 8 trip aktif supaya persis seperti jumlah blok di Hero4 statis
+  const items = trips.slice(0, blockClassMap.length);
+
+  // Kelompokkan per 2 item untuk masuk ke container pair-1..4
+  const pairs = [];
+  for (let i = 0; i < items.length; i += 2) {
+    pairs.push(items.slice(i, i + 2));
+  }
+
   return (
-    <div className="hero4-container">
-      <div className="card-pair-container">
-        <div className="card-pair-container-div1">
-          <div className="home-content3-img3">
-            <img
-              src={image1}
-              alt="Adventure Expeditions - Komodo Island"
-              style={{ borderRadius: "20px 0 0 0" }}
-            />
-            <img
-              src={image4}
-              alt="Adventure Expeditions - Scuba Diving"
-              style={{ borderRadius: "0 20px 0 0" }}
-            />
-            <img
-              src={image3}
-              alt="Adventure Expeditions - Cultural Dance"
-              style={{ borderRadius: "0 0 0 20px" }}
-            />
-            <img
-              src={image2}
-              alt="Adventure Expeditions - Local Experience"
-              style={{ borderRadius: "0 0 20px 0" }}
-            />
-          </div>
-          <div className="home-content3-card">
-            <div className="card-content">
-              <div className="card-header">
-                <h2 className="home-content3-title">Adventure Expeditions</h2>
-                <p className="home-content3-subtitle">
-                  For thrill-seekers and nature lovers.
-                </p>
-              </div>
-              <div className="card-details">
-                <ul className="card-points">
-                  <li>Trek through pristine rainforests</li>
-                  <li>Scale active volcanoes</li>
-                  <li>Wildlife spotting expeditions</li>
-                  <li>White water rafting adventures</li>
-                </ul>
-              </div>
-              <div className="card-footer">
-                <a
-                  href="#"
-                  className="home-content3-button"
-                  onClick={handleInquireClick("Adventure Expeditions")}
+    <div className="hero4-container hero-sheen2">
+      {pairs.map((pair, pairIdx) => {
+        const containerCls =
+          pairContainerClasses[pairIdx] || "card-pair-container";
+        return (
+          <div className={containerCls} key={`pair-${pairIdx}`}>
+            {pair.map((trip, j) => {
+              const bm = blockClassMap[pairIdx * 2 + j];
+              // wrap kiri/kanan agar sesuai DOM lama (div1 / div2)
+              const sideWrapClass =
+                containerCls + (j === 0 ? "-div1" : "-div2");
+              return (
+                <div
+                  className={sideWrapClass}
+                  key={trip.id || `${pairIdx}-${j}`}
                 >
-                  Inquire <span className="arrow">→</span>
-                </a>
-              </div>
-            </div>
+                  {renderBlock(trip, bm)}
+                </div>
+              );
+            })}
           </div>
-        </div>
-        <div className="card-pair-container-div2">
-          <div className="home-content4-img4">
-            <img
-              src={culture1}
-              alt="Cultural Journeys - Traditional Ceremony"
-              style={{ borderRadius: "20px 0 0 0" }}
-            />
-            <img
-              src={culture2}
-              alt="Cultural Journeys - Temple Visit"
-              style={{ borderRadius: "0 20px 0 0" }}
-            />
-            <img
-              src={culture3}
-              alt="Cultural Journeys - Local Crafts"
-              style={{ borderRadius: "0 0 0 20px" }}
-            />
-            <img
-              src={culture4}
-              alt="Cultural Journeys - Village Life"
-              style={{ borderRadius: "0 0 20px 0" }}
-            />
-          </div>
-          <div className="home-content4-card">
-            <div className="card-content">
-              <div className="card-header">
-                <h2 className="home-content4-title">Cultural Journeys</h2>
-                <p className="home-content4-subtitle">
-                  Immerse yourself in Indonesia's rich heritage.
-                </p>
-              </div>
-              <div className="card-details">
-                <ul className="card-points">
-                  <li>Traditional ceremonies and rituals</li>
-                  <li>Local art and craft workshops</li>
-                  <li>Village life experiences</li>
-                  <li>Ancient temple explorations</li>
-                </ul>
-              </div>
-              <div className="card-footer">
-                <a
-                  href="#"
-                  className="home-content4-button"
-                  onClick={handleInquireClick("Cultural Journeys")}
-                >
-                  Inquire <span className="arrow">→</span>
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div className="card-pair-container2">
-        <div className="card-pair-container2-div1">
-          <div className="home-content5-img5">
-            <img
-              src={luxury1}
-              alt="Luxury Escapes - Villa View"
-              style={{ borderRadius: "20px 0 0 0" }}
-            />
-            <img
-              src={luxury2}
-              alt="Luxury Escapes - Spa Treatment"
-              style={{ borderRadius: "0 20px 0 0" }}
-            />
-            <img
-              src={luxury3}
-              alt="Luxury Escapes - Fine Dining"
-              style={{ borderRadius: "0 0 0 20px" }}
-            />
-            <img
-              src={luxury4}
-              alt="Luxury Escapes - Private Pool"
-              style={{ borderRadius: "0 0 20px 0" }}
-            />
-          </div>
-          <div className="home-content5-card">
-            <div className="card-content">
-              <div className="card-header">
-                <h2 className="home-content5-title">Luxury Escapes</h2>
-                <p className="home-content5-subtitle">
-                  For travelers seeking indulgence and comfort.
-                </p>
-              </div>
-              <div className="card-details">
-                <ul className="card-points">
-                  <li>5-star luxury resorts</li>
-                  <li>Private villa experiences</li>
-                  <li>Exclusive spa treatments</li>
-                  <li>Fine dining experiences</li>
-                </ul>
-              </div>
-              <div className="card-footer">
-                <a
-                  href="#"
-                  className="home-content5-button"
-                  onClick={handleInquireClick("Luxury Escapes")}
-                >
-                  Inquire <span className="arrow">→</span>
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div className="card-pair-container2-div2">
-          <div className="home-content6-img6">
-            <img
-              src={family1}
-              alt="Family Vacations - Beach Activities"
-              style={{ borderRadius: "20px 0 0 0" }}
-            />
-            <img
-              src={family4}
-              alt="Family Vacations - Water Park"
-              style={{ borderRadius: "0 20px 0 0" }}
-            />
-            <img
-              src={family3}
-              alt="Family Vacations - Kids Club"
-              style={{ borderRadius: "0 0 0 20px" }}
-            />
-            <img
-              src={family2}
-              alt="Family Vacations - Family Dinner"
-              style={{ borderRadius: "0 0 20px 0" }}
-            />
-          </div>
-          <div className="home-content6-card">
-            <div className="card-content">
-              <div className="card-header">
-                <h2 className="home-content6-title">Family Vacations</h2>
-                <p className="home-content6-subtitle">
-                  For creating cherished memories with your loved ones.
-                </p>
-              </div>
-              <div className="card-details">
-                <ul className="card-points">
-                  <li>Kid-friendly activities</li>
-                  <li>Educational experiences</li>
-                  <li>Safe beach adventures</li>
-                  <li>Family accommodation options</li>
-                </ul>
-              </div>
-              <div className="card-footer">
-                <a
-                  href="#"
-                  className="home-content6-button"
-                  onClick={handleInquireClick("Family Vacations")}
-                >
-                  Inquire <span className="arrow">→</span>
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div className="card-pair-container3">
-        <div className="card-pair-container3-div1">
-          <div className="home-content7-img7">
-            <img
-              src={honeymoon1}
-              alt="Romantic Getaways - Sunset View"
-              style={{ borderRadius: "20px 0 0 0" }}
-            />
-            <img
-              src={honeymoon2}
-              alt="Romantic Getaways - Couple Spa"
-              style={{ borderRadius: "0 20px 0 0" }}
-            />
-            <img
-              src={honeymoon3}
-              alt="Romantic Getaways - Beach Dinner"
-              style={{ borderRadius: "0 0 0 20px" }}
-            />
-            <img
-              src={honeymoon4}
-              alt="Romantic Getaways - Villa Interior"
-              style={{ borderRadius: "0 0 20px 0" }}
-            />
-          </div>
-          <div className="home-content7-card">
-            <div className="card-content">
-              <div className="card-header">
-                <h2 className="home-content7-title">
-                  Honeymoon & Romantic Getaways
-                </h2>
-                <p className="home-content7-subtitle">
-                  Perfect for couples seeking intimate experiences.
-                </p>
-              </div>
-              <div className="card-details">
-                <ul className="card-points">
-                  <li>Romantic sunset dinners</li>
-                  <li>Couple spa treatments</li>
-                  <li>Private beach excursions</li>
-                  <li>Intimate villa stays</li>
-                </ul>
-              </div>
-              <div className="card-footer">
-                <a
-                  href="#"
-                  className="home-content7-button"
-                  onClick={handleInquireClick("Honeymoon & Romantic Getaways")}
-                >
-                  Inquire <span className="arrow">→</span>
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div className="card-pair-container3-div2">
-          <div className="home-content8-img8">
-            <img
-              src={eco1}
-              alt="Eco Travel - Nature Reserve"
-              style={{ borderRadius: "20px 0 0 0" }}
-            />
-            <img
-              src={eco2}
-              alt="Eco Travel - Local Community"
-              style={{ borderRadius: "0 20px 0 0" }}
-            />
-            <img
-              src={eco3}
-              alt="Eco Travel - Sustainable Practices"
-              style={{ borderRadius: "0 0 0 20px" }}
-            />
-            <img
-              src={eco4}
-              alt="Eco Travel - Wildlife"
-              style={{ borderRadius: "0 0 20px 0" }}
-            />
-          </div>
-          <div className="home-content8-card">
-            <div className="card-content">
-              <div className="card-header">
-                <h2 className="home-content8-title">
-                  Eco and Sustainable Travel
-                </h2>
-                <p className="home-content8-subtitle">
-                  For conscious travelers who care about the planet.
-                </p>
-              </div>
-              <div className="card-details">
-                <ul className="card-points">
-                  <li>Eco-friendly accommodations</li>
-                  <li>Conservation activities</li>
-                  <li>Local community support</li>
-                  <li>Sustainable practices</li>
-                </ul>
-              </div>
-              <div className="card-footer">
-                <a
-                  href="#"
-                  className="home-content8-button"
-                  onClick={handleInquireClick("Eco and Sustainable Travel")}
-                >
-                  Inquire <span className="arrow">→</span>
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div className="card-pair-container4">
-        <div className="card-pair-container4-div1">
-          <div className="home-content9-img9">
-            <img
-              src={dive1}
-              alt="Diving - Coral Reef"
-              style={{ borderRadius: "20px 0 0 0" }}
-            />
-            <img
-              src={dive4}
-              alt="Diving - Marine Life"
-              style={{ borderRadius: "0 20px 0 0" }}
-            />
-            <img
-              src={dive3}
-              alt="Diving - Equipment"
-              style={{ borderRadius: "0 0 0 20px" }}
-            />
-            <img
-              src={dive2}
-              alt="Diving - Beach"
-              style={{ borderRadius: "0 0 20px 0" }}
-            />
-          </div>
-          <div className="home-content9-card">
-            <div className="card-content">
-              <div className="card-header">
-                <h2 className="home-content9-title">
-                  Diving & Snorkeling Trips
-                </h2>
-                <p className="home-content9-subtitle">
-                  For underwater enthusiasts.
-                </p>
-              </div>
-              <div className="card-details">
-                <ul className="card-points">
-                  <li>PADI certified courses</li>
-                  <li>Reef exploration</li>
-                  <li>Marine life encounters</li>
-                  <li>Equipment rental</li>
-                </ul>
-              </div>
-              <div className="card-footer">
-                <a
-                  href="#"
-                  className="home-content9-button"
-                  onClick={handleInquireClick("Diving & Snorkeling Trips")}
-                >
-                  Inquire <span className="arrow">→</span>
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div className="card-pair-container4-div2">
-          <div className="home-content10-img10">
-            <img
-              src={image1}
-              alt="Island Hopping - Beach"
-              style={{ borderRadius: "20px 0 0 0" }}
-            />
-            <img
-              src={image4}
-              alt="Island Hopping - Boat"
-              style={{ borderRadius: "0 20px 0 0" }}
-            />
-            <img
-              src={image3}
-              alt="Island Hopping - Lagoon"
-              style={{ borderRadius: "0 0 0 20px" }}
-            />
-            <img
-              src={image2}
-              alt="Island Hopping - Sunset"
-              style={{ borderRadius: "0 0 20px 0" }}
-            />
-          </div>
-          <div className="home-content10-card">
-            <div className="card-content">
-              <div className="card-header">
-                <h2 className="home-content10-title">
-                  Island Hopping Adventures
-                </h2>
-                <p className="home-content10-subtitle">
-                  Experience the magic of Indonesia's diverse islands.
-                </p>
-              </div>
-              <div className="card-details">
-                <ul className="card-points">
-                  <li>Multiple island visits</li>
-                  <li>Beach exploration</li>
-                  <li>Local island culture</li>
-                  <li>Boat excursions</li>
-                </ul>
-              </div>
-              <div className="card-footer">
-                <a
-                  href="#"
-                  className="home-content10-button"
-                  onClick={handleInquireClick("Island Hopping Adventures")}
-                >
-                  Inquire <span className="arrow">→</span>
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+        );
+      })}
     </div>
   );
-}
+};
 
 export default Hero4;

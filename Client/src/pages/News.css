@@ -1,0 +1,515 @@
+/* ===== Fonts ===== */
+@import url("https://fonts.googleapis.com/css2?family=Manrope:wght@600;700;800&family=Inter:wght@400;500;600;700;800&display=swap");
+
+/* ===== Tokens ===== */
+:root {
+  --rl-bg: #f9fbff; /* page background */
+  --rl-ink: #0f172a; /* main text */
+  --rl-dim: #475569; /* secondary text */
+  --rl-line: #a8c6ff; /* border (stronger) */
+  --rl-card: #ffffff; /* card surface (tinted so it pops) */
+  --rl-card-weak: #fdfefe; /* controls on top of card */
+  --rl-sky: #14b2ff; /* accent blue */
+  --rl-mint: #22d3a3; /* accent mint */
+  --rl-ring: rgba(20, 178, 255, 0.22);
+  --rl-shadow: 0 12px 28px rgba(15, 23, 42, 0.08);
+}
+
+/* ===== Page ===== */
+.maRail-page {
+  color: var(--rl-ink);
+  font-family: "Inter", system-ui, sans-serif;
+  background: radial-gradient(
+        900px 420px at -10% -10%,
+        rgba(20, 178, 255, 0.08) 0%,
+        rgba(20, 178, 255, 0) 60%
+      )
+      no-repeat,
+    radial-gradient(
+        900px 420px at 110% 0%,
+        rgba(34, 211, 163, 0.08) 0%,
+        rgba(34, 211, 163, 0) 60%
+      )
+      no-repeat,
+    var(--rl-bg);
+}
+
+/* ===== Sticky compact ===== */
+.maRail-sticky {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  transform: translateY(-100%);
+  transition: transform 0.22s ease;
+  z-index: 50;
+}
+.maRail-sticky.is-show {
+  transform: translateY(0);
+}
+.maRail-stickyInner {
+  max-width: 1320px;
+  margin: 0 auto;
+  padding: 12px clamp(22px, 5vw, 56px);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: rgba(234, 241, 255, 0.92);
+  backdrop-filter: blur(6px);
+  border-bottom: 1px solid var(--rl-line);
+  box-shadow: 0 6px 20px rgba(15, 23, 42, 0.06);
+}
+.maRail-stickyTitle {
+  font-family: "Manrope", system-ui, sans-serif;
+  font-weight: 800;
+  letter-spacing: -0.2px;
+}
+.maRail-stickySort {
+  padding: 0.6rem 0.9rem;
+  border-radius: 12px;
+  border: 1px solid var(--rl-line);
+  background: var(--rl-card-weak);
+  color: var(--rl-ink);
+  outline: none;
+  font-family: "Inter", system-ui, sans-serif;
+}
+.maRail-stickySort:focus {
+  box-shadow: 0 0 0 3px var(--rl-ring);
+  border-color: var(--rl-sky);
+}
+
+@media (max-width: 780px) {
+  .maRail-stickyInner {
+    padding: 8px clamp(16px, 5vw, 24px);
+  }
+  .maRail-stickySort {
+    padding: 0.5rem 0.8rem;
+    border-radius: 10px;
+  }
+}
+
+/* ===== Container & Layout ===== */
+.maRail-container {
+  width: 100%;
+  max-width: 1320px;
+  margin: 0 auto;
+  padding: 0 clamp(22px, 5vw, 56px);
+  padding-top: 110px;
+  padding-bottom: 50px;
+}
+.maRail-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 2fr) minmax(300px, 1fr);
+  grid-template-areas:
+    "head side"
+    "main side";
+  gap: 1rem;
+  align-items: start;
+}
+.maRail-head {
+  grid-area: head;
+}
+.maRail-side {
+  grid-area: side;
+  position: sticky;
+  top: 110px;
+  display: grid;
+  gap: 1rem;
+  align-self: start;
+}
+.maRail-main {
+  grid-area: main;
+  display: grid;
+  gap: 0.7rem;
+}
+
+/* ===== Head ===== */
+.maRail-title {
+  font-family: "Manrope", system-ui, sans-serif;
+  font-size: clamp(2.1rem, 4.6vw, 3rem);
+  letter-spacing: -0.5px;
+  margin: 0;
+}
+.maRail-sub {
+  color: var(--rl-dim);
+  margin-top: 0.25rem;
+  font-family: "Inter", system-ui, sans-serif;
+}
+
+/* ===== Cards ===== */
+.maRail-row {
+  position: relative;
+  display: grid;
+  grid-template-columns: 240px 1fr;
+  gap: 0.8rem;
+  align-items: stretch;
+  background: var(--rl-card);
+  border: 1px solid var(--rl-line);
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: var(--rl-shadow);
+}
+.maRail-row::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 4px;
+  background: linear-gradient(180deg, var(--rl-sky), var(--rl-mint));
+  opacity: 0.75;
+}
+.maRail-thumb {
+  position: relative;
+  display: block;
+}
+.maRail-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  aspect-ratio: 4/3;
+  display: block;
+  filter: saturate(1.02);
+}
+.maRail-body {
+  padding: 1rem;
+  display: grid;
+  gap: 0.5rem;
+}
+.maRail-itemTitle {
+  font-family: "Manrope", system-ui, sans-serif;
+  font-weight: 800;
+  font-size: 1.12rem;
+  letter-spacing: -0.2px;
+  margin: 0;
+}
+.maRail-itemTitle a {
+  color: var(--rl-ink);
+  text-decoration: none;
+}
+.maRail-desc {
+  color: var(--rl-dim);
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  font-family: "Inter", system-ui, sans-serif;
+}
+.maRail-metaRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+.maRail-meta {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--rl-dim);
+  font-size: 0.95rem;
+  font-family: "Inter", system-ui, sans-serif;
+}
+.maRail-readBtn {
+  appearance: none;
+  border: 1px solid var(--rl-line);
+  background: var(--rl-card-weak);
+  color: var(--rl-ink);
+  border-radius: 10px;
+  padding: 0.5rem 0.85rem;
+  font-weight: 800;
+  text-decoration: none;
+  font-family: "Inter", system-ui, sans-serif;
+}
+.maRail-readBtn:hover {
+  border-color: var(--rl-sky);
+  box-shadow: 0 0 0 3px var(--rl-ring);
+}
+
+/* ===== Sidebar ===== */
+.maRail-box {
+  background: var(--rl-card);
+  border: 1px solid var(--rl-line);
+  border-radius: 16px;
+  padding: 0.9rem;
+  box-shadow: var(--rl-shadow);
+}
+.maRail-sideTitle {
+  font-family: "Manrope", system-ui, sans-serif;
+  font-weight: 800;
+  font-size: 1rem;
+  margin-bottom: 0.5rem;
+}
+.maRail-miniList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0.6rem;
+}
+.maRail-miniItem {
+  display: grid;
+  grid-template-columns: 56px 1fr;
+  gap: 0.6rem;
+  align-items: center;
+  text-decoration: none;
+  color: var(--rl-ink);
+  font-family: "Inter", system-ui, sans-serif;
+}
+.maRail-miniItem img {
+  width: 56px;
+  height: 56px;
+  object-fit: cover;
+  border-radius: 10px;
+  border: 1px solid var(--rl-line);
+}
+.maRail-linkList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0.4rem;
+}
+.maRail-linkList a {
+  text-decoration: none;
+  color: var(--rl-ink);
+  font-family: "Inter", system-ui, sans-serif;
+}
+.maRail-linkList a:hover {
+  color: var(--rl-sky);
+  text-decoration: underline;
+}
+.maRail-note {
+  color: var(--rl-dim);
+  margin-bottom: 0.6rem;
+  font-family: "Inter", system-ui, sans-serif;
+}
+.maRail-subBtn {
+  display: inline-block;
+  border: 1px solid var(--rl-line);
+  background: var(--rl-card-weak);
+  color: var(--rl-ink);
+  border-radius: 10px;
+  padding: 0.5rem 0.85rem;
+  font-weight: 800;
+  text-decoration: none;
+  font-family: "Inter", system-ui, sans-serif;
+}
+.maRail-subBtn:hover {
+  border-color: var(--rl-sky);
+  box-shadow: 0 0 0 3px var(--rl-ring);
+}
+
+/* ===== Misc ===== */
+.maRail-empty {
+  border: 1px solid var(--rl-line);
+  background: var(--rl-card);
+  border-radius: 12px;
+  padding: 1rem;
+  text-align: center;
+  font-family: "Inter", system-ui, sans-serif;
+}
+.maRail-pagination {
+  margin-top: 0.6rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+}
+.maRail-navBtn {
+  appearance: none;
+  border: 1px solid var(--rl-line);
+  background: var(--rl-card-weak);
+  color: var(--rl-ink);
+  border-radius: 10px;
+  padding: 0.55rem 0.9rem;
+  font-weight: 800;
+  font-family: "Inter", system-ui, sans-serif;
+}
+.maRail-navBtn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+.maRail-pages {
+  display: flex;
+  gap: 0.4rem;
+}
+.maRail-page {
+  appearance: none;
+  border: 1px solid var(--rl-line);
+  background: var(--rl-card-weak);
+  color: var(--rl-ink);
+  border-radius: 10px;
+  padding: 0.48rem 0.8rem;
+  min-width: 40px;
+  font-weight: 800;
+  font-family: "Inter", system-ui, sans-serif;
+}
+.maRail-page.is-on {
+  border-color: var(--rl-sky);
+  box-shadow: 0 0 0 3px var(--rl-ring);
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 1100px) {
+  .maRail-layout {
+    grid-template-columns: 1fr;
+    grid-template-areas: "head" "side" "main";
+  }
+  .maRail-side {
+    position: static;
+    top: auto;
+  }
+}
+@media (max-width: 1024px) {
+  .maRail-layout {
+    grid-template-columns: 1fr;
+    grid-template-areas: "head" "main" "side";
+  }
+  .maRail-side {
+    position: static;
+    top: auto;
+    margin-top: 12px;
+  }
+}
+@media (max-width: 820px) {
+  .maRail-container {
+    padding-bottom: 44px;
+  }
+  .maRail-row {
+    grid-template-columns: 200px 1fr;
+    gap: 0.7rem;
+  }
+  .maRail-body {
+    padding: 0.9rem;
+    gap: 0.45rem;
+  }
+  .maRail-itemTitle {
+    font-size: 1.06rem;
+  }
+  .maRail-miniItem {
+    grid-template-columns: 52px 1fr;
+    gap: 0.5rem;
+  }
+  .maRail-miniItem img {
+    width: 52px;
+    height: 52px;
+  }
+}
+@media (max-width: 780px) {
+  .maRail-row {
+    grid-template-columns: 1fr;
+  }
+  .maRail-thumb img {
+    aspect-ratio: 16/9;
+  }
+  .maRail-metaRow {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.4rem;
+  }
+}
+@media (max-width: 768px) {
+  .maRail-container {
+    padding-top: 96px;
+  }
+  .maRail-stickyInner {
+    padding: 8px clamp(14px, 5vw, 22px);
+  }
+  .maRail-title {
+    font-size: clamp(1.8rem, 5.2vw, 2.4rem);
+  }
+  .maRail-sub {
+    font-size: 0.98rem;
+  }
+  .maRail-row {
+    border-width: 2px;
+  }
+  .maRail-page,
+  .maRail-navBtn {
+    padding: 0.46rem 0.75rem;
+    min-width: 36px;
+  }
+}
+@media (max-width: 600px) {
+  .maRail-container {
+    padding: 0 clamp(16px, 5vw, 24px);
+    padding-top: 92px;
+  }
+  .maRail-row {
+    gap: 0.6rem;
+  }
+  .maRail-body {
+    padding: 0.85rem;
+  }
+  .maRail-itemTitle {
+    font-size: 1.02rem;
+  }
+  .maRail-box {
+    padding: 0.8rem;
+    border-width: 2px;
+  }
+  .maRail-pages {
+    gap: 0.3rem;
+  }
+}
+@media (max-width: 480px) {
+  .maRail-title {
+    font-size: clamp(1.6rem, 6vw, 2rem);
+  }
+  .maRail-sub {
+    font-size: 0.95rem;
+  }
+  .maRail-readBtn,
+  .maRail-subBtn,
+  .maRail-navBtn,
+  .maRail-page {
+    border-radius: 9px;
+    padding: 0.44rem 0.7rem;
+    font-weight: 800;
+  }
+  .maRail-miniItem {
+    grid-template-columns: 48px 1fr;
+  }
+  .maRail-miniItem img {
+    width: 48px;
+    height: 48px;
+    border-radius: 9px;
+  }
+}
+@media (max-width: 430px) {
+  .maRail-body {
+    padding: 0.75rem;
+  }
+  .maRail-itemTitle {
+    font-size: 0.98rem;
+  }
+  .maRail-meta {
+    font-size: 0.9rem;
+  }
+  .maRail-thumb img {
+    aspect-ratio: 7/4;
+  }
+}
+@media (max-width: 375px) {
+  .maRail-container {
+    padding: 0 14px;
+    padding-top: 88px;
+  }
+  .maRail-row {
+    border-radius: 14px;
+  }
+  .maRail-page,
+  .maRail-navBtn {
+    min-width: 34px;
+    padding: 0.42rem 0.64rem;
+  }
+  .maRail-miniItem {
+    grid-template-columns: 44px 1fr;
+    gap: 0.5rem;
+  }
+  .maRail-miniItem img {
+    width: 44px;
+    height: 44px;
+    border-radius: 8px;
+  }
+}

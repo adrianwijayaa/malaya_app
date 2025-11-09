@@ -6,6 +6,7 @@ import image4 from "../../assets/img/image4.jpg";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./Hero2.css";
 import { useNavigate, useLocation } from "react-router-dom";
+import LazyImage from "../LazyImage";
 
 function Hero2() {
   const navigate = useNavigate();
@@ -23,7 +24,7 @@ function Hero2() {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
   return (
-    <div className="hero2-container">
+    <div className="hero2-container ma-hero-sheen2">
       <div className="home-content">
         <div className="home-content-left">
           <div className="content-text-wrapper">
@@ -52,22 +53,22 @@ function Hero2() {
         </div>
         <div className="home-content-right">
           <div className="image-grid">
-            <img
+            <LazyImage
               src={image1}
               alt="Indonesian culture"
               className="grid-image image-1"
             />
-            <img
+            <LazyImage
               src={image4}
               alt="Indonesian landscape"
               className="grid-image image-2"
             />
-            <img
+            <LazyImage
               src={image2}
               alt="Local experience"
               className="grid-image image-3"
             />
-            <img
+            <LazyImage
               src={image3}
               alt="Adventure activity"
               className="grid-image image-4"

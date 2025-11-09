@@ -1,3 +1,4 @@
+// Carousel.jsx
 import { React } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
@@ -14,16 +15,19 @@ import cr1 from "../../assets/img/carousel1.png";
 import cr2 from "../../assets/img/cr2.png";
 import cr3 from "../../assets/img/cr3.png";
 import "../home/Carousel.css";
+import LazyImage from "../LazyImage";
+
 const Carousel = () => {
   const handleInquireClick = (title) => (e) => {
     e.preventDefault();
-    const phoneNumber = "6285814470914";
+    const phoneNumber = "62818520525";
     const message = `Hi, I would like to inquire about ${title}.`;
     const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(
       message
     )}`;
     window.open(whatsappUrl, "_blank");
   };
+
   const slides = [
     {
       image: cr1,
@@ -62,8 +66,9 @@ const Carousel = () => {
         "From luxury escapes and family vacations to adventurous expeditions, we cater to all types of travelers. Every itinerary is uniquely designed to reflect your needs and aspirations.",
     },
   ];
+
   return (
-    <div className="carousel-container1">
+    <div className="ma-carousel1 carousel-container1">
       <div className="carousel-wrapper1">
         <Swiper
           modules={[Navigation, Pagination, Autoplay, EffectCoverflow]}
@@ -90,13 +95,13 @@ const Carousel = () => {
             delay: 2000,
             disableOnInteraction: false,
           }}
-          className="modern-swiper1"
+          className="modern-swiper1 ma-swiper1"
         >
           {slides.map((slide, index) => (
             <SwiperSlide key={index}>
               <div className="modern-card1">
                 <div className="card-media1">
-                  <img src={slide.image} alt={slide.title} />
+                  <LazyImage src={slide.image} alt={slide.title} />
                   <div className="media-overlay1"></div>
                 </div>
                 <div className="card-content1">
@@ -129,4 +134,5 @@ const Carousel = () => {
     </div>
   );
 };
+
 export default Carousel;

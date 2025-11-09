@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Navbar from "react-bootstrap/Navbar";
 import Container from "react-bootstrap/Container";
-import logo from "../assets/img/MalayaAdventures.png";
+import logo from "../assets/img/MalayaAdventuresLogo.png";
 import ukFlag from "../assets/img/flag.png";
 import idFlag from "../assets/img/indonesia-flag.png";
 import arrow from "../assets/img/arrow.png";
@@ -11,6 +11,8 @@ import { FaBars, FaTimes } from "react-icons/fa";
 import { useNavigate, useLocation } from "react-router-dom";
 
 function Navbars() {
+  const location = useLocation();
+  const isTailorMade = location.pathname.startsWith("/tailor-made");
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
   const [colorChange, setColorChange] = useState(false);
@@ -23,16 +25,18 @@ function Navbars() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   useEffect(() => {
-    const changeNavbarColor = () => {
-      if (window.scrollY >= 30) {
-        setColorChange(true);
-      } else {
-        setColorChange(false);
-      }
+    let ticking = false;
+    const onScroll = () => {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(() => {
+        setColorChange(window.scrollY >= 30);
+        ticking = false;
+      });
     };
-
-    window.addEventListener("scroll", changeNavbarColor);
-    return () => window.removeEventListener("scroll", changeNavbarColor);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    onScroll(); // set state awal
+    return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
   useEffect(() => {
@@ -47,6 +51,17 @@ function Navbars() {
     };
   }, [isMobileMenuOpen]);
 
+  useEffect(() => {
+    if (location.pathname.startsWith("/join-de-trip"))
+      setActiveItem("Join De Trip");
+    else if (location.pathname.startsWith("/about-us"))
+      setActiveItem("About Us");
+    else if (location.pathname.startsWith("/tailor-made"))
+      setActiveItem("Tailormade Trip");
+    else if (location.pathname.startsWith("/news")) setActiveItem("News");
+    else setActiveItem("Home");
+  }, [location.pathname]);
+
   const navItems = [
     "Home",
     "Liveaboard",
@@ -54,14 +69,13 @@ function Navbars() {
     "Join De Trip",
     "De Service",
     "About Us",
+    "News",
   ];
 
   const languageOptions = [
     { code: "ID", name: "Indonesia", flag: idFlag },
     { code: "EN", name: "English", flag: ukFlag },
   ];
-
-  const location = useLocation();
 
   useEffect(() => {
     if (location.pathname === "/about-us") {
@@ -85,64 +99,16 @@ function Navbars() {
         window.location.href = "http://www.bookingliveaboard.com/";
         break;
       case "Tailormade Trip":
-        if (window.location.pathname !== "/") {
-          navigate("/");
-          setTimeout(() => {
-            const tailormadeSection = Array.from(
-              document.getElementsByClassName("content-container")
-            )[0]?.children[1];
-            if (tailormadeSection) {
-              const yOffset = -30;
-              const y =
-                tailormadeSection.getBoundingClientRect().top +
-                window.pageYOffset +
-                yOffset;
-              window.scrollTo({ top: y, behavior: "smooth" });
-            }
-          }, 200);
-        } else {
-          const tailormadeSection = Array.from(
-            document.getElementsByClassName("content-container")
-          )[0]?.children[1];
-          if (tailormadeSection) {
-            const yOffset = -30;
-            const y =
-              tailormadeSection.getBoundingClientRect().top +
-              window.pageYOffset +
-              yOffset;
-            window.scrollTo({ top: y, behavior: "smooth" });
-          }
-        }
+        navigate("/tailor-made");
+        window.scrollTo({ top: 0, behavior: "smooth" });
         break;
       case "Join De Trip":
-        if (window.location.pathname !== "/") {
-          navigate("/");
-          setTimeout(() => {
-            const joinSection = Array.from(
-              document.getElementsByClassName("content-container")
-            )[0]?.children[2];
-            if (joinSection) {
-              const yOffset = -30;
-              const y =
-                joinSection.getBoundingClientRect().top +
-                window.pageYOffset +
-                yOffset;
-              window.scrollTo({ top: y, behavior: "smooth" });
-            }
-          }, 200);
-        } else {
-          const joinSection = Array.from(
-            document.getElementsByClassName("content-container")
-          )[0]?.children[2];
-          if (joinSection) {
-            const yOffset = -30;
-            const y =
-              joinSection.getBoundingClientRect().top +
-              window.pageYOffset +
-              yOffset;
-            window.scrollTo({ top: y, behavior: "smooth" });
-          }
-        }
+        navigate("/join-de-trip");
+        window.scrollTo({ top: 0, behavior: "smooth" });
+        break;
+      case "News":
+        navigate("/news", { state: { mode: "compact" } });
+        window.scrollTo({ top: 0, behavior: "smooth" });
         break;
       default:
         navigate("/");
@@ -153,18 +119,20 @@ function Navbars() {
   return (
     <Navbar
       fixed="top"
-      className={`nav ${colorChange ? "colorChange" : ""} ${
-        location.pathname === "/about-us" ? "about-nav" : ""
+      className={`nav ${
+        colorChange || location.pathname.startsWith("/news")
+          ? "colorChange"
+          : ""
       }`}
     >
-      <Container fluid className="px-4">
+      <Container fluid className="px-5">
         <Navbar.Brand>
           <img src={logo} alt="Demalaya Logo" width={80} className="logo" />
         </Navbar.Brand>
-        <div className="nav-title">
-          Malaya
-          <br /> Adventures
+        <div className={`nav-title`}>
+          Malaya <br /> Adventures
         </div>
+
         <button
           className="mobile-menu-btn"
           onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
@@ -185,6 +153,7 @@ function Navbars() {
             ))}
           </div>
           <div className="nav-img">
+            {/* Language selector temporarily disabled
             <div className="language-selector" onClick={() => setOpen(!open)}>
               <div className="language-selector-flag">
                 <img
@@ -230,6 +199,7 @@ function Navbars() {
                 ))}
               </div>
             )}
+            */}
 
             <img
               src={hotline}

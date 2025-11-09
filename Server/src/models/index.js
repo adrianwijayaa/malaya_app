@@ -38,6 +38,32 @@ fs.readdirSync(__dirname)
     db[model.name] = model;
   });
 
+const tailorPath = path.join(__dirname, "tailormadeDetailPage");
+if (fs.existsSync(tailorPath)) {
+  fs.readdirSync(tailorPath)
+    .filter((f) => f.endsWith(".js"))
+    .forEach((file) => {
+      const model = require(path.join(tailorPath, file))(
+        sequelize,
+        Sequelize.DataTypes
+      );
+      db[model.name] = model;
+    });
+}
+
+const joinPath = path.join(__dirname, "joinDeTripPage");
+if (fs.existsSync(joinPath)) {
+  fs.readdirSync(joinPath)
+    .filter((f) => f.endsWith(".js"))
+    .forEach((file) => {
+      const model = require(path.join(joinPath, file))(
+        sequelize,
+        Sequelize.DataTypes
+      );
+      db[model.name] = model;
+    });
+}
+
 Object.keys(db).forEach((modelName) => {
   if (db[modelName].associate) {
     db[modelName].associate(db);

@@ -1,14 +1,13 @@
 .hero3-container {
   width: 100%;
   transition: all 0.3s ease;
-  background: linear-gradient(
-    270deg,
-    rgba(184, 253, 255, 0.95) 55%,
-    rgba(25, 98, 155, 0.85) 100%
-  );
+  background: linear-gradient(270deg, #aee0e6 55%, #145a82 100%);
   height: 100%;
   padding: 50px 0;
   border-radius: 30px 0 0 30px;
+}
+.hero3-container.ma-hero-sheen3 {
+  background: linear-gradient(270deg, #aee0e6 55%, #145a82 100%);
 }
 
 .home-content2 {
@@ -16,9 +15,7 @@
   margin: 0 auto;
   display: flex;
   z-index: 3;
-  background: rgba(255, 255, 255, 0.85);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
+  background: rgba(236, 236, 236, 0.85);
   border-radius: 30px;
   border: 1px solid rgba(53, 183, 179, 0.25);
   box-shadow: 0 8px 32px rgba(25, 98, 155, 0.15),
@@ -55,7 +52,7 @@
 .content2-card {
   position: relative;
   width: 480px;
-  background: #ffffff;
+  background: rgba(236, 236, 236);
   padding: 28px 32px;
   border-radius: 16px;
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
@@ -173,7 +170,7 @@
   font-weight: 500;
 }
 .contact-expert {
-  background: rgba(255, 255, 255, 0.95);
+  background: rgba(255, 255, 255, 0.75);
   padding: 16px 20px;
   border-radius: 12px;
   display: flex;
@@ -582,5 +579,69 @@
   .wa-icon {
     width: 28px;
     height: 28px;
+  }
+}
+
+/* === Namespaced sheen === */
+.ma-hero-sheen3 {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate; /* jaga layer sheen di atas bg, di bawah konten */
+}
+
+/* 1) HIGHLIGHT (terlihat di area gelap) */
+.ma-hero-sheen3::before {
+  content: "";
+  position: absolute;
+  inset: -25%;
+  border-radius: inherit;
+  pointer-events: none;
+  z-index: 0;
+  background: linear-gradient(
+    110deg,
+    transparent 40%,
+    rgba(255, 255, 255, 0.16) 50%,
+    transparent 60%
+  );
+  filter: blur(2px);
+  mix-blend-mode: screen; /* boost di area gelap */
+  transform: translateX(-70%);
+  animation: maSheenSweep3 12s ease-in-out infinite;
+  will-change: transform;
+}
+
+/* 2) SHADOW (terlihat di area terang) */
+.ma-hero-sheen3::after {
+  content: "";
+  position: absolute;
+  inset: -25%;
+  border-radius: inherit;
+  pointer-events: none;
+  z-index: 0;
+  background: linear-gradient(
+    110deg,
+    transparent 42%,
+    rgba(0, 0, 0, 0.1) 50%,
+    transparent 58%
+  );
+  filter: blur(1.5px);
+  mix-blend-mode: multiply; /* muncul di area terang */
+  transform: translateX(-70%);
+  animation: maSheenSweep3 12s ease-in-out infinite;
+  animation-delay: 0.1s; /* offset tipis biar natural */
+  will-change: transform;
+}
+
+/* sweep pelan-pelan, band lebih lebar supaya tidak “hilang” */
+@keyframes maSheenSweep3 {
+  0%,
+  10% {
+    transform: translateX(-70%) rotate(0.001deg);
+  }
+  50% {
+    transform: translateX(70%) rotate(0.001deg);
+  }
+  100% {
+    transform: translateX(-70%) rotate(0.001deg);
   }
 }

@@ -1,6 +1,6 @@
 import React from "react";
 import "./Footer.css";
-import logo1 from "../assets/img/liveaboard.png";
+import logo1 from "../assets/img/BookingLiveaboard2.png";
 
 const Footer = ({ onBookNowClick, page }) => {
   const handleWhatsAppClick = (e) => {
@@ -72,7 +72,13 @@ const Footer = ({ onBookNowClick, page }) => {
         <div className="footer-section">
           <h3>Follow Us</h3>
           <div className="social-links">
-            <a href="#" className="social-link">
+            <a
+              href="https://www.instagram.com/malayaadventures"
+              className="social-link"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Instagram @malayaadventures"
+            >
               <i className="fab fa-instagram"></i>
             </a>
             <a href="#" className="social-link">

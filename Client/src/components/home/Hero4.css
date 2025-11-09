@@ -1,14 +1,13 @@
 .hero4-container {
   width: 100%;
-  transition: all 0.3s ease;
-  background: linear-gradient(
-    90deg,
-    rgba(184, 253, 255, 0.95) 55%,
-    rgba(25, 98, 155, 0.85) 100%
-  );
+  transition: background 0.3s ease, border-radius 0.3s ease;
+  background: linear-gradient(90deg, #aee0e6 55%, #145a82 100%);
   height: 100%;
   padding: 50px 0;
   border-radius: 0 30px 30px 0;
+}
+.hero4-container.hero-sheen2 {
+  background: linear-gradient(90deg, #aee0e6 55%, #145a82 100%);
 }
 
 .card-pair-container {
@@ -88,15 +87,36 @@
   z-index: 3;
   padding: 15px;
   background: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(10px);
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
   border-radius: 25px;
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
   transition: transform 0.4s ease;
   aspect-ratio: 1;
   height: 450px;
   position: relative;
+  contain: paint;
+  will-change: transform;
 }
 
+/* @supports (
+  (-webkit-backdrop-filter: blur(1px)) or (backdrop-filter: blur(1px))
+) {
+  .home-content3-img3,
+  .home-content4-img4,
+  .home-content5-img5,
+  .home-content6-img6,
+  .home-content7-img7,
+  .home-content8-img8,
+  .home-content9-img9,
+  .home-content10-img10 {
+    -webkit-backdrop-filter: blur(8px);
+    backdrop-filter: blur(8px);
+    background: rgba(255, 255, 255, 0.12);
+  }
+} */
+
+/* ==== IMAGES: NO ANIMATION ==== */
 .home-content3-img3 img,
 .home-content4-img4 img,
 .home-content5-img5 img,
@@ -109,10 +129,14 @@
   height: 100%;
   object-fit: cover;
   border-radius: 20px;
-  transition: all 0.4s ease;
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+  transition: none; /* <— nonaktifkan transition pada image */
+  /* box-shadow: 10px 20px 10px 20px rgba(0, 0, 0, 0.15); */
   filter: brightness(0.95);
+  will-change: auto;
+  backface-visibility: hidden;
+  transform: none;
 }
+
 .home-content3-img3:hover img,
 .home-content4-img4:hover img,
 .home-content5-img5:hover img,
@@ -121,10 +145,10 @@
 .home-content8-img8:hover img,
 .home-content9-img9:hover img,
 .home-content10-img10:hover img {
-  transform: scale(1.05);
-  filter: brightness(1.1);
-  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+  transform: none; /* <— hilangkan efek scale saat hover */
 }
+
+/* CARD */
 .home-content3-card,
 .home-content4-card,
 .home-content5-card,
@@ -136,104 +160,93 @@
   width: 100%;
   max-width: 350px;
   margin: 30px auto;
-  background: rgba(255, 255, 255, 0.95);
+  background: rgba(236, 236, 236);
   padding: 25px;
   border-radius: 25px;
   box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
   z-index: 4;
   backdrop-filter: blur(10px);
   border: 1px solid rgba(255, 255, 255, 0.2);
-  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.35s;
   transform-origin: center;
   overflow: hidden;
   position: absolute;
+  will-change: transform, opacity;
+  backface-visibility: hidden;
+  transform: translate(-50%, -59%) translateZ(0);
 }
 
 .home-content3-card {
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -59%);
+  transform: translate(-50%, -59%) translateZ(0);
 }
-
 .home-content4-card {
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -59%);
+  transform: translate(-50%, -59%) translateZ(0);
 }
-
 .home-content5-card {
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -59%);
+  transform: translate(-50%, -59%) translateZ(0);
 }
-
 .home-content6-card {
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -59%);
+  transform: translate(-50%, -59%) translateZ(0);
 }
-
 .home-content7-card {
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -59%);
+  transform: translate(-50%, -59%) translateZ(0);
 }
-
 .home-content8-card {
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -59%);
+  transform: translate(-50%, -59%) translateZ(0);
 }
-
 .home-content9-card {
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -59%);
+  transform: translate(-50%, -59%) translateZ(0);
 }
-
 .home-content10-card {
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -59%);
+  transform: translate(-50%, -59%) translateZ(0);
 }
 
 .home-content3-card:hover {
-  transform: translate(-50%, -58%) scale(1.1);
+  transform: translate(-50%, -58%) scale(1.06) translateZ(0);
   z-index: 5;
 }
-
 .home-content4-card:hover {
-  transform: translate(-50%, -58%) scale(1.1);
+  transform: translate(-50%, -58%) scale(1.06) translateZ(0);
   z-index: 5;
 }
-
 .home-content5-card:hover {
-  transform: translate(-50%, -59%) scale(1.1);
+  transform: translate(-50%, -59%) scale(1.06) translateZ(0);
   z-index: 5;
 }
-
 .home-content6-card:hover {
-  transform: translate(-50%, -58%) scale(1.1);
+  transform: translate(-50%, -58%) scale(1.06) translateZ(0);
   z-index: 5;
 }
-
 .home-content7-card:hover {
-  transform: translate(-50%, -57%) scale(1.1);
+  transform: translate(-50%, -57%) scale(1.06) translateZ(0);
   z-index: 5;
 }
-
 .home-content8-card:hover {
-  transform: translate(-50%, -57%) scale(1.1);
+  transform: translate(-50%, -57%) scale(1.06) translateZ(0);
   z-index: 5;
 }
-
 .home-content9-card:hover {
-  transform: translate(-50%, -59%) scale(1.1);
+  transform: translate(-50%, -59%) scale(1.06) translateZ(0);
   z-index: 5;
 }
-
 .home-content10-card:hover {
-  transform: translate(-50%, -58%) scale(1.1);
+  transform: translate(-50%, -58%) scale(1.06) translateZ(0);
   z-index: 5;
 }
 
@@ -249,7 +262,7 @@
 .card-details {
   max-height: 0;
   opacity: 0;
-  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.35s;
   overflow: hidden;
   margin-top: 10px;
 }
@@ -266,7 +279,7 @@
   line-height: 1.4;
   opacity: 0;
   transform: translateY(10px);
-  transition: all 0.3s ease;
+  transition: transform 0.3s ease, opacity 0.3s ease;
 }
 .card-points li::before {
   content: "•";
@@ -302,6 +315,7 @@
   transform: translateY(0);
   transition-delay: 0.1s;
 }
+
 .home-content3-title,
 .home-content4-title,
 .home-content5-title,
@@ -320,6 +334,7 @@
   font-family: "Unbounded", sans-serif;
   line-height: 1.2;
 }
+
 .home-content3-subtitle,
 .home-content4-subtitle,
 .home-content5-subtitle,
@@ -334,7 +349,7 @@
   position: relative;
   padding-left: 25px;
   margin-bottom: 5px;
-  transition: all 0.3s ease;
+  transition: transform 0.3s ease, color 0.3s ease;
   transform: translateX(0);
   letter-spacing: 0.2px;
 }
@@ -355,7 +370,7 @@
   background: linear-gradient(to bottom, #35b7b3, #196299);
   transform: translateY(-50%);
   border-radius: 2px;
-  transition: all 0.3s ease;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
   box-shadow: 0 0 10px rgba(53, 183, 179, 0.2);
 }
 .home-content3-card:hover .home-content3-subtitle,
@@ -370,26 +385,7 @@
   transform: translateX(5px);
   font-weight: 500;
 }
-.home-content3-subtitle::before,
-.home-content4-subtitle::before,
-.home-content5-subtitle::before,
-.home-content6-subtitle::before,
-.home-content7-subtitle::before,
-.home-content8-subtitle::before,
-.home-content9-subtitle::before,
-.home-content10-subtitle::before {
-  content: "";
-  position: absolute;
-  left: 0;
-  top: 50%;
-  width: 4px;
-  height: 25px;
-  background: linear-gradient(to bottom, #35b7b3, #196299);
-  transform: translateY(-50%);
-  border-radius: 2px;
-  transition: all 0.3s ease;
-  box-shadow: 0 0 10px rgba(53, 183, 179, 0.2);
-}
+
 .home-content3-button,
 .home-content4-button,
 .home-content5-button,
@@ -408,12 +404,12 @@
   font-size: 16px;
   font-weight: 600;
   letter-spacing: 0.5px;
-  transition: all 0.3s ease;
-  box-shadow: 0 10px 20px rgba(25, 98, 155, 0.2);
+  transition: transform 0.3s ease, opacity 0.3s ease;
   position: relative;
   overflow: hidden;
   margin-top: 15px;
   z-index: 1;
+  will-change: transform, opacity;
 }
 .home-content3-button::before,
 .home-content4-button::before,
@@ -465,49 +461,9 @@
 .home-content9-button:hover,
 .home-content10-button:hover {
   transform: translateY(-3px);
-  box-shadow: 0 15px 30px rgba(25, 98, 155, 0.3);
-}
-.home-content3-card .card-content {
-  opacity: 1;
-  transition: opacity 0.4s ease;
-}
-.home-content3-card .card-details {
-  max-height: 0;
-  opacity: 0;
-  overflow: hidden;
-  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-  margin: 0;
-  padding: 0;
 }
 
-.home-content3-card:hover .card-details {
-  max-height: 200px;
-  opacity: 1;
-  margin-top: 15px;
-  margin-bottom: 15px;
-}
-.home-content3-card .card-points li {
-  transform: translateY(20px);
-  opacity: 0;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
-.home-content3-card:hover .card-points li {
-  transform: translateY(0);
-  opacity: 1;
-}
-.home-content3-card:hover .card-points li:nth-child(1) {
-  transition-delay: 0.1s;
-}
-.home-content3-card:hover .card-points li:nth-child(2) {
-  transition-delay: 0.2s;
-}
-.home-content3-card:hover .card-points li:nth-child(3) {
-  transition-delay: 0.3s;
-}
-.home-content3-card:hover .card-points li:nth-child(4) {
-  transition-delay: 0.4s;
-}
-
+.home-content3-card .card-content,
 .home-content4-card .card-content,
 .home-content5-card .card-content,
 .home-content6-card .card-content,
@@ -516,8 +472,9 @@
 .home-content9-card .card-content,
 .home-content10-card .card-content {
   opacity: 1;
-  transition: opacity 0.4s ease;
+  transition: opacity 0.35s ease;
 }
+.home-content3-card .card-details,
 .home-content4-card .card-details,
 .home-content5-card .card-details,
 .home-content6-card .card-details,
@@ -528,11 +485,12 @@
   max-height: 0;
   opacity: 0;
   overflow: hidden;
-  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.35s;
   margin: 0;
   padding: 0;
 }
 
+.home-content3-card:hover .card-details,
 .home-content4-card:hover .card-details,
 .home-content5-card:hover .card-details,
 .home-content6-card:hover .card-details,
@@ -545,6 +503,7 @@
   margin-top: 15px;
   margin-bottom: 15px;
 }
+.home-content3-card .card-points li,
 .home-content4-card .card-points li,
 .home-content5-card .card-points li,
 .home-content6-card .card-points li,
@@ -554,8 +513,9 @@
 .home-content10-card .card-points li {
   transform: translateY(20px);
   opacity: 0;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s;
 }
+.home-content3-card:hover .card-points li,
 .home-content4-card:hover .card-points li,
 .home-content5-card:hover .card-points li,
 .home-content6-card:hover .card-points li,
@@ -566,6 +526,7 @@
   transform: translateY(0);
   opacity: 1;
 }
+.home-content3-card:hover .card-points li:nth-child(1),
 .home-content4-card:hover .card-points li:nth-child(1),
 .home-content5-card:hover .card-points li:nth-child(1),
 .home-content6-card:hover .card-points li:nth-child(1),
@@ -575,6 +536,7 @@
 .home-content10-card:hover .card-points li:nth-child(1) {
   transition-delay: 0.1s;
 }
+.home-content3-card:hover .card-points li:nth-child(2),
 .home-content4-card:hover .card-points li:nth-child(2),
 .home-content5-card:hover .card-points li:nth-child(2),
 .home-content6-card:hover .card-points li:nth-child(2),
@@ -584,6 +546,7 @@
 .home-content10-card:hover .card-points li:nth-child(2) {
   transition-delay: 0.2s;
 }
+.home-content3-card:hover .card-points li:nth-child(3),
 .home-content4-card:hover .card-points li:nth-child(3),
 .home-content5-card:hover .card-points li:nth-child(3),
 .home-content6-card:hover .card-points li:nth-child(3),
@@ -603,6 +566,7 @@
   transition-delay: 0.4s;
 }
 
+/* ====== RESPONSIVE ====== */
 @media screen and (max-width: 1024px) {
   .hero4-container {
     padding: 40px 0;
@@ -723,7 +687,7 @@
   .home-content10-card {
     max-width: 270px;
     padding: 16px 18px;
-    transform: translate(-50%, -61%);
+    transform: translate(-50%, -61%) translateZ(0);
   }
 
   .home-content3-title,
@@ -780,6 +744,9 @@
     height: 350px;
     padding: 10px;
     gap: 8px;
+    -webkit-backdrop-filter: blur(6px);
+    backdrop-filter: blur(6px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
   }
 
   .home-content3-card,
@@ -872,7 +839,7 @@
   .home-content10-card {
     max-width: 280px;
     padding: 15px;
-    transform: translate(-50%, -63%);
+    transform: translate(-50%, -63%) translateZ(0);
   }
 
   .home-content3-title,
@@ -916,6 +883,7 @@
     line-height: 1.3;
   }
 }
+
 @media screen and (max-width: 480px) {
   .home-content3-img3,
   .home-content4-img4,
@@ -963,5 +931,90 @@
   .card-pair-container4 {
     gap: 30px;
     padding: 0 10px 30px 10px;
+  }
+}
+
+/* Aksesibilitas: minimalkan gerakan saat reduce motion */
+@media (prefers-reduced-motion: reduce) {
+  .home-content3-img3:hover img,
+  .home-content4-img4:hover img,
+  .home-content5-img5:hover img,
+  .home-content6-img6:hover img,
+  .home-content7-img7:hover img,
+  .home-content8-img8:hover img,
+  .home-content9-img9:hover img,
+  .home-content10-img10:hover img {
+    transform: none;
+  }
+  .home-content3-card:hover,
+  .home-content4-card:hover,
+  .home-content5-card:hover,
+  .home-content6-card:hover,
+  .home-content7-card:hover,
+  .home-content8-card:hover,
+  .home-content9-card:hover,
+  .home-content10-card:hover {
+    transform: translate(-50%, -59%);
+  }
+}
+.hero-sheen2 {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+/* 1) HIGHLIGHT (terlihat di area gelap) */
+.hero-sheen2::before {
+  content: "";
+  position: absolute;
+  inset: -25%;
+  border-radius: inherit;
+  pointer-events: none;
+  z-index: 0;
+  background: linear-gradient(
+    110deg,
+    transparent 40%,
+    rgba(255, 255, 255, 0.16) 50%,
+    transparent 60%
+  );
+  filter: blur(2px);
+  mix-blend-mode: screen;
+  transform: translateX(-70%);
+  animation: sheenSweep 12s ease-in-out infinite;
+  will-change: transform;
+}
+
+/* 2) SHADOW (terlihat di area terang) */
+.hero-sheen2::after {
+  content: "";
+  position: absolute;
+  inset: -25%;
+  border-radius: inherit;
+  pointer-events: none;
+  z-index: 0;
+  background: linear-gradient(
+    110deg,
+    transparent 42%,
+    rgba(0, 0, 0, 0.1) 50%,
+    transparent 58%
+  );
+  filter: blur(1.5px);
+  mix-blend-mode: multiply;
+  transform: translateX(-70%);
+  animation: sheenSweep 12s ease-in-out infinite;
+  animation-delay: 0.1s;
+  will-change: transform;
+}
+
+@keyframes sheenSweep {
+  0%,
+  10% {
+    transform: translateX(-70%) rotate(0.001deg);
+  }
+  50% {
+    transform: translateX(70%) rotate(0.001deg);
+  }
+  100% {
+    transform: translateX(-70%) rotate(0.001deg);
   }
 }

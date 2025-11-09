@@ -1,3 +1,4 @@
+/* Carousel.css */
 @import url("https://fonts.googleapis.com/css2?family=Inika:wght@400;700&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap");
 
@@ -16,7 +17,7 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  background: rgba(236, 236, 236, 0.85);
   z-index: -1;
 }
 
@@ -25,14 +26,16 @@
   height: 95%;
 }
 
-.swiper-slide {
+/* === Namespaced Swiper rules === */
+.ma-swiper1 .swiper-slide {
   width: 300px;
   height: 360px;
   transform-origin: center;
   transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
 }
 
-.swiper-slide:not(.swiper-slide-active):not(.swiper-slide-prev):not(
+.ma-swiper1
+  .swiper-slide:not(.swiper-slide-active):not(.swiper-slide-prev):not(
     .swiper-slide-next
   ) {
   opacity: 0;
@@ -40,23 +43,23 @@
   transition: opacity 0.8s ease-in-out, transform 0.8s ease-in-out;
 }
 
-.swiper-slide-active {
+.ma-swiper1 .swiper-slide-active {
   opacity: 1;
   transform: scale(1.2);
   transition: all 0.8s ease-in-out;
 }
 
-.swiper-slide-prev {
+.ma-swiper1 .swiper-slide-prev {
   transform: translateX(-50px);
   transition: all 0.8s ease-in-out;
 }
 
-.swiper-slide-next {
+.ma-swiper1 .swiper-slide-next {
   transform: translateX(50px);
   transition: all 0.8s ease-in-out;
 }
 
-.swiper-pagination-bullet {
+.ma-swiper1 .swiper-pagination-bullet {
   width: 10px !important;
   height: 10px !important;
   background: #35b7b3 !important;
@@ -65,14 +68,14 @@
   margin: 0 6px !important;
 }
 
-.swiper-pagination-bullet-active {
+.ma-swiper1 .swiper-pagination-bullet-active {
   opacity: 1 !important;
   background: #196299 !important;
   transform: scale(1.2) !important;
 }
 
-.swiper-button-next,
-.swiper-button-prev {
+.ma-swiper1 .swiper-button-next,
+.ma-swiper1 .swiper-button-prev {
   color: #196299 !important;
   background: rgba(255, 255, 255, 0.98);
   width: 40px !important;
@@ -84,18 +87,19 @@
   top: 50% !important;
 }
 
-.swiper-button-next::after,
-.swiper-button-prev::after {
+.ma-swiper1 .swiper-button-next::after,
+.ma-swiper1 .swiper-button-prev::after {
   font-size: 20px !important;
   font-weight: bold;
 }
 
-.swiper-button-next:hover,
-.swiper-button-prev:hover {
+.ma-swiper1 .swiper-button-next:hover,
+.ma-swiper1 .swiper-button-prev:hover {
   background: #196299;
   color: white !important;
   transform: scale(1.1);
 }
+/* === End namespaced Swiper rules === */
 
 .carousel-container1 {
   width: 100%;
@@ -157,10 +161,7 @@
 
 .carousel-overlay {
   position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
+  inset: 0;
   background: linear-gradient(
     to bottom,
     rgba(25, 98, 155, 0.2),
@@ -350,10 +351,7 @@
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
 }
 
-.modern-card1:hover .card-media1 img {
-  transform: scale(1.05);
-}
-
+/* @media queries */
 @media screen and (max-width: 1024px) {
   .carousel-wrapper1 {
     max-width: 700px;
@@ -386,20 +384,20 @@
     width: 18px;
     height: 18px;
   }
-  .swiper-button-next,
-  .swiper-button-prev {
+  .ma-swiper1 .swiper-button-next,
+  .ma-swiper1 .swiper-button-prev {
     width: 38px !important;
     height: 38px !important;
   }
-  .swiper-button-next::after,
-  .swiper-button-prev::after {
+  .ma-swiper1 .swiper-button-next::after,
+  .ma-swiper1 .swiper-button-prev::after {
     font-size: 18px !important;
   }
-  .swiper-pagination-bullet {
+  .ma-swiper1 .swiper-pagination-bullet {
     width: 9px !important;
     height: 9px !important;
   }
-  .swiper-pagination-bullet-active {
+  .ma-swiper1 .swiper-pagination-bullet-active {
     transform: scale(1.1) !important;
   }
 }
@@ -410,32 +408,26 @@
     height: 435px;
     margin: 15px auto 0;
   }
-
   .modern-card1 {
     width: 260px;
     height: 360px;
   }
-
   .card-content1 {
     padding: 15px;
   }
-
   .card-content1 h2 {
     font-size: 18px;
   }
-
-  .swiper-slide-active {
+  .ma-swiper1 .swiper-slide-active {
     transform: scale(1.1);
   }
-
-  .swiper-button-next,
-  .swiper-button-prev {
+  .ma-swiper1 .swiper-button-next,
+  .ma-swiper1 .swiper-button-prev {
     width: 35px !important;
     height: 35px !important;
   }
-
-  .swiper-button-next::after,
-  .swiper-button-prev::after {
+  .ma-swiper1 .swiper-button-next::after,
+  .ma-swiper1 .swiper-button-prev::after {
     font-size: 16px !important;
   }
 }
@@ -446,38 +438,30 @@
     max-width: 460px;
     height: 420px;
     margin: 10px auto 0;
-    overflow: hidden;
-    padding: 0;
   }
-
   .modern-swiper1 {
     padding: 0;
     height: 100%;
   }
-
-  .swiper-slide {
+  .ma-swiper1 .swiper-slide {
     width: 300px;
     height: 360px;
   }
-
   .modern-card1 {
     width: 300px;
     height: 360px;
   }
-
-  .swiper-button-next,
-  .swiper-button-prev {
+  .ma-swiper1 .swiper-button-next,
+  .ma-swiper1 .swiper-button-prev {
     width: 30px !important;
     height: 30px !important;
     top: 48% !important;
   }
-
-  .swiper-button-next::after,
-  .swiper-button-prev::after {
+  .ma-swiper1 .swiper-button-next::after,
+  .ma-swiper1 .swiper-button-prev::after {
     font-size: 14px !important;
   }
-
-  .swiper-pagination-bullet {
+  .ma-swiper1 .swiper-pagination-bullet {
     width: 8px !important;
     height: 8px !important;
     margin: 0 4px !important;
@@ -489,48 +473,38 @@
     max-width: 390px;
     height: 380px;
     margin: 10px auto 0;
-    overflow: hidden;
   }
-
-  .swiper-slide {
+  .ma-swiper1 .swiper-slide {
     width: 270px;
     height: 320px;
   }
-
   .modern-card1 {
     width: 270px;
     height: 350px;
   }
-
   .card-media1 {
     height: 110px;
   }
-
   .card-content1 {
     padding: 16px;
   }
-
   .card-content1 h2 {
     font-size: 16px;
   }
-
   .card-content1 p {
     font-size: 12px;
   }
-
-  .swiper-button-next,
-  .swiper-button-prev {
+  .ma-swiper1 .swiper-button-next,
+  .ma-swiper1 .swiper-button-prev {
     width: 26px !important;
     height: 26px !important;
     top: 46% !important;
   }
-
-  .swiper-button-next::after,
-  .swiper-button-prev::after {
+  .ma-swiper1 .swiper-button-next::after,
+  .ma-swiper1 .swiper-button-prev::after {
     font-size: 12px !important;
   }
-
-  .swiper-pagination-bullet {
+  .ma-swiper1 .swiper-pagination-bullet {
     width: 6px !important;
     height: 6px !important;
     margin: 0 3px !important;
@@ -542,66 +516,53 @@
     max-width: 360px;
     height: 360px;
     margin: 8px auto 0;
-    overflow: hidden;
   }
-
-  .swiper-slide {
+  .ma-swiper1 .swiper-slide {
     width: 260px;
     height: 310px;
   }
-
   .modern-card1 {
     width: 260px;
     height: 340px;
   }
-
   .card-media1 {
     height: 100px;
   }
-
   .card-content1 {
     padding: 14px;
   }
-
   .card-content1 h2 {
     font-size: 15px;
     margin-bottom: 8px;
   }
-
   .card-content1 p {
     font-size: 11px;
     line-height: 1.4;
   }
-
   .feature-item1 {
     font-size: 11px;
     gap: 6px;
   }
-
   .explore-button1 {
     padding: 8px 16px;
     font-size: 12px;
     border-radius: 14px;
   }
-
   .button-icon1 {
     width: 16px;
     height: 16px;
   }
-
-  .swiper-button-next,
-  .swiper-button-prev {
+  .ma-swiper1 .swiper-button-next,
+  .ma-swiper1 .swiper-button-prev {
     width: 24px !important;
     height: 24px !important;
     top: 44% !important;
   }
-
-  .swiper-button-next::after,
-  .swiper-button-prev::after {
+  .ma-swiper1 .swiper-button-next::after,
+  .ma-swiper1 .swiper-button-prev::after {
     font-size: 11px !important;
   }
-
-  .swiper-pagination-bullet {
+  .ma-swiper1 .swiper-pagination-bullet {
     width: 5px !important;
     height: 5px !important;
     margin: 0 2px !important;
@@ -613,66 +574,53 @@
     max-width: 340px;
     height: 340px;
     margin: 8px auto 0;
-    overflow: hidden;
   }
-
-  .swiper-slide {
+  .ma-swiper1 .swiper-slide {
     width: 250px;
     height: 300px;
   }
-
   .modern-card1 {
     width: 250px;
     height: 320px;
   }
-
   .card-media1 {
     height: 100px;
   }
-
   .card-content1 {
     padding: 14px;
   }
-
   .card-content1 h2 {
     font-size: 15px;
     margin-bottom: 8px;
   }
-
   .card-content1 p {
     font-size: 11px;
     line-height: 1.4;
   }
-
   .feature-item1 {
     font-size: 11px;
     gap: 6px;
   }
-
   .explore-button1 {
     padding: 8px 16px;
     font-size: 12px;
     border-radius: 14px;
   }
-
   .button-icon1 {
     width: 16px;
     height: 16px;
   }
-
-  .swiper-button-next,
-  .swiper-button-prev {
+  .ma-swiper1 .swiper-button-next,
+  .ma-swiper1 .swiper-button-prev {
     width: 24px !important;
     height: 24px !important;
     top: 44% !important;
   }
-
-  .swiper-button-next::after,
-  .swiper-button-prev::after {
+  .ma-swiper1 .swiper-button-next::after,
+  .ma-swiper1 .swiper-button-prev::after {
     font-size: 11px !important;
   }
-
-  .swiper-pagination-bullet {
+  .ma-swiper1 .swiper-pagination-bullet {
     width: 5px !important;
     height: 5px !important;
     margin: 0 2px !important;

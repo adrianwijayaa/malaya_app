@@ -23,6 +23,8 @@ app.use(express.json());
 
 app.use(express.urlencoded({ extended: true }));
 
+app.use("/uploads", express.static("uploads"));
+
 const router = require("./src/routes/index.js");
 app.use("/api/v1", router);
 

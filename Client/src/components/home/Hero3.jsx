@@ -6,7 +6,7 @@ import wa from "../../assets/img/wa.png";
 function Hero3() {
   const handleInquireClick = (e) => {
     e.preventDefault();
-    const phoneNumber = "6285814470914";
+    const phoneNumber = "62818520525";
     const message =
       "Hi, I would like to inquire about custom travel itineraries.";
     const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(
@@ -15,7 +15,7 @@ function Hero3() {
     window.open(whatsappUrl, "_blank");
   };
   return (
-    <div className="hero3-container">
+    <div className="hero3-container ma-hero-sheen3">
       <div className="home-content2">
         <div className="content2-left">
           <div className="content2-image-wrapper">
@@ -65,7 +65,10 @@ function Hero3() {
           </h3>
           <div className="contact-expert">
             <div className="expert-text">
-              <h4>Talk to the Travel Expert</h4>
+              <h4>
+                Talk to the <br />
+                Travel Expert
+              </h4>
             </div>
             <a
               href="#"

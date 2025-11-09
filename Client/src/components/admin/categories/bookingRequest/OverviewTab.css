@@ -1,0 +1,119 @@
+/* ============================
+   OVERVIEW TAB STYLES
+   ============================ */
+
+.overview-tab {
+  background: rgba(255, 255, 255, 0.9);
+  border: 1px solid rgba(53, 183, 179, 0.25);
+  border-radius: 20px;
+  padding: 25px 30px;
+  box-shadow: 0 6px 24px rgba(25, 98, 155, 0.1);
+  animation: fadeIn 0.3s ease;
+}
+
+.overview-tab h3 {
+  color: #196299;
+  font-family: "Unbounded", sans-serif;
+  font-size: 1.3rem;
+  margin-bottom: 25px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.overview-tab h3 i {
+  color: #35b7b3;
+  font-size: 1.2rem;
+}
+
+/* ===== FORM GRID ===== */
+.overview-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 20px 25px;
+  margin-bottom: 25px;
+}
+
+/* ===== FORM FIELD ===== */
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.form-group label {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #196299;
+}
+
+.form-group input,
+.form-group select {
+  padding: 10px 14px;
+  border: 1.5px solid rgba(53, 183, 179, 0.3);
+  border-radius: 8px;
+  background: #fff;
+  transition: all 0.3s ease;
+  font-size: 0.95rem;
+  color: #333;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+  outline: none;
+  border-color: #35b7b3;
+  box-shadow: 0 0 0 3px rgba(53, 183, 179, 0.15);
+}
+
+/* ===== BUTTON ===== */
+.overview-save-btn {
+  background: #35b7b3;
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  padding: 12px 20px;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  transition: all 0.3s ease;
+}
+
+.overview-save-btn:hover {
+  background: #2a9390;
+  transform: translateY(-2px);
+}
+
+.overview-save-btn i {
+  font-size: 1rem;
+}
+
+/* ===== ANIMATIONS ===== */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) {
+  .overview-tab {
+    padding: 20px;
+  }
+
+  .overview-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .overview-save-btn {
+    width: 100%;
+    justify-content: center;
+  }
+}

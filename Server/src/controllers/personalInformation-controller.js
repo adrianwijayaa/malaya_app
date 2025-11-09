@@ -4,7 +4,8 @@ const User = Model.User;
 
 const createPersonalInformation = async (req, res) => {
   try {
-    const { fullname, email, phonenumber, preferedcontactmethod } = req.body;
+    const { fullname, email, phonenumber, preferedcontactmethod, status } =
+      req.body;
 
     const requiredFields = {
       fullname: "Full name is required!",
@@ -33,6 +34,7 @@ const createPersonalInformation = async (req, res) => {
       email: email,
       phonenumber: phonenumber,
       PreferredContactMethod: preferedcontactmethod,
+      status: status || "pending",
     });
 
     return res.status(201).json(personalInfo);
@@ -81,7 +83,14 @@ const getPersonalInformationbyId = async (req, res) => {
 const updatePersonalInformation = async (req, res) => {
   try {
     const { id } = req.params;
-    const { fullname, email, phonenumber, preferedcontactmethod } = req.body;
+    const {
+      fullname,
+      email,
+      phonenumber,
+      preferedcontactmethod,
+      PreferredContactMethod, // tambahkan fallback
+      status,
+    } = req.body;
 
     const updatePersonalInfo = await PersonalInformation.findByPk(id);
 
@@ -91,11 +100,13 @@ const updatePersonalInformation = async (req, res) => {
       });
     }
 
+    // Gunakan key model yang benar
     await updatePersonalInfo.update({
       fullname,
       email,
       phonenumber,
-      preferedcontactmethod,
+      PreferredContactMethod: preferedcontactmethod || PreferredContactMethod, // ✅ fix
+      status,
     });
 
     res.status(200).json({

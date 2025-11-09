@@ -1,0 +1,471 @@
+.news-admin {
+  background: #fff;
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 8px 24px rgba(25, 98, 155, 0.1);
+  position: relative;
+  font-family: "Inter", sans-serif;
+  color: #163b5a;
+}
+
+/* Toast */
+.nc-toast {
+  position: fixed;
+  top: 18px;
+  right: 20px;
+  background: #35b7b3;
+  color: #fff;
+  padding: 10px 14px;
+  border-radius: 8px;
+  font-weight: 600;
+  z-index: 9999;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  animation: ncFade 2.8s ease forwards;
+}
+.nc-toast.error {
+  background: #e53e3e;
+}
+@keyframes ncFade {
+  0% {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  12% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  88% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+}
+
+/* Header */
+.nc-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+.nc-title h3 {
+  color: #196299;
+  margin: 0;
+  font-family: "Unbounded", sans-serif;
+}
+.nc-title p {
+  margin: 4px 0 0;
+  color: #5b7a96;
+  font-size: 0.95rem;
+}
+.nc-add {
+  background: #35b7b3;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 16px;
+  cursor: pointer;
+  font-weight: 700;
+  transition: 0.25s;
+}
+.nc-add:hover {
+  background: #2ca29e;
+  transform: translateY(-1px);
+}
+
+/* Status Tabs */
+.nc-status-tabs {
+  display: flex;
+  gap: 8px;
+  margin: 8px 0 14px;
+  flex-wrap: wrap;
+}
+.nc-status-chip {
+  background: rgba(53, 183, 179, 0.1);
+  color: #196299;
+  border: 1.5px solid rgba(53, 183, 179, 0.2);
+  border-radius: 999px;
+  padding: 8px 14px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: 0.2s;
+}
+.nc-status-chip.active {
+  background: #35b7b3;
+  color: #fff;
+  border-color: #35b7b3;
+  box-shadow: 0 4px 10px rgba(53, 183, 179, 0.28);
+}
+
+/* Controls */
+.nc-controls {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 16px;
+}
+.nc-search,
+.nc-select {
+  padding: 12px 14px;
+  border: 2px solid rgba(53, 183, 179, 0.2);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.95);
+  outline: none;
+  transition: 0.2s;
+}
+.nc-search:focus,
+.nc-select:focus {
+  border-color: #35b7b3;
+  box-shadow: 0 0 0 3px rgba(53, 183, 179, 0.15);
+}
+.nc-order {
+  padding: 12px 14px;
+  border: 2px solid rgba(53, 183, 179, 0.2);
+  border-radius: 12px;
+  background: #fff;
+  color: #196299;
+  cursor: pointer;
+  transition: 0.2s;
+}
+.nc-order:hover {
+  background: #f6fbfc;
+  border-color: #35b7b3;
+}
+
+/* List */
+.nc-list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.nc-card {
+  border: 1px solid rgba(53, 183, 179, 0.28);
+  border-radius: 14px;
+  padding: 16px;
+  box-shadow: 0 4px 14px rgba(25, 98, 155, 0.08);
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 10px;
+}
+.nc-card-top {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.nc-card-meta {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.nc-card-meta h4 {
+  margin: 0;
+  color: #196299;
+  font-size: 1.05rem;
+}
+.nc-badge {
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  background: #edf6fb;
+  color: #196299;
+  border: 1px solid rgba(25, 98, 155, 0.18);
+}
+.nc-badge.featured {
+  background: #d1f5ea;
+  color: #0d6e4f;
+  border-color: #8de0cb;
+}
+.nc-badge.status.active {
+  background: #e6f8f1;
+  color: #1b7a57;
+  border-color: #9de0c8;
+}
+.nc-badge.status.archived {
+  background: #ffe7e7;
+  color: #b72f2f;
+  border-color: #f2b8b8;
+}
+
+.nc-card-sub {
+  color: #5b7a96;
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.nc-dot {
+  opacity: 0.6;
+}
+.nc-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.nc-actions button {
+  background: #35b7b3;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 8px 12px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: 0.2s;
+}
+.nc-actions button:hover {
+  opacity: 0.92;
+  transform: translateY(-1px);
+}
+.nc-actions .danger {
+  background: #e53e3e;
+}
+.nc-actions .neutral {
+  background: #6b7280;
+}
+.nc-actions .restore {
+  background: #0ea5e9;
+}
+
+/* Drawer */
+.nc-drawer {
+  position: fixed;
+  top: 0;
+  right: -520px;
+  width: 500px;
+  height: 100vh;
+  background: #ffffff;
+  box-shadow: -4px 0 20px rgba(25, 98, 155, 0.15);
+  padding: 22px;
+  overflow-y: auto;
+  z-index: 100;
+  transition: right 0.35s ease, opacity 0.25s ease;
+  opacity: 0;
+}
+.nc-drawer.open {
+  right: 0;
+  opacity: 1;
+}
+.nc-drawer-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+.nc-drawer-head h4 {
+  margin: 0;
+  color: #196299;
+  font-weight: 800;
+}
+.nc-close {
+  background: none;
+  border: none;
+  font-size: 1.6rem;
+  cursor: pointer;
+  color: #196299;
+}
+
+.nc-form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.nc-form label {
+  font-weight: 700;
+  color: #196299;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.nc-form label em {
+  color: #e53e3e;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 0.9rem;
+}
+.nc-form input,
+.nc-form textarea {
+  border: 1px solid #d9e2ec;
+  border-radius: 10px;
+  padding: 10px;
+  font-size: 0.95rem;
+}
+.nc-form textarea {
+  min-height: 110px;
+  resize: vertical;
+}
+.nc-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+.nc-col {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.nc-check {
+  gap: 10px;
+}
+
+/* File uploader */
+.nc-upload {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.nc-upload input[type="file"] {
+  display: none;
+}
+.nc-upload label {
+  background: #35b7b3;
+  color: #fff;
+  padding: 8px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 700;
+}
+.nc-upload .nc-hint {
+  color: #5b7a96;
+  font-size: 0.9rem;
+}
+
+/* Content preview */
+.nc-preview {
+  background: #f4fbff;
+  border: 1px solid #d8ebf5;
+  border-radius: 10px;
+}
+.nc-preview-head {
+  padding: 8px 10px;
+  font-weight: 700;
+  color: #196299;
+  border-bottom: 1px solid #d8ebf5;
+}
+.nc-preview-body {
+  padding: 10px;
+  max-height: 220px;
+  overflow: auto;
+}
+.nc-preview pre {
+  margin: 0;
+  white-space: pre-wrap;
+  word-break: break-word;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono",
+    monospace;
+}
+
+.nc-save {
+  background: #196299;
+  color: #fff;
+  padding: 12px 18px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: 800;
+  transition: 0.25s;
+}
+.nc-save:hover {
+  background: #145781;
+  transform: translateY(-1px);
+}
+
+/* Loading & Empty */
+.nc-loading,
+.nc-empty {
+  text-align: center;
+  padding: 36px;
+  background: rgba(255, 255, 255, 0.9);
+  border: 1px solid rgba(53, 183, 179, 0.25);
+  border-radius: 14px;
+  color: #196299;
+}
+.nc-spinner {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 3px solid #eee;
+  border-top: 3px solid #35b7b3;
+  margin: 0 auto 10px;
+  animation: ncSpin 1s linear infinite;
+}
+@keyframes ncSpin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Modal */
+.nc-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 200;
+  animation: ncOverlay 0.25s ease;
+}
+@keyframes ncOverlay {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+.nc-modal {
+  background: #fff;
+  padding: 22px;
+  border-radius: 10px;
+  box-shadow: 0 8px 30px rgba(25, 98, 155, 0.25);
+  max-width: 360px;
+  text-align: center;
+}
+.nc-modal-actions {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 12px;
+}
+.nc-modal-actions .danger,
+.nc-modal-actions .cancel {
+  border: none;
+  border-radius: 8px;
+  padding: 8px 16px;
+  cursor: pointer;
+  font-weight: 700;
+  transition: 0.2s;
+}
+.nc-modal-actions .danger {
+  background: #e53e3e;
+  color: #fff;
+}
+.nc-modal-actions .danger:hover {
+  background: #c53030;
+}
+.nc-modal-actions .cancel {
+  background: #ccc;
+  color: #163b5a;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .nc-drawer {
+    width: 100%;
+    right: -100%;
+  }
+  .nc-drawer.open {
+    right: 0;
+  }
+  .nc-row {
+    grid-template-columns: 1fr;
+  }
+  .nc-controls > * {
+    flex: 1 1 100%;
+  }
+}

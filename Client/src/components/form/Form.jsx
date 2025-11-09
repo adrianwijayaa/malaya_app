@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "./Form.css";
+import api from "../../api/axiosConfig";
 
 const Form = ({ isOpen, onClose }) => {
   const [currentStep, setCurrentStep] = useState(1);
@@ -1029,31 +1030,28 @@ const Form = ({ isOpen, onClose }) => {
   const submitFormSection = async (endpoint, data) => {
     try {
       console.log(`Submitting to ${endpoint}:`, data);
-      const response = await fetch(
-        `https://api.malayaadventures.com/api/v1/${endpoint}`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(data),
-        }
-      );
 
-      if (!response.ok) {
-        const errorData = await response.json();
-        console.error(`Server error for ${endpoint}:`, errorData);
-        throw new Error(
-          errorData.message || `HTTP error! status: ${response.status}`
-        );
-      }
+      const response = await api.post(`/${endpoint}`, data);
 
-      const result = await response.json();
-      console.log(`Success response from ${endpoint}:`, result);
-      return result;
+      console.log(`Success response from ${endpoint}:`, response.data);
+      return response.data;
     } catch (error) {
-      console.error(`Error submitting to ${endpoint}:`, error);
-      throw error;
+      if (error.response) {
+        console.error(`Server error for ${endpoint}:`, error.response.data);
+        throw new Error(
+          error.response.data.message ||
+            `HTTP error! status: ${error.response.status}`
+        );
+      } else if (error.request) {
+        console.error(
+          `No response from server for ${endpoint}:`,
+          error.request
+        );
+        throw new Error("No response from server.");
+      } else {
+        console.error(`Error submitting to ${endpoint}:`, error.message);
+        throw new Error(error.message);
+      }
     }
   };
 
