@@ -37,6 +37,15 @@ function imageSrc(url) {
   const path = String(url).startsWith("/") ? url : `/${url}`;
   return `${base}${path}`;
 }
+function excerpt(htmlOrText, max = 110) {
+  const text = String(htmlOrText ?? "")
+    .replace(/<[^>]+>/g, "")
+    .replace(/\s+/g, " ")
+    .trim();
+  return text.length > max
+    ? text.slice(0, max).replace(/[,.;:!?]?\s+\S*$/, "") + "…"
+    : text;
+}
 
 function Hero({ onBookNow }) {
   const swiperRef = useRef(null);
@@ -260,14 +269,14 @@ function Hero({ onBookNow }) {
                             </>
                           ) : null}
                         </div>
-
                         <h2 className="ma-hero__newsTitle" title={it.title}>
                           {it.title}
                         </h2>
-                        {it.desc ? (
-                          <p className="ma-hero__newsDesc">{it.desc}</p>
+                        {it.desc ?? it.description ?? it.body ? (
+                          <p className="ma-hero__newsDesc">
+                            {excerpt(it.desc ?? it.description ?? it.body, 110)}
+                          </p>
                         ) : null}
-
                         <Link
                           to={`/news/${it.slug}`}
                           className="ma-hero__btnGhost"

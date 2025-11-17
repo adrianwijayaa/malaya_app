@@ -2,28 +2,28 @@
 const { Model } = require("sequelize");
 
 module.exports = (sequelize, DataTypes) => {
-  class TripInclude extends Model {
+  class JoinTripExclude extends Model {
     static associate(models) {
-      TripInclude.belongsTo(models.Trip, {
-        foreignKey: "TripID",
-        as: "trip",
+      JoinTripExclude.belongsTo(models.JoinTrip, {
+        foreignKey: "JoinTripID",
+        as: "joinTrip",
         onDelete: "CASCADE",
       });
     }
   }
 
-  TripInclude.init(
+  JoinTripExclude.init(
     {
-      TripID: { type: DataTypes.INTEGER, allowNull: false },
+      JoinTripID: { type: DataTypes.INTEGER, allowNull: false },
       label: { type: DataTypes.STRING, allowNull: false },
       sortOrder: { type: DataTypes.INTEGER, defaultValue: 0 },
     },
     {
       sequelize,
-      modelName: "TripInclude",
-      tableName: "TripIncludes",
+      modelName: "JoinTripExclude",
+      tableName: "JoinTripExcludes",
     }
   );
 
-  return TripInclude;
+  return JoinTripExclude;
 };

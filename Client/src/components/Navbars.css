@@ -68,7 +68,7 @@
   text-transform: uppercase;
 }
 .nav-text.active {
-  color: black;
+  color: #7dd3fc;
   font-weight: 500;
 }
 .nav-text:after {

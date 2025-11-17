@@ -2,9 +2,9 @@
 const { Model } = require("sequelize");
 
 module.exports = (sequelize, DataTypes) => {
-  class TripInclude extends Model {
+  class TripExclude extends Model {
     static associate(models) {
-      TripInclude.belongsTo(models.Trip, {
+      TripExclude.belongsTo(models.Trip, {
         foreignKey: "TripID",
         as: "trip",
         onDelete: "CASCADE",
@@ -12,7 +12,7 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
 
-  TripInclude.init(
+  TripExclude.init(
     {
       TripID: { type: DataTypes.INTEGER, allowNull: false },
       label: { type: DataTypes.STRING, allowNull: false },
@@ -20,10 +20,10 @@ module.exports = (sequelize, DataTypes) => {
     },
     {
       sequelize,
-      modelName: "TripInclude",
-      tableName: "TripIncludes",
+      modelName: "TripExclude",
+      tableName: "TripExcludes",
     }
   );
 
-  return TripInclude;
+  return TripExclude;
 };

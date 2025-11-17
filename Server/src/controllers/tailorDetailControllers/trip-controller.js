@@ -1,5 +1,12 @@
 "use strict";
-const { Trip, TripHighlight, TripInclude, TripFact } = require("../../models");
+const {
+  Trip,
+  TripHighlight,
+  TripInclude,
+  TripExclude,
+  TripFact,
+  TripPriceDetail,
+} = require("../../models");
 
 exports.createTrip = async (req, res) => {
   try {
@@ -12,7 +19,9 @@ exports.createTrip = async (req, res) => {
       include: [
         { model: TripHighlight, as: "highlights" },
         { model: TripInclude, as: "includes" },
+        { model: TripExclude, as: "excludes" },
         { model: TripFact, as: "facts" },
+        { model: TripPriceDetail, as: "priceDetails" },
       ],
     });
     res.status(201).json({ message: "Trip created", data: withRels });
@@ -27,7 +36,9 @@ exports.getAllTrips = async (_req, res) => {
       include: [
         { model: TripHighlight, as: "highlights" },
         { model: TripInclude, as: "includes" },
+        { model: TripExclude, as: "excludes" },
         { model: TripFact, as: "facts" },
+        { model: TripPriceDetail, as: "priceDetails" },
       ],
     });
     if (!rows.length)
@@ -44,7 +55,9 @@ exports.getTripById = async (req, res) => {
       include: [
         { model: TripHighlight, as: "highlights" },
         { model: TripInclude, as: "includes" },
+        { model: TripExclude, as: "excludes" },
         { model: TripFact, as: "facts" },
+        { model: TripPriceDetail, as: "priceDetails" },
       ],
     });
     if (!row) return res.status(404).json({ message: "Trip not found" });
@@ -63,7 +76,9 @@ exports.updateTrip = async (req, res) => {
       include: [
         { model: TripHighlight, as: "highlights" },
         { model: TripInclude, as: "includes" },
+        { model: TripExclude, as: "excludes" },
         { model: TripFact, as: "facts" },
+        { model: TripPriceDetail, as: "priceDetails" },
       ],
     });
     res.json({ message: "Trip updated", data: refreshed });
@@ -78,7 +93,9 @@ exports.deleteTrip = async (req, res) => {
     if (!trip) return res.status(404).json({ message: "Trip not found" });
     await TripHighlight.destroy({ where: { TripID: trip.id } });
     await TripInclude.destroy({ where: { TripID: trip.id } });
+    await TripExclude.destroy({ where: { TripID: trip.id } });
     await TripFact.destroy({ where: { TripID: trip.id } });
+    await TripPriceDetail.destroy({ where: { TripID: trip.id } });
     await trip.destroy();
     res.json({ message: "Trip deleted" });
   } catch {

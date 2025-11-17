@@ -18,6 +18,16 @@ function useQP() {
   return { get, set };
 }
 
+function excerpt(htmlOrText, max = 90) {
+  const text = String(htmlOrText)
+    .replace(/<[^>]+>/g, "") // buang tag HTML kalau ada
+    .replace(/\s+/g, " ")
+    .trim();
+  return text.length > max
+    ? text.slice(0, max).replace(/[,.;:!?]?\s+\S*$/, "") + "…"
+    : text;
+}
+
 function formatDate(yyyyMMdd) {
   if (!yyyyMMdd) return "";
   // yyyy-mm-dd → Date in local TZ
@@ -196,7 +206,7 @@ export default function News() {
                     <h2 className="maRail-itemTitle">
                       <Link to={`/news/${it.slug}`}>{it.title}</Link>
                     </h2>
-                    <p className="maRail-desc">{it.desc}</p>
+                    <p className="maRail-desc">{excerpt(it.desc, 90)}</p>
                     <div className="maRail-metaRow">
                       <div className="maRail-meta">
                         <time dateTime={it.date}>{formatDate(it.date)}</time>

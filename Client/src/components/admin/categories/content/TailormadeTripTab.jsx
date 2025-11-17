@@ -14,7 +14,9 @@ const TailormadeTripTab = () => {
 
   const originalHighlightIds = useRef([]);
   const originalIncludeIds = useRef([]);
+  const originalExcludeIds = useRef([]);
   const originalFactIds = useRef([]);
+  const originalPriceDetailIds = useRef([]);
 
   const [form, setForm] = useState({
     id: null,
@@ -28,12 +30,15 @@ const TailormadeTripTab = () => {
     idealPaxMax: "",
     pace: "Balanced",
     isActive: true,
+    startDate: "",
+    endDate: "",
     highlights: [],
     includes: [],
+    excludes: [],
     facts: [],
+    priceDetails: [],
   });
 
-  // ==== FETCH ====
   const fetchTrips = async () => {
     try {
       const res = await api.get("/tailor-trips");
@@ -47,13 +52,11 @@ const TailormadeTripTab = () => {
     fetchTrips();
   }, []);
 
-  // ==== TOAST ====
   const showToast = (msg, type = "success") => {
     setToast({ msg, type });
     setTimeout(() => setToast(null), 3000);
   };
 
-  // ==== FORM HANDLERS ====
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
     setForm((p) => ({
@@ -80,27 +83,27 @@ const TailormadeTripTab = () => {
       setUploading(false);
     }
   };
-  console.log("Submit payload:", form);
 
-  // ==== CREATE/UPDATE ====
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       let tripId = form.id;
 
-      // 1️⃣ parent trip
+      // Parent trip
       if (tripId) {
         const payload = { ...form };
         delete payload.highlights;
         delete payload.includes;
+        delete payload.excludes;
         delete payload.facts;
+        delete payload.priceDetails;
         await api.put(`/tailor-trip/${tripId}`, payload);
       } else {
         const res = await api.post("/tailor-trip", form);
         tripId = res.data?.data?.id;
       }
 
-      // 2️⃣ highlights
+      // Highlights
       const currentHighlightIds = [];
       for (const h of form.highlights) {
         const body = {
@@ -126,7 +129,7 @@ const TailormadeTripTab = () => {
         );
       }
 
-      // 3️⃣ includes
+      // Includes
       const currentIncludeIds = [];
       for (const inc of form.includes) {
         const body = {
@@ -151,7 +154,58 @@ const TailormadeTripTab = () => {
         );
       }
 
-      // 4️⃣ facts
+      // Excludes
+      const currentExcludeIds = [];
+      for (const exc of form.excludes) {
+        const body = {
+          TripID: tripId,
+          label: exc.label,
+          sortOrder: exc.sortOrder ?? 0,
+        };
+        if (exc.id) {
+          await api.put(`/tailor-trip-exclude/${exc.id}`, body);
+          currentExcludeIds.push(exc.id);
+        } else if (exc.label) {
+          const r = await api.post("/tailor-trip-exclude", body);
+          if (r.data?.data?.id) currentExcludeIds.push(r.data.data.id);
+        }
+      }
+      if (selectedTrip?.id) {
+        const toDelete = originalExcludeIds.current.filter(
+          (id) => !currentExcludeIds.includes(id)
+        );
+        await Promise.all(
+          toDelete.map((id) => api.delete(`/tailor-trip-exclude/${id}`))
+        );
+      }
+
+      // Price Details
+      const currentPriceDetailIds = [];
+      for (const pd of form.priceDetails) {
+        const body = {
+          TripID: tripId,
+          pax: pd.pax,
+          price: pd.price,
+          sortOrder: pd.sortOrder ?? 0,
+        };
+        if (pd.id) {
+          await api.put(`/tailor-trip-price-detail/${pd.id}`, body);
+          currentPriceDetailIds.push(pd.id);
+        } else if (pd.pax && pd.price) {
+          const r = await api.post("/tailor-trip-price-detail", body);
+          if (r.data?.data?.id) currentPriceDetailIds.push(r.data.data.id);
+        }
+      }
+      if (selectedTrip?.id) {
+        const toDelete = originalPriceDetailIds.current.filter(
+          (id) => !currentPriceDetailIds.includes(id)
+        );
+        await Promise.all(
+          toDelete.map((id) => api.delete(`/tailor-trip-price-detail/${id}`))
+        );
+      }
+
+      // Facts
       const currentFactIds = [];
       for (const f of form.facts) {
         const body = { TripID: tripId, key: f.key, value: f.value };
@@ -180,7 +234,6 @@ const TailormadeTripTab = () => {
     }
   };
 
-  // ==== DRAWER OPEN ====
   const openDrawer = async (trip = null) => {
     setDrawerOpen(true);
     if (trip) {
@@ -200,13 +253,21 @@ const TailormadeTripTab = () => {
           idealPaxMax: d.idealPaxMax || "",
           pace: d.pace || "Balanced",
           isActive: !!d.isActive,
+          startDate: d.startDate || "",
+          endDate: d.endDate || "",
           highlights: d.highlights || [],
           includes: d.includes || [],
+          excludes: d.excludes || [],
           facts: d.facts || [],
+          priceDetails: d.priceDetails || [],
         });
         originalHighlightIds.current = (d.highlights || []).map((x) => x.id);
         originalIncludeIds.current = (d.includes || []).map((x) => x.id);
+        originalExcludeIds.current = (d.excludes || []).map((x) => x.id);
         originalFactIds.current = (d.facts || []).map((x) => x.id);
+        originalPriceDetailIds.current = (d.priceDetails || []).map(
+          (x) => x.id
+        );
       } catch {
         showToast("Failed to load trip details", "error");
       }
@@ -234,12 +295,15 @@ const TailormadeTripTab = () => {
       idealPaxMax: "",
       pace: "Balanced",
       isActive: true,
+      startDate: "",
+      endDate: "",
       highlights: [],
       includes: [],
+      excludes: [],
       facts: [],
+      priceDetails: [],
     });
 
-  // ==== DELETE ====
   const confirmDelete = (trip) => {
     setTripToDelete(trip);
     setDeleteModal(true);
@@ -258,7 +322,6 @@ const TailormadeTripTab = () => {
     }
   };
 
-  // ==== LOCAL OPS ====
   const addHighlight = () =>
     setForm((p) => ({
       ...p,
@@ -266,22 +329,27 @@ const TailormadeTripTab = () => {
     }));
   const addInclude = () =>
     setForm((p) => ({ ...p, includes: [...p.includes, { label: "" }] }));
+  const addExclude = () =>
+    setForm((p) => ({ ...p, excludes: [...p.excludes, { label: "" }] }));
   const addFact = () =>
     setForm((p) => ({
       ...p,
       facts: [...p.facts, { key: "Accommodation", value: "" }],
+    }));
+  const addPriceDetail = () =>
+    setForm((p) => ({
+      ...p,
+      priceDetails: [...p.priceDetails, { pax: "", price: "" }],
     }));
 
   const filteredTrips = trips.filter((t) =>
     activeFilter === "active" ? t.isActive : !t.isActive
   );
 
-  // ==== UI ====
   return (
     <div className="ttrip-container">
       {toast && <div className={`ttrip-toast ${toast.type}`}>{toast.msg}</div>}
 
-      {/* HEADER */}
       <header className="ttrip-header">
         <div className="ttrip-header-left">
           <h3>Tailormade Trip Management</h3>
@@ -300,35 +368,46 @@ const TailormadeTripTab = () => {
             </button>
           </div>
         </div>
-        <button className="ttrip-add-btn" onClick={() => openDrawer()}>
-          + Add Trip
+        <button className="ttrip-btn-add" onClick={() => openDrawer()}>
+          + Add New Trip
         </button>
       </header>
 
-      {/* TABLE */}
-      <div className="ttrip-table">
-        <table>
+      <div className="ttrip-table-wrapper">
+        <table className="ttrip-table">
           <thead>
             <tr>
               <th>Title</th>
               <th>Slug</th>
-              <th>Season</th>
               <th>Status</th>
-              <th>Action</th>
+              <th>Actions</th>
             </tr>
           </thead>
           <tbody>
-            {filteredTrips.map((t) => (
-              <tr key={t.id}>
-                <td>{t.title}</td>
-                <td>{t.slug}</td>
+            {filteredTrips.map((trip) => (
+              <tr key={trip.id}>
+                <td>{trip.title}</td>
+                <td>{trip.slug}</td>
                 <td>
-                  {t.bestSeasonStart} - {t.bestSeasonEnd}
+                  <span
+                    className={`ttrip-status-badge ${
+                      trip.isActive ? "active" : "inactive"
+                    }`}
+                  >
+                    {trip.isActive ? "Active" : "Archived"}
+                  </span>
                 </td>
-                <td>{t.isActive ? "Active" : "Archived"}</td>
                 <td>
-                  <button onClick={() => openDrawer(t)}>Edit</button>
-                  <button className="delete" onClick={() => confirmDelete(t)}>
+                  <button
+                    className="ttrip-action-btn edit"
+                    onClick={() => openDrawer(trip)}
+                  >
+                    Edit
+                  </button>
+                  <button
+                    className="ttrip-action-btn delete"
+                    onClick={() => confirmDelete(trip)}
+                  >
                     Delete
                   </button>
                 </td>
@@ -376,25 +455,65 @@ const TailormadeTripTab = () => {
           <label>Hero Image</label>
           <input type="file" accept="image/*" onChange={handleImageUpload} />
           {uploading && <p>Uploading...</p>}
+          {form.heroImage && (
+            <img
+              src={form.heroImage}
+              alt="Preview"
+              style={{
+                width: "100%",
+                maxHeight: "200px",
+                objectFit: "cover",
+                marginTop: "10px",
+                borderRadius: "8px",
+              }}
+            />
+          )}
 
           <label>Overview</label>
           <textarea
             name="overview"
             value={form.overview}
             onChange={handleChange}
+            rows="4"
           />
+
+          <label>Trip Dates</label>
+          <div className="ttrip-inline">
+            <div style={{ flex: 1 }}>
+              <label style={{ fontSize: "0.85rem", color: "#666" }}>
+                Start Date
+              </label>
+              <input
+                type="date"
+                name="startDate"
+                value={form.startDate}
+                onChange={handleChange}
+              />
+            </div>
+            <div style={{ flex: 1 }}>
+              <label style={{ fontSize: "0.85rem", color: "#666" }}>
+                End Date
+              </label>
+              <input
+                type="date"
+                name="endDate"
+                value={form.endDate}
+                onChange={handleChange}
+              />
+            </div>
+          </div>
 
           <label>Best Season</label>
           <div className="ttrip-inline">
             <input
               name="bestSeasonStart"
-              placeholder="Start"
+              placeholder="Start (e.g., April)"
               value={form.bestSeasonStart}
               onChange={handleChange}
             />
             <input
               name="bestSeasonEnd"
-              placeholder="End"
+              placeholder="End (e.g., October)"
               value={form.bestSeasonEnd}
               onChange={handleChange}
             />
@@ -404,12 +523,14 @@ const TailormadeTripTab = () => {
           <div className="ttrip-inline">
             <input
               name="idealPaxMin"
+              type="number"
               placeholder="Min"
               value={form.idealPaxMin}
               onChange={handleChange}
             />
             <input
               name="idealPaxMax"
+              type="number"
               placeholder="Max"
               value={form.idealPaxMax}
               onChange={handleChange}
@@ -483,11 +604,11 @@ const TailormadeTripTab = () => {
 
           {/* Includes */}
           <div className="ttrip-subsection">
-            <h5>Includes</h5>
+            <h5>What's Included</h5>
             {form.includes.map((inc, i) => (
               <div key={inc.id ?? i} className="ttrip-subitem">
                 <input
-                  placeholder="Label"
+                  placeholder="e.g., Professional guide"
                   value={inc.label}
                   onChange={(e) => {
                     const arr = [...form.includes];
@@ -515,6 +636,93 @@ const TailormadeTripTab = () => {
               onClick={addInclude}
             >
               + Add Include
+            </button>
+          </div>
+
+          {/* Excludes */}
+          <div className="ttrip-subsection">
+            <h5>What's Excluded</h5>
+            {form.excludes.map((exc, i) => (
+              <div key={exc.id ?? i} className="ttrip-subitem">
+                <input
+                  placeholder="e.g., International flights"
+                  value={exc.label}
+                  onChange={(e) => {
+                    const arr = [...form.excludes];
+                    arr[i].label = e.target.value;
+                    setForm({ ...form, excludes: arr });
+                  }}
+                />
+                <button
+                  type="button"
+                  className="delete"
+                  onClick={() =>
+                    setForm({
+                      ...form,
+                      excludes: form.excludes.filter((_, idx) => idx !== i),
+                    })
+                  }
+                >
+                  ×
+                </button>
+              </div>
+            ))}
+            <button
+              type="button"
+              className="ttrip-add-mini"
+              onClick={addExclude}
+            >
+              + Add Exclude
+            </button>
+          </div>
+
+          {/* Price Details */}
+          <div className="ttrip-subsection">
+            <h5>Price Details</h5>
+            {form.priceDetails.map((pd, i) => (
+              <div key={pd.id ?? i} className="ttrip-subitem">
+                <input
+                  placeholder="Pax (e.g., 2 Pax)"
+                  value={pd.pax}
+                  onChange={(e) => {
+                    const arr = [...form.priceDetails];
+                    arr[i].pax = e.target.value;
+                    setForm({ ...form, priceDetails: arr });
+                  }}
+                  style={{ flex: 1 }}
+                />
+                <input
+                  placeholder="Price (e.g., $3,034)"
+                  value={pd.price}
+                  onChange={(e) => {
+                    const arr = [...form.priceDetails];
+                    arr[i].price = e.target.value;
+                    setForm({ ...form, priceDetails: arr });
+                  }}
+                  style={{ flex: 1 }}
+                />
+                <button
+                  type="button"
+                  className="delete"
+                  onClick={() =>
+                    setForm({
+                      ...form,
+                      priceDetails: form.priceDetails.filter(
+                        (_, idx) => idx !== i
+                      ),
+                    })
+                  }
+                >
+                  ×
+                </button>
+              </div>
+            ))}
+            <button
+              type="button"
+              className="ttrip-add-mini"
+              onClick={addPriceDetail}
+            >
+              + Add Price Row
             </button>
           </div>
 

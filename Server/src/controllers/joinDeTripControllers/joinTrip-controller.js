@@ -3,11 +3,13 @@ const {
   JoinTrip,
   JoinTripHighlight,
   JoinTripInclude,
+  JoinTripExclude,
+  JoinTripPriceDetail,
 } = require("../../models");
 
 exports.createJoinTrip = async (req, res) => {
   try {
-    const required = ["title", "heroImage", "date", "duration", "location"];
+    const required = ["title", "heroImage", "duration", "location"];
     for (const k of required)
       if (!req.body[k])
         return res.status(400).json({ message: `${k} is required` });
@@ -16,6 +18,8 @@ exports.createJoinTrip = async (req, res) => {
       include: [
         { model: JoinTripHighlight, as: "highlights" },
         { model: JoinTripInclude, as: "includes" },
+        { model: JoinTripExclude, as: "excludes" },
+        { model: JoinTripPriceDetail, as: "priceDetails" },
       ],
     });
     res.status(201).json({ message: "Join Trip created", data: withRelations });
@@ -30,6 +34,8 @@ exports.getAllJoinTrips = async (_req, res) => {
       include: [
         { model: JoinTripHighlight, as: "highlights" },
         { model: JoinTripInclude, as: "includes" },
+        { model: JoinTripExclude, as: "excludes" },
+        { model: JoinTripPriceDetail, as: "priceDetails" },
       ],
     });
     if (!rows.length)
@@ -46,6 +52,8 @@ exports.getJoinTripById = async (req, res) => {
       include: [
         { model: JoinTripHighlight, as: "highlights" },
         { model: JoinTripInclude, as: "includes" },
+        { model: JoinTripExclude, as: "excludes" },
+        { model: JoinTripPriceDetail, as: "priceDetails" },
       ],
     });
     if (!trip) return res.status(404).json({ message: "Join trip not found" });
@@ -64,6 +72,8 @@ exports.updateJoinTrip = async (req, res) => {
       include: [
         { model: JoinTripHighlight, as: "highlights" },
         { model: JoinTripInclude, as: "includes" },
+        { model: JoinTripExclude, as: "excludes" },
+        { model: JoinTripPriceDetail, as: "priceDetails" },
       ],
     });
     res.json({ message: "Join trip updated", data: updated });
@@ -78,6 +88,8 @@ exports.deleteJoinTrip = async (req, res) => {
     if (!trip) return res.status(404).json({ message: "Join trip not found" });
     await JoinTripHighlight.destroy({ where: { JoinTripID: trip.id } });
     await JoinTripInclude.destroy({ where: { JoinTripID: trip.id } });
+    await JoinTripExclude.destroy({ where: { JoinTripID: trip.id } });
+    await JoinTripPriceDetail.destroy({ where: { JoinTripID: trip.id } });
     await trip.destroy();
     res.json({ message: "Join trip deleted" });
   } catch {

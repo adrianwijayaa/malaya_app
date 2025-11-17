@@ -81,7 +81,7 @@ export default function NewsDetail() {
 
   const md = useMemo(() => {
     if (!article) return "";
-    return String(article.body || article.desc || "");
+    return String(article.desc || "");
   }, [article]);
 
   const idx = useMemo(() => {

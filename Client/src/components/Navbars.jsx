@@ -12,7 +12,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 
 function Navbars() {
   const location = useLocation();
-  const isTailorMade = location.pathname.startsWith("/tailor-made");
+  const isTailorMade = location.pathname.startsWith("/open-trip");
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
   const [colorChange, setColorChange] = useState(false);
@@ -52,12 +52,12 @@ function Navbars() {
   }, [isMobileMenuOpen]);
 
   useEffect(() => {
-    if (location.pathname.startsWith("/join-de-trip"))
-      setActiveItem("Join De Trip");
+    if (location.pathname.startsWith("/signature-journey"))
+      setActiveItem("Signature Journey");
     else if (location.pathname.startsWith("/about-us"))
       setActiveItem("About Us");
-    else if (location.pathname.startsWith("/tailor-made"))
-      setActiveItem("Tailormade Trip");
+    else if (location.pathname.startsWith("/open-trip"))
+      setActiveItem("Open Trip");
     else if (location.pathname.startsWith("/news")) setActiveItem("News");
     else setActiveItem("Home");
   }, [location.pathname]);
@@ -65,9 +65,9 @@ function Navbars() {
   const navItems = [
     "Home",
     "Liveaboard",
-    "Tailormade Trip",
-    "Join De Trip",
-    "De Service",
+    "Open Trip",
+    "Signature Journey",
+    "Services",
     "About Us",
     "News",
   ];
@@ -98,12 +98,12 @@ function Navbars() {
       case "Liveaboard":
         window.location.href = "http://www.bookingliveaboard.com/";
         break;
-      case "Tailormade Trip":
-        navigate("/tailor-made");
+      case "Open Trip":
+        navigate("/open-trip");
         window.scrollTo({ top: 0, behavior: "smooth" });
         break;
-      case "Join De Trip":
-        navigate("/join-de-trip");
+      case "Signature Journey":
+        navigate("/signature-journey");
         window.scrollTo({ top: 0, behavior: "smooth" });
         break;
       case "News":
@@ -141,7 +141,7 @@ function Navbars() {
         </button>
         <div className={`nav-menu ${isMobileMenuOpen ? "active" : ""}`}>
           <div className="nav-div">
-            <div className="blur-bg" />
+            {/* <div className="blur-bg" /> */}
             {navItems.map((item) => (
               <h5
                 key={item}

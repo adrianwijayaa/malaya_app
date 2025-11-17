@@ -72,10 +72,13 @@ const AppContent = () => {
             }
           />
           <Route path="/about-us" element={<AboutUs />} />
-          <Route path="/tailor-made" element={<TailorMadePage />} />
-          <Route path="/tailor-made/:slug" element={<TailormadeDetail />} />
-          <Route path="/join-de-trip" element={<JoinDeTrip />} />
-          <Route path="/join-de-trip/:tripId" element={<JoinDeTripDetail />} />
+          <Route path="/open-trip" element={<TailorMadePage />} />
+          <Route path="/open-trip/:slug" element={<TailormadeDetail />} />
+          <Route path="/signature-journey" element={<JoinDeTrip />} />
+          <Route
+            path="/signature-journey/:tripId"
+            element={<JoinDeTripDetail />}
+          />
           <Route path="/news" element={<News />} />
           <Route path="/news/:slug" element={<NewsDetail />} />
         </Routes>
