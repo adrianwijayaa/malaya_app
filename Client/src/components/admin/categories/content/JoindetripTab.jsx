@@ -1,8 +1,10 @@
 import React, { useState, useEffect, useRef } from "react";
 import api from "../../../../api/axiosConfig";
+import DeleteModal from "../../modals/DeleteModal";
 import "./JoindetripTab.css";
 
 const JoindetripTab = () => {
+  // State management
   const [trips, setTrips] = useState([]);
   const [activeFilter, setActiveFilter] = useState("active");
   const [jtripSelected, setJtripSelected] = useState(null);
@@ -12,11 +14,13 @@ const JoindetripTab = () => {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [tripToDelete, setTripToDelete] = useState(null);
 
+  // Refs for tracking original IDs
   const originalHighlightIdsRef = useRef([]);
   const originalIncludeIdsRef = useRef([]);
   const originalExcludeIdsRef = useRef([]);
   const originalPriceDetailIdsRef = useRef([]);
 
+  // Form state
   const [jtripForm, setJtripForm] = useState({
     id: null,
     title: "",
@@ -36,27 +40,28 @@ const JoindetripTab = () => {
     priceDetails: [],
   });
 
-  // Fetch all trips from API
-  const fetchTrips = async () => {
-    try {
-      const res = await api.get("/join-trips");
-      setTrips(res.data || []);
-    } catch {
-      showToast("Failed to fetch trips", "error");
-    }
-  };
-
+  // Fetch trips on mount
   useEffect(() => {
     fetchTrips();
   }, []);
 
-  // Toast notification handler
+  // API Functions
+  const fetchTrips = async () => {
+    try {
+      const res = await api.get("/join-trips");
+      setTrips(res.data || []);
+    } catch (error) {
+      showToast("Failed to fetch trips", "error");
+    }
+  };
+
+  // Toast notification
   const showToast = (msg, type = "success") => {
     setToast({ msg, type });
     setTimeout(() => setToast(null), 3000);
   };
 
-  // Form input handler
+  // Form handlers
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
     setJtripForm((prev) => ({
@@ -65,7 +70,6 @@ const JoindetripTab = () => {
     }));
   };
 
-  // Hero image upload handler
   const handleImageUpload = async (e) => {
     const file = e.target.files[0];
     if (!file) return;
@@ -79,14 +83,14 @@ const JoindetripTab = () => {
       });
       setJtripForm((prev) => ({ ...prev, heroImage: res.data.url }));
       showToast("Image uploaded successfully");
-    } catch {
+    } catch (error) {
       showToast("Image upload failed", "error");
     } finally {
       setUploading(false);
     }
   };
 
-  // Submit handler for create/update trip
+  // Submit handler
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -94,6 +98,7 @@ const JoindetripTab = () => {
 
       // Save main trip data
       if (tripId) {
+        // Update existing trip
         const payload = { ...jtripForm };
         delete payload.highlights;
         delete payload.includes;
@@ -101,136 +106,38 @@ const JoindetripTab = () => {
         delete payload.priceDetails;
         await api.put(`/join-trip/${tripId}`, payload);
       } else {
-        const res = await api.post("/join-trip", jtripForm);
+        // Create new trip - only send main fields
+        const payload = {
+          title: jtripForm.title,
+          subtitle: jtripForm.subtitle,
+          heroImage: jtripForm.heroImage,
+          startDate: jtripForm.startDate,
+          endDate: jtripForm.endDate,
+          duration: jtripForm.duration,
+          location: jtripForm.location,
+          groupSize: jtripForm.groupSize,
+          activityLevel: jtripForm.activityLevel,
+          description: jtripForm.description,
+          isActive: jtripForm.isActive,
+        };
+        const res = await api.post("/join-trip", payload);
         tripId = res.data?.data?.id;
       }
 
       // Save highlights
-      const currentHighlightIds = [];
-      for (const highlight of jtripForm.highlights) {
-        const body = {
-          JoinTripID: tripId,
-          imageUrl: highlight.imageUrl,
-          text: highlight.text,
-          sortOrder: highlight.sortOrder ?? 0,
-        };
-
-        if (highlight.id) {
-          await api.put(`/join-trip-highlight/${highlight.id}`, body);
-          currentHighlightIds.push(highlight.id);
-        } else if (highlight.imageUrl || highlight.text) {
-          const response = await api.post("/join-trip-highlight", body);
-          if (response.data?.data?.id) {
-            currentHighlightIds.push(response.data.data.id);
-          }
-        }
-      }
-
-      if (jtripSelected?.id) {
-        const highlightsToDelete = originalHighlightIdsRef.current.filter(
-          (id) => !currentHighlightIds.includes(id)
-        );
-        await Promise.all(
-          highlightsToDelete.map((id) =>
-            api.delete(`/join-trip-highlight/${id}`)
-          )
-        );
-      }
+      await saveHighlights(tripId);
 
       // Save includes
-      const currentIncludeIds = [];
-      for (const include of jtripForm.includes) {
-        const body = {
-          JoinTripID: tripId,
-          title: include.title,
-          sortOrder: include.sortOrder ?? 0,
-        };
-
-        if (include.id) {
-          await api.put(`/join-trip-include/${include.id}`, body);
-          currentIncludeIds.push(include.id);
-        } else if (include.title) {
-          const response = await api.post("/join-trip-include", body);
-          if (response.data?.data?.id) {
-            currentIncludeIds.push(response.data.data.id);
-          }
-        }
-      }
-
-      if (jtripSelected?.id) {
-        const includesToDelete = originalIncludeIdsRef.current.filter(
-          (id) => !currentIncludeIds.includes(id)
-        );
-        await Promise.all(
-          includesToDelete.map((id) => api.delete(`/join-trip-include/${id}`))
-        );
-      }
+      await saveIncludes(tripId);
 
       // Save excludes
-      const currentExcludeIds = [];
-      for (const exclude of jtripForm.excludes) {
-        const body = {
-          JoinTripID: tripId,
-          label: exclude.label,
-          sortOrder: exclude.sortOrder ?? 0,
-        };
-
-        if (exclude.id) {
-          await api.put(`/join-trip-exclude/${exclude.id}`, body);
-          currentExcludeIds.push(exclude.id);
-        } else if (exclude.label) {
-          const response = await api.post("/join-trip-exclude", body);
-          if (response.data?.data?.id) {
-            currentExcludeIds.push(response.data.data.id);
-          }
-        }
-      }
-
-      if (jtripSelected?.id) {
-        const excludesToDelete = originalExcludeIdsRef.current.filter(
-          (id) => !currentExcludeIds.includes(id)
-        );
-        await Promise.all(
-          excludesToDelete.map((id) => api.delete(`/join-trip-exclude/${id}`))
-        );
-      }
+      await saveExcludes(tripId);
 
       // Save price details
-      const currentPriceDetailIds = [];
-      for (const priceDetail of jtripForm.priceDetails) {
-        const body = {
-          JoinTripID: tripId,
-          pax: priceDetail.pax,
-          price: priceDetail.price,
-          sortOrder: priceDetail.sortOrder ?? 0,
-        };
-
-        if (priceDetail.id) {
-          await api.put(`/join-trip-price-detail/${priceDetail.id}`, body);
-          currentPriceDetailIds.push(priceDetail.id);
-        } else if (priceDetail.pax && priceDetail.price) {
-          const response = await api.post("/join-trip-price-detail", body);
-          if (response.data?.data?.id) {
-            currentPriceDetailIds.push(response.data.data.id);
-          }
-        }
-      }
-
-      if (jtripSelected?.id) {
-        const priceDetailsToDelete = originalPriceDetailIdsRef.current.filter(
-          (id) => !currentPriceDetailIds.includes(id)
-        );
-        await Promise.all(
-          priceDetailsToDelete.map((id) =>
-            api.delete(`/join-trip-price-detail/${id}`)
-          )
-        );
-      }
+      await savePriceDetails(tripId);
 
       showToast(
-        tripId === jtripForm.id
-          ? "Trip updated successfully"
-          : "Trip created successfully"
+        jtripForm.id ? "Trip updated successfully" : "Trip created successfully"
       );
       fetchTrips();
       closeDrawer();
@@ -240,7 +147,134 @@ const JoindetripTab = () => {
     }
   };
 
-  // Open drawer for editing or creating new trip
+  // Save sub-items functions
+  const saveHighlights = async (tripId) => {
+    const currentIds = [];
+
+    for (const highlight of jtripForm.highlights) {
+      const body = {
+        JoinTripID: tripId,
+        imageUrl: highlight.imageUrl,
+        text: highlight.text,
+        sortOrder: highlight.sortOrder ?? 0,
+      };
+
+      if (highlight.id) {
+        await api.put(`/join-trip-highlight/${highlight.id}`, body);
+        currentIds.push(highlight.id);
+      } else if (highlight.imageUrl || highlight.text) {
+        const response = await api.post("/join-trip-highlight", body);
+        if (response.data?.data?.id) {
+          currentIds.push(response.data.data.id);
+        }
+      }
+    }
+
+    if (jtripSelected?.id) {
+      const toDelete = originalHighlightIdsRef.current.filter(
+        (id) => !currentIds.includes(id)
+      );
+      await Promise.all(
+        toDelete.map((id) => api.delete(`/join-trip-highlight/${id}`))
+      );
+    }
+  };
+
+  const saveIncludes = async (tripId) => {
+    const currentIds = [];
+
+    for (const include of jtripForm.includes) {
+      const body = {
+        JoinTripID: tripId,
+        title: include.title,
+        sortOrder: include.sortOrder ?? 0,
+      };
+
+      if (include.id) {
+        await api.put(`/join-trip-include/${include.id}`, body);
+        currentIds.push(include.id);
+      } else if (include.title) {
+        const response = await api.post("/join-trip-include", body);
+        if (response.data?.data?.id) {
+          currentIds.push(response.data.data.id);
+        }
+      }
+    }
+
+    if (jtripSelected?.id) {
+      const toDelete = originalIncludeIdsRef.current.filter(
+        (id) => !currentIds.includes(id)
+      );
+      await Promise.all(
+        toDelete.map((id) => api.delete(`/join-trip-include/${id}`))
+      );
+    }
+  };
+
+  const saveExcludes = async (tripId) => {
+    const currentIds = [];
+
+    for (const exclude of jtripForm.excludes) {
+      const body = {
+        JoinTripID: tripId,
+        label: exclude.label,
+        sortOrder: exclude.sortOrder ?? 0,
+      };
+
+      if (exclude.id) {
+        await api.put(`/join-trip-exclude/${exclude.id}`, body);
+        currentIds.push(exclude.id);
+      } else if (exclude.label) {
+        const response = await api.post("/join-trip-exclude", body);
+        if (response.data?.data?.id) {
+          currentIds.push(response.data.data.id);
+        }
+      }
+    }
+
+    if (jtripSelected?.id) {
+      const toDelete = originalExcludeIdsRef.current.filter(
+        (id) => !currentIds.includes(id)
+      );
+      await Promise.all(
+        toDelete.map((id) => api.delete(`/join-trip-exclude/${id}`))
+      );
+    }
+  };
+
+  const savePriceDetails = async (tripId) => {
+    const currentIds = [];
+
+    for (const priceDetail of jtripForm.priceDetails) {
+      const body = {
+        JoinTripID: tripId,
+        pax: priceDetail.pax,
+        price: priceDetail.price,
+        sortOrder: priceDetail.sortOrder ?? 0,
+      };
+
+      if (priceDetail.id) {
+        await api.put(`/join-trip-price-detail/${priceDetail.id}`, body);
+        currentIds.push(priceDetail.id);
+      } else if (priceDetail.pax && priceDetail.price) {
+        const response = await api.post("/join-trip-price-detail", body);
+        if (response.data?.data?.id) {
+          currentIds.push(response.data.data.id);
+        }
+      }
+    }
+
+    if (jtripSelected?.id) {
+      const toDelete = originalPriceDetailIdsRef.current.filter(
+        (id) => !currentIds.includes(id)
+      );
+      await Promise.all(
+        toDelete.map((id) => api.delete(`/join-trip-price-detail/${id}`))
+      );
+    }
+  };
+
+  // Drawer functions
   const openDrawer = async (trip = null) => {
     setDrawerOpen(true);
 
@@ -288,18 +322,14 @@ const JoindetripTab = () => {
         });
 
         originalHighlightIdsRef.current = (data.highlights || []).map(
-          (item) => item.id
+          (i) => i.id
         );
-        originalIncludeIdsRef.current = (data.includes || []).map(
-          (item) => item.id
-        );
-        originalExcludeIdsRef.current = (data.excludes || []).map(
-          (item) => item.id
-        );
+        originalIncludeIdsRef.current = (data.includes || []).map((i) => i.id);
+        originalExcludeIdsRef.current = (data.excludes || []).map((i) => i.id);
         originalPriceDetailIdsRef.current = (data.priceDetails || []).map(
-          (item) => item.id
+          (i) => i.id
         );
-      } catch {
+      } catch (error) {
         showToast("Failed to load trip details", "error");
       }
     } else {
@@ -307,7 +337,6 @@ const JoindetripTab = () => {
     }
   };
 
-  // Close drawer and reset form
   const closeDrawer = () => {
     setDrawerOpen(false);
     setTimeout(() => {
@@ -316,7 +345,6 @@ const JoindetripTab = () => {
     }, 300);
   };
 
-  // Reset form to initial state
   const resetForm = () => {
     setJtripForm({
       id: null,
@@ -343,19 +371,23 @@ const JoindetripTab = () => {
     originalPriceDetailIdsRef.current = [];
   };
 
-  // Confirm delete modal
+  // Delete handlers
   const confirmDelete = (trip) => {
-    setTripToDelete(trip);
+    setTripToDelete({
+      ...trip,
+      fullname: trip.title,
+      email: trip.location,
+      status: trip.isActive ? "Active" : "Archived",
+    });
     setShowDeleteModal(true);
   };
 
-  // Delete trip handler
   const handleDelete = async () => {
     try {
       await api.delete(`/join-trip/${tripToDelete.id}`);
       showToast("Trip deleted successfully");
       fetchTrips();
-    } catch {
+    } catch (error) {
       showToast("Failed to delete trip", "error");
     } finally {
       setShowDeleteModal(false);
@@ -363,48 +395,52 @@ const JoindetripTab = () => {
     }
   };
 
-  // Add new highlight
+  // Add new item functions
   const addHighlight = () => {
     setJtripForm((prev) => ({
       ...prev,
-      highlights: [...prev.highlights, { imageUrl: "", text: "" }],
+      highlights: [
+        ...prev.highlights,
+        { imageUrl: "", text: "", sortOrder: 0 },
+      ],
     }));
   };
 
-  // Add new include
   const addInclude = () => {
     setJtripForm((prev) => ({
       ...prev,
-      includes: [...prev.includes, { title: "" }],
+      includes: [...prev.includes, { title: "", sortOrder: 0 }],
     }));
   };
 
-  // Add new exclude
   const addExclude = () => {
     setJtripForm((prev) => ({
       ...prev,
-      excludes: [...prev.excludes, { label: "" }],
+      excludes: [...prev.excludes, { label: "", sortOrder: 0 }],
     }));
   };
 
-  // Add new price detail row
   const addPriceDetail = () => {
     setJtripForm((prev) => ({
       ...prev,
-      priceDetails: [...prev.priceDetails, { pax: "", price: "" }],
+      priceDetails: [
+        ...prev.priceDetails,
+        { pax: "", price: "", sortOrder: 0 },
+      ],
     }));
   };
 
-  // Filter trips based on active status
+  // Filter trips
   const filteredTrips = trips.filter((trip) =>
     activeFilter === "active" ? trip.isActive : !trip.isActive
   );
 
   return (
     <div className="jtrip-container">
+      {/* Toast Notification */}
       {toast && <div className={`jtrip-toast ${toast.type}`}>{toast.msg}</div>}
 
-      {/* Header Section */}
+      {/* Header */}
       <header className="jtrip-header">
         <div className="jtrip-header-left">
           <h3>Join de Trip Management</h3>
@@ -428,7 +464,7 @@ const JoindetripTab = () => {
         </button>
       </header>
 
-      {/* Table Section */}
+      {/* Table */}
       <div className="jtrip-table-wrapper">
         <table className="jtrip-table">
           <thead>
@@ -478,231 +514,198 @@ const JoindetripTab = () => {
       {/* Drawer Form */}
       <div className={`jtrip-drawer ${drawerOpen ? "open" : ""}`}>
         <div className="jtrip-drawer-header">
-          <h4>{jtripSelected ? "Edit Trip" : "Add New Trip"}</h4>
-          <button onClick={closeDrawer} className="jtrip-close-btn">
-            ×
-          </button>
+          <h4>{jtripSelected ? "Edit Trip" : "Create New Trip"}</h4>
+          <button onClick={closeDrawer}>×</button>
         </div>
 
-        <form onSubmit={handleSubmit} className="jtrip-form">
-          {/* Basic Information */}
-          <label>
-            <span>Title *</span>
+        <form className="jtrip-form" onSubmit={handleSubmit}>
+          {/* Basic Info */}
+          <div>
+            <label>Title *</label>
             <input
+              type="text"
               name="title"
               value={jtripForm.title}
               onChange={handleChange}
-              placeholder="Enter trip title"
+              placeholder="Trip title"
               required
             />
-          </label>
+          </div>
 
-          <label>
-            <span>Subtitle</span>
+          <div>
+            <label>Subtitle</label>
             <input
+              type="text"
               name="subtitle"
               value={jtripForm.subtitle}
               onChange={handleChange}
-              placeholder="Enter trip subtitle"
+              placeholder="Trip subtitle"
             />
-          </label>
+          </div>
 
-          <label>
-            <span>Status</span>
-            <div className="jtrip-checkbox-wrapper">
-              <input
-                type="checkbox"
-                name="isActive"
-                checked={jtripForm.isActive}
-                onChange={handleChange}
-                id="isActive"
-              />
-              <label htmlFor="isActive">
-                {jtripForm.isActive ? "Active" : "Archived"}
-              </label>
-            </div>
-          </label>
-
-          <label>
-            <span>Hero Image *</span>
+          <div>
+            <label>Hero Image * {uploading && "(Uploading...)"}</label>
             <input
               type="file"
               accept="image/*"
               onChange={handleImageUpload}
               disabled={uploading}
             />
-            {uploading && <p className="jtrip-upload-status">Uploading...</p>}
             {jtripForm.heroImage && (
               <img
                 src={jtripForm.heroImage}
-                alt="Hero preview"
-                className="jtrip-image-preview"
+                alt="Preview"
+                className="jtrip-preview"
               />
             )}
-          </label>
-
-          <label>
-            <span>Description</span>
-            <textarea
-              name="description"
-              value={jtripForm.description}
-              onChange={handleChange}
-              rows="4"
-              placeholder="Enter trip description"
-            />
-          </label>
-
-          {/* Trip Dates */}
-          <div className="jtrip-date-row">
-            <label>
-              <span>Start Date</span>
-              <input
-                type="date"
-                name="startDate"
-                value={jtripForm.startDate}
-                onChange={handleChange}
-              />
-            </label>
-            <label>
-              <span>End Date</span>
-              <input
-                type="date"
-                name="endDate"
-                value={jtripForm.endDate}
-                onChange={handleChange}
-              />
-            </label>
           </div>
 
-          <label>
-            <span>Duration *</span>
+          <div>
+            <label>Start Date</label>
             <input
+              type="date"
+              name="startDate"
+              value={jtripForm.startDate}
+              onChange={handleChange}
+            />
+          </div>
+
+          <div>
+            <label>End Date</label>
+            <input
+              type="date"
+              name="endDate"
+              value={jtripForm.endDate}
+              onChange={handleChange}
+            />
+          </div>
+
+          <div>
+            <label>Duration *</label>
+            <input
+              type="text"
               name="duration"
               value={jtripForm.duration}
               onChange={handleChange}
               placeholder="e.g., 5 Days 4 Nights"
               required
             />
-          </label>
+          </div>
 
-          <label>
-            <span>Location *</span>
+          <div>
+            <label>Location *</label>
             <input
+              type="text"
               name="location"
               value={jtripForm.location}
               onChange={handleChange}
-              placeholder="e.g., Bali, Indonesia"
+              placeholder="Trip location"
               required
             />
-          </label>
+          </div>
 
-          <label>
-            <span>Group Size</span>
+          <div>
+            <label>Group Size</label>
             <input
+              type="text"
               name="groupSize"
               value={jtripForm.groupSize}
               onChange={handleChange}
-              placeholder="e.g., 8-12 people"
+              placeholder="e.g., Max 12 people"
             />
-          </label>
+          </div>
 
-          <label>
-            <span>Activity Level</span>
-            <select
+          <div>
+            <label>Activity Level</label>
+            <input
+              type="text"
               name="activityLevel"
               value={jtripForm.activityLevel}
               onChange={handleChange}
-            >
-              <option value="">Select activity level</option>
-              <option value="Easy">Easy</option>
-              <option value="Moderate">Moderate</option>
-              <option value="Challenging">Challenging</option>
-            </select>
-          </label>
+              placeholder="e.g., Moderate"
+            />
+          </div>
 
-          {/* Highlights Section */}
-          <div className="jtrip-section">
-            <div className="jtrip-section-header">
-              <h5>Highlights</h5>
-              <button
-                type="button"
-                className="jtrip-add-btn"
-                onClick={addHighlight}
-              >
-                + Add Highlight
-              </button>
-            </div>
+          <div>
+            <label>Description</label>
+            <textarea
+              name="description"
+              value={jtripForm.description}
+              onChange={handleChange}
+              placeholder="Trip description"
+            />
+          </div>
+
+          <div className="jtrip-status">
+            <input
+              type="checkbox"
+              name="isActive"
+              checked={jtripForm.isActive}
+              onChange={handleChange}
+            />
+            <label>Active (visible to public)</label>
+          </div>
+
+          {/* Highlights */}
+          <div className="jtrip-subsection">
+            <h5>Highlights</h5>
             {jtripForm.highlights.map((highlight, index) => (
-              <div key={highlight.id ?? index} className="jtrip-item">
+              <div key={index} className="jtrip-subitem-vertical">
                 <input
                   type="text"
-                  placeholder="Highlight description"
+                  placeholder="Image URL"
+                  value={highlight.imageUrl}
+                  onChange={(e) => {
+                    const updated = [...jtripForm.highlights];
+                    updated[index].imageUrl = e.target.value;
+                    setJtripForm({ ...jtripForm, highlights: updated });
+                  }}
+                />
+                <textarea
+                  placeholder="Highlight text"
                   value={highlight.text}
                   onChange={(e) => {
                     const updated = [...jtripForm.highlights];
                     updated[index].text = e.target.value;
                     setJtripForm({ ...jtripForm, highlights: updated });
                   }}
+                  rows="2"
                 />
-                <input
-                  type="file"
-                  accept="image/*"
-                  onChange={async (e) => {
-                    const file = e.target.files[0];
-                    if (!file) return;
-
-                    try {
-                      const formData = new FormData();
-                      formData.append("image", file);
-                      const response = await api.post(
-                        "/upload-image",
-                        formData,
-                        {
-                          headers: { "Content-Type": "multipart/form-data" },
-                        }
-                      );
-                      const updated = [...jtripForm.highlights];
-                      updated[index].imageUrl = response.data.url;
-                      setJtripForm({ ...jtripForm, highlights: updated });
-                      showToast("Highlight image uploaded");
-                    } catch {
-                      showToast("Image upload failed", "error");
-                    }
-                  }}
-                />
+                {highlight.imageUrl && (
+                  <div className="jtrip-thumb">
+                    <img src={highlight.imageUrl} alt="Highlight" />
+                  </div>
+                )}
                 <button
                   type="button"
-                  className="jtrip-delete-btn"
                   onClick={() => {
                     const updated = jtripForm.highlights.filter(
-                      (_, idx) => idx !== index
+                      (_, i) => i !== index
                     );
                     setJtripForm({ ...jtripForm, highlights: updated });
                   }}
                 >
-                  ×
+                  Remove
                 </button>
               </div>
             ))}
+            <button
+              type="button"
+              className="jtrip-add-mini"
+              onClick={addHighlight}
+            >
+              + Add Highlight
+            </button>
           </div>
 
-          {/* Includes Section */}
-          <div className="jtrip-section">
-            <div className="jtrip-section-header">
-              <h5>What's Included</h5>
-              <button
-                type="button"
-                className="jtrip-add-btn"
-                onClick={addInclude}
-              >
-                + Add Include
-              </button>
-            </div>
+          {/* Includes */}
+          <div className="jtrip-subsection">
+            <h5>Includes</h5>
             {jtripForm.includes.map((include, index) => (
-              <div key={include.id ?? index} className="jtrip-item">
+              <div key={index} className="jtrip-subitem-vertical">
                 <input
                   type="text"
-                  placeholder="e.g., Accommodation, Meals"
+                  placeholder="Include title (e.g., Airport Transfer)"
                   value={include.title}
                   onChange={(e) => {
                     const updated = [...jtripForm.includes];
@@ -712,37 +715,34 @@ const JoindetripTab = () => {
                 />
                 <button
                   type="button"
-                  className="jtrip-delete-btn"
                   onClick={() => {
                     const updated = jtripForm.includes.filter(
-                      (_, idx) => idx !== index
+                      (_, i) => i !== index
                     );
                     setJtripForm({ ...jtripForm, includes: updated });
                   }}
                 >
-                  ×
+                  Remove
                 </button>
               </div>
             ))}
+            <button
+              type="button"
+              className="jtrip-add-mini"
+              onClick={addInclude}
+            >
+              + Add Include
+            </button>
           </div>
 
-          {/* Excludes Section */}
-          <div className="jtrip-section">
-            <div className="jtrip-section-header">
-              <h5>What's Excluded</h5>
-              <button
-                type="button"
-                className="jtrip-add-btn"
-                onClick={addExclude}
-              >
-                + Add Exclude
-              </button>
-            </div>
+          {/* Excludes */}
+          <div className="jtrip-subsection">
+            <h5>Excludes</h5>
             {jtripForm.excludes.map((exclude, index) => (
-              <div key={exclude.id ?? index} className="jtrip-item">
+              <div key={index} className="jtrip-subitem-vertical">
                 <input
                   type="text"
-                  placeholder="e.g., International flights"
+                  placeholder="Exclude label (e.g., Personal Expenses)"
                   value={exclude.label}
                   onChange={(e) => {
                     const updated = [...jtripForm.excludes];
@@ -752,37 +752,31 @@ const JoindetripTab = () => {
                 />
                 <button
                   type="button"
-                  className="jtrip-delete-btn"
                   onClick={() => {
                     const updated = jtripForm.excludes.filter(
-                      (_, idx) => idx !== index
+                      (_, i) => i !== index
                     );
                     setJtripForm({ ...jtripForm, excludes: updated });
                   }}
                 >
-                  ×
+                  Remove
                 </button>
               </div>
             ))}
+            <button
+              type="button"
+              className="jtrip-add-mini"
+              onClick={addExclude}
+            >
+              + Add Exclude
+            </button>
           </div>
 
-          {/* Price Details Section */}
-          <div className="jtrip-section">
-            <div className="jtrip-section-header">
-              <h5>Price Details</h5>
-              <button
-                type="button"
-                className="jtrip-add-btn"
-                onClick={addPriceDetail}
-              >
-                + Add Price Row
-              </button>
-            </div>
+          {/* Price Details */}
+          <div className="jtrip-subsection">
+            <h5>Price Details</h5>
             {jtripForm.priceDetails.map((priceDetail, index) => (
-              <div
-                key={priceDetail.id ?? index}
-                className="jtrip-item jtrip-price-item"
-              >
+              <div key={index} className="jtrip-subitem-vertical">
                 <input
                   type="text"
                   placeholder="Pax (e.g., 2 Pax)"
@@ -805,18 +799,24 @@ const JoindetripTab = () => {
                 />
                 <button
                   type="button"
-                  className="jtrip-delete-btn"
                   onClick={() => {
                     const updated = jtripForm.priceDetails.filter(
-                      (_, idx) => idx !== index
+                      (_, i) => i !== index
                     );
                     setJtripForm({ ...jtripForm, priceDetails: updated });
                   }}
                 >
-                  ×
+                  Remove
                 </button>
               </div>
             ))}
+            <button
+              type="button"
+              className="jtrip-add-mini"
+              onClick={addPriceDetail}
+            >
+              + Add Price Detail
+            </button>
           </div>
 
           {/* Submit Button */}
@@ -826,30 +826,13 @@ const JoindetripTab = () => {
         </form>
       </div>
 
-      {/* Delete Confirmation Modal */}
-      {showDeleteModal && (
-        <div
-          className="jtrip-modal-overlay"
-          onClick={() => setShowDeleteModal(false)}
-        >
-          <div className="jtrip-modal" onClick={(e) => e.stopPropagation()}>
-            <h4>Delete Trip</h4>
-            <p>Are you sure you want to delete "{tripToDelete?.title}"?</p>
-            <p className="jtrip-modal-warning">This action cannot be undone.</p>
-            <div className="jtrip-modal-actions">
-              <button
-                className="jtrip-modal-btn cancel"
-                onClick={() => setShowDeleteModal(false)}
-              >
-                Cancel
-              </button>
-              <button className="jtrip-modal-btn delete" onClick={handleDelete}>
-                Delete
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
+      {/* Delete Modal */}
+      <DeleteModal
+        isOpen={showDeleteModal}
+        request={tripToDelete}
+        onConfirm={handleDelete}
+        onCancel={() => setShowDeleteModal(false)}
+      />
     </div>
   );
 };

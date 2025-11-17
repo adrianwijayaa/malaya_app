@@ -3,17 +3,16 @@ const { JoinTrip, JoinTripInclude } = require("../../models");
 
 exports.createJoinTripInclude = async (req, res) => {
   try {
-    const { JoinTripID, title, description, sortOrder } = req.body;
-    if (!JoinTripID || !title || !description)
+    const { JoinTripID, title, sortOrder } = req.body;
+    if (!JoinTripID || !title)
       return res
         .status(400)
-        .json({ message: "JoinTripID, title, description are required" });
+        .json({ message: "JoinTripID, title are required" });
     if (!(await JoinTrip.findByPk(JoinTripID)))
       return res.status(400).json({ message: "Invalid JoinTripID" });
     const row = await JoinTripInclude.create({
       JoinTripID,
       title,
-      description,
       sortOrder: sortOrder ?? 0,
     });
     res.status(201).json({ message: "Include created", data: row });
