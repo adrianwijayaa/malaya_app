@@ -93,6 +93,29 @@ const TailormadeTripTab = () => {
     }
   };
 
+  const handleHighlightImageUpload = async (e, index) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    setUploading(true);
+    try {
+      const formData = new FormData();
+      formData.append("image", file);
+      const res = await api.post("/upload-image", formData, {
+        headers: { "Content-Type": "multipart/form-data" },
+      });
+
+      const updated = [...form.highlights];
+      updated[index].imageUrl = res.data.url;
+      setForm({ ...form, highlights: updated });
+      showToast("Highlight image uploaded successfully");
+    } catch (error) {
+      showToast("Highlight image upload failed", "error");
+    } finally {
+      setUploading(false);
+    }
+  };
+
   // Submit handler
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -702,16 +725,18 @@ const TailormadeTripTab = () => {
             <h5>Highlights</h5>
             {form.highlights.map((highlight, index) => (
               <div key={index} className="ttrip-subitem-vertical">
+                <label>Highlight Image</label>
                 <input
-                  type="text"
-                  placeholder="Image URL"
-                  value={highlight.imageUrl}
-                  onChange={(e) => {
-                    const updated = [...form.highlights];
-                    updated[index].imageUrl = e.target.value;
-                    setForm({ ...form, highlights: updated });
-                  }}
+                  type="file"
+                  accept="image/*"
+                  onChange={(e) => handleHighlightImageUpload(e, index)}
+                  disabled={uploading}
                 />
+                {highlight.imageUrl && (
+                  <div className="ttrip-thumb">
+                    <img src={highlight.imageUrl} alt="Highlight" />
+                  </div>
+                )}
                 <textarea
                   placeholder="Caption"
                   value={highlight.caption}
@@ -722,11 +747,6 @@ const TailormadeTripTab = () => {
                   }}
                   rows="2"
                 />
-                {highlight.imageUrl && (
-                  <div className="ttrip-thumb">
-                    <img src={highlight.imageUrl} alt="Highlight" />
-                  </div>
-                )}
                 <button
                   type="button"
                   onClick={() => {

@@ -90,6 +90,29 @@ const JoindetripTab = () => {
     }
   };
 
+  const handleHighlightImageUpload = async (e, index) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    setUploading(true);
+    try {
+      const formData = new FormData();
+      formData.append("image", file);
+      const res = await api.post("/upload-image", formData, {
+        headers: { "Content-Type": "multipart/form-data" },
+      });
+
+      const updated = [...jtripForm.highlights];
+      updated[index].imageUrl = res.data.url;
+      setJtripForm({ ...jtripForm, highlights: updated });
+      showToast("Highlight image uploaded successfully");
+    } catch (error) {
+      showToast("Highlight image upload failed", "error");
+    } finally {
+      setUploading(false);
+    }
+  };
+
   // Submit handler
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -651,16 +674,18 @@ const JoindetripTab = () => {
             <h5>Highlights</h5>
             {jtripForm.highlights.map((highlight, index) => (
               <div key={index} className="jtrip-subitem-vertical">
+                <label>Highlight Image</label>
                 <input
-                  type="text"
-                  placeholder="Image URL"
-                  value={highlight.imageUrl}
-                  onChange={(e) => {
-                    const updated = [...jtripForm.highlights];
-                    updated[index].imageUrl = e.target.value;
-                    setJtripForm({ ...jtripForm, highlights: updated });
-                  }}
+                  type="file"
+                  accept="image/*"
+                  onChange={(e) => handleHighlightImageUpload(e, index)}
+                  disabled={uploading}
                 />
+                {highlight.imageUrl && (
+                  <div className="jtrip-thumb">
+                    <img src={highlight.imageUrl} alt="Highlight" />
+                  </div>
+                )}
                 <textarea
                   placeholder="Highlight text"
                   value={highlight.text}
@@ -671,11 +696,6 @@ const JoindetripTab = () => {
                   }}
                   rows="2"
                 />
-                {highlight.imageUrl && (
-                  <div className="jtrip-thumb">
-                    <img src={highlight.imageUrl} alt="Highlight" />
-                  </div>
-                )}
                 <button
                   type="button"
                   onClick={() => {
