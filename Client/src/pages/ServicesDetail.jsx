@@ -49,12 +49,14 @@ const ServicesDetail = () => {
 
         // Fetch current service by slug
         const serviceResponse = await api.get(`/services/slug/${serviceId}`);
-        
+
         setServiceData({
           title: serviceResponse.data.data.name,
           rating: parseFloat(serviceResponse.data.data.rating),
           reviews: serviceResponse.data.data.reviews,
-          description: serviceResponse.data.data.detailDescription || serviceResponse.data.data.description,
+          description:
+            serviceResponse.data.data.detailDescription ||
+            serviceResponse.data.data.description,
           imageUrl: serviceResponse.data.data.imageUrl,
           packages: serviceResponse.data.data.packages || [],
           valueProps: serviceResponse.data.data.valueProps || [],
@@ -82,7 +84,7 @@ const ServicesDetail = () => {
   const relatedServices = useMemo(() => {
     // Filter out current service
     const filtered = allServices.filter((s) => s.slug !== serviceId);
-    
+
     // Shuffle and take 3
     return filtered
       .sort(() => Math.random() - 0.5)
@@ -141,207 +143,213 @@ const ServicesDetail = () => {
       <div className="msd-hero">
         <div className="msd-hero-bg">
           {serviceData.imageUrl ? (
-            <LazyImage 
-              src={imageSrc(serviceData.imageUrl)} 
+            <LazyImage
+              src={imageSrc(serviceData.imageUrl)}
               alt={serviceData.title}
               className="msd-hero-real-image"
             />
           ) : (
-          <svg
-            viewBox="0 0 800 400"
-            xmlns="http://www.w3.org/2000/svg"
-            preserveAspectRatio="xMidYMid slice"
-          >
-            <defs>
-              <linearGradient id="skyGrad" x1="0%" y1="0%" x2="0%" y2="100%">
-                <stop
-                  offset="0%"
-                  style={{ stopColor: "#7dd3fc", stopOpacity: 1 }}
-                />
-                <stop
-                  offset="100%"
-                  style={{ stopColor: "#38bdf8", stopOpacity: 1 }}
-                />
-              </linearGradient>
-              <linearGradient id="oceanGrad" x1="0%" y1="0%" x2="0%" y2="100%">
-                <stop
-                  offset="0%"
-                  style={{ stopColor: "#0ea5e9", stopOpacity: 0.8 }}
-                />
-                <stop
-                  offset="100%"
-                  style={{ stopColor: "#0284c7", stopOpacity: 1 }}
-                />
-              </linearGradient>
-              <linearGradient
-                id="maskGradient"
-                x1="0%"
-                y1="0%"
-                x2="100%"
-                y2="100%"
-              >
-                <stop
-                  offset="0%"
-                  style={{ stopColor: "#f472b6", stopOpacity: 1 }}
-                />
-                <stop
-                  offset="100%"
-                  style={{ stopColor: "#8b5cf6", stopOpacity: 1 }}
-                />
-              </linearGradient>
-            </defs>
-
-            {/* Sky */}
-            <rect width="800" height="250" fill="url(#skyGrad)" />
-
-            {/* Sun */}
-            <circle cx="120" cy="80" r="45" fill="#fbbf24" opacity="0.9">
-              <animate
-                attributeName="opacity"
-                values="0.8;1;0.8"
-                dur="4s"
-                repeatCount="indefinite"
-              />
-            </circle>
-            <circle cx="120" cy="80" r="55" fill="#fbbf24" opacity="0.3" />
-
-            {/* Clouds */}
-            <ellipse
-              cx="300"
-              cy="80"
-              rx="60"
-              ry="20"
-              fill="white"
-              opacity="0.7"
-            />
-            <ellipse
-              cx="330"
-              cy="80"
-              rx="50"
-              ry="18"
-              fill="white"
-              opacity="0.7"
-            />
-            <ellipse
-              cx="315"
-              cy="70"
-              rx="40"
-              ry="15"
-              fill="white"
-              opacity="0.7"
-            />
-
-            <ellipse
-              cx="600"
-              cy="120"
-              rx="70"
-              ry="22"
-              fill="white"
-              opacity="0.6"
-            />
-            <ellipse
-              cx="635"
-              cy="120"
-              rx="55"
-              ry="20"
-              fill="white"
-              opacity="0.6"
-            />
-            <ellipse
-              cx="618"
-              cy="108"
-              rx="45"
-              ry="16"
-              fill="white"
-              opacity="0.6"
-            />
-
-            {/* Ocean */}
-            <rect y="250" width="800" height="150" fill="url(#oceanGrad)" />
-
-            {/* Waves */}
-            <path
-              d="M 0 280 Q 100 270, 200 280 T 400 280 T 600 280 T 800 280 L 800 400 L 0 400 Z"
-              fill="#06b6d4"
-              opacity="0.4"
+            <svg
+              viewBox="0 0 800 400"
+              xmlns="http://www.w3.org/2000/svg"
+              preserveAspectRatio="xMidYMid slice"
             >
-              <animate
-                attributeName="d"
-                values="M 0 280 Q 100 270, 200 280 T 400 280 T 600 280 T 800 280 L 800 400 L 0 400 Z;
+              <defs>
+                <linearGradient id="skyGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+                  <stop
+                    offset="0%"
+                    style={{ stopColor: "#7dd3fc", stopOpacity: 1 }}
+                  />
+                  <stop
+                    offset="100%"
+                    style={{ stopColor: "#38bdf8", stopOpacity: 1 }}
+                  />
+                </linearGradient>
+                <linearGradient
+                  id="oceanGrad"
+                  x1="0%"
+                  y1="0%"
+                  x2="0%"
+                  y2="100%"
+                >
+                  <stop
+                    offset="0%"
+                    style={{ stopColor: "#0ea5e9", stopOpacity: 0.8 }}
+                  />
+                  <stop
+                    offset="100%"
+                    style={{ stopColor: "#0284c7", stopOpacity: 1 }}
+                  />
+                </linearGradient>
+                <linearGradient
+                  id="maskGradient"
+                  x1="0%"
+                  y1="0%"
+                  x2="100%"
+                  y2="100%"
+                >
+                  <stop
+                    offset="0%"
+                    style={{ stopColor: "#f472b6", stopOpacity: 1 }}
+                  />
+                  <stop
+                    offset="100%"
+                    style={{ stopColor: "#8b5cf6", stopOpacity: 1 }}
+                  />
+                </linearGradient>
+              </defs>
+
+              {/* Sky */}
+              <rect width="800" height="250" fill="url(#skyGrad)" />
+
+              {/* Sun */}
+              <circle cx="120" cy="80" r="45" fill="#fbbf24" opacity="0.9">
+                <animate
+                  attributeName="opacity"
+                  values="0.8;1;0.8"
+                  dur="4s"
+                  repeatCount="indefinite"
+                />
+              </circle>
+              <circle cx="120" cy="80" r="55" fill="#fbbf24" opacity="0.3" />
+
+              {/* Clouds */}
+              <ellipse
+                cx="300"
+                cy="80"
+                rx="60"
+                ry="20"
+                fill="white"
+                opacity="0.7"
+              />
+              <ellipse
+                cx="330"
+                cy="80"
+                rx="50"
+                ry="18"
+                fill="white"
+                opacity="0.7"
+              />
+              <ellipse
+                cx="315"
+                cy="70"
+                rx="40"
+                ry="15"
+                fill="white"
+                opacity="0.7"
+              />
+
+              <ellipse
+                cx="600"
+                cy="120"
+                rx="70"
+                ry="22"
+                fill="white"
+                opacity="0.6"
+              />
+              <ellipse
+                cx="635"
+                cy="120"
+                rx="55"
+                ry="20"
+                fill="white"
+                opacity="0.6"
+              />
+              <ellipse
+                cx="618"
+                cy="108"
+                rx="45"
+                ry="16"
+                fill="white"
+                opacity="0.6"
+              />
+
+              {/* Ocean */}
+              <rect y="250" width="800" height="150" fill="url(#oceanGrad)" />
+
+              {/* Waves */}
+              <path
+                d="M 0 280 Q 100 270, 200 280 T 400 280 T 600 280 T 800 280 L 800 400 L 0 400 Z"
+                fill="#06b6d4"
+                opacity="0.4"
+              >
+                <animate
+                  attributeName="d"
+                  values="M 0 280 Q 100 270, 200 280 T 400 280 T 600 280 T 800 280 L 800 400 L 0 400 Z;
                         M 0 280 Q 100 290, 200 280 T 400 280 T 600 280 T 800 280 L 800 400 L 0 400 Z;
                         M 0 280 Q 100 270, 200 280 T 400 280 T 600 280 T 800 280 L 800 400 L 0 400 Z"
-                dur="8s"
-                repeatCount="indefinite"
-              />
-            </path>
+                  dur="8s"
+                  repeatCount="indefinite"
+                />
+              </path>
 
-            <path
-              d="M 0 300 Q 100 290, 200 300 T 400 300 T 600 300 T 800 300 L 800 400 L 0 400 Z"
-              fill="#0891b2"
-              opacity="0.3"
-            >
-              <animate
-                attributeName="d"
-                values="M 0 300 Q 100 290, 200 300 T 400 300 T 600 300 T 800 300 L 800 400 L 0 400 Z;
+              <path
+                d="M 0 300 Q 100 290, 200 300 T 400 300 T 600 300 T 800 300 L 800 400 L 0 400 Z"
+                fill="#0891b2"
+                opacity="0.3"
+              >
+                <animate
+                  attributeName="d"
+                  values="M 0 300 Q 100 290, 200 300 T 400 300 T 600 300 T 800 300 L 800 400 L 0 400 Z;
                         M 0 300 Q 100 310, 200 300 T 400 300 T 600 300 T 800 300 L 800 400 L 0 400 Z;
                         M 0 300 Q 100 290, 200 300 T 400 300 T 600 300 T 800 300 L 800 400 L 0 400 Z"
-                dur="6s"
-                repeatCount="indefinite"
-              />
-            </path>
+                  dur="6s"
+                  repeatCount="indefinite"
+                />
+              </path>
 
-            {/* Diving Mask - Centered */}
-            <g transform="translate(350, 180)">
-              {/* Mask Glass */}
-              <ellipse
-                cx="50"
-                cy="40"
-                rx="55"
-                ry="45"
-                fill="url(#maskGradient)"
-                opacity="0.9"
-              />
-              <ellipse
-                cx="50"
-                cy="40"
-                rx="45"
-                ry="35"
-                fill="#60a5fa"
-                opacity="0.5"
-              />
-              <ellipse
-                cx="50"
-                cy="40"
-                rx="35"
-                ry="25"
-                fill="#38bdf8"
-                opacity="0.3"
-              />
+              {/* Diving Mask - Centered */}
+              <g transform="translate(350, 180)">
+                {/* Mask Glass */}
+                <ellipse
+                  cx="50"
+                  cy="40"
+                  rx="55"
+                  ry="45"
+                  fill="url(#maskGradient)"
+                  opacity="0.9"
+                />
+                <ellipse
+                  cx="50"
+                  cy="40"
+                  rx="45"
+                  ry="35"
+                  fill="#60a5fa"
+                  opacity="0.5"
+                />
+                <ellipse
+                  cx="50"
+                  cy="40"
+                  rx="35"
+                  ry="25"
+                  fill="#38bdf8"
+                  opacity="0.3"
+                />
 
-              {/* Mask Strap */}
-              <rect
-                x="0"
-                y="35"
-                width="100"
-                height="10"
-                rx="5"
-                fill="#1e293b"
-                opacity="0.8"
-              />
+                {/* Mask Strap */}
+                <rect
+                  x="0"
+                  y="35"
+                  width="100"
+                  height="10"
+                  rx="5"
+                  fill="#1e293b"
+                  opacity="0.8"
+                />
 
-              {/* Snorkel */}
-              <path
-                d="M 110 45 Q 120 40, 125 30 L 125 5 Q 125 0, 120 0 L 115 0 Q 110 0, 110 5 L 110 25"
-                stroke="#ec4899"
-                strokeWidth="8"
-                fill="none"
-                strokeLinecap="round"
-              />
-              <circle cx="122" cy="3" r="5" fill="#1e293b" />
-              <circle cx="122" cy="3" r="3" fill="#60a5fa" opacity="0.6" />
-              <ellipse cx="110" cy="45" rx="10" ry="7" fill="#f472b6" />
-            </g>
-          </svg>
+                {/* Snorkel */}
+                <path
+                  d="M 110 45 Q 120 40, 125 30 L 125 5 Q 125 0, 120 0 L 115 0 Q 110 0, 110 5 L 110 25"
+                  stroke="#ec4899"
+                  strokeWidth="8"
+                  fill="none"
+                  strokeLinecap="round"
+                />
+                <circle cx="122" cy="3" r="5" fill="#1e293b" />
+                <circle cx="122" cy="3" r="3" fill="#60a5fa" opacity="0.6" />
+                <ellipse cx="110" cy="45" rx="10" ry="7" fill="#f472b6" />
+              </g>
+            </svg>
           )}
         </div>
 
@@ -352,7 +360,9 @@ const ServicesDetail = () => {
                 <div className="msd-hero-text">
                   <h1 className="msd-hero-title">{serviceData.title}</h1>
                   <div className="msd-hero-rating">
-                    <span className="msd-rating-num">★ {serviceData.rating}</span>
+                    <span className="msd-rating-num">
+                      ★ {serviceData.rating}
+                    </span>
                     <span className="msd-rating-text">
                       ({serviceData.reviews} reviews)
                     </span>
@@ -379,8 +389,8 @@ const ServicesDetail = () => {
               <div key={pkg.id} className="msd-package-card">
                 <div className="msd-package-image">
                   {pkg.imageUrl ? (
-                    <LazyImage 
-                      src={imageSrc(pkg.imageUrl)} 
+                    <LazyImage
+                      src={imageSrc(pkg.imageUrl)}
                       alt={pkg.name}
                       className="msd-package-real-image"
                     />
@@ -404,7 +414,9 @@ const ServicesDetail = () => {
                   </div>
                   <p className="msd-package-desc">{pkg.description}</p>
                   <div className="msd-package-meta">
-                  <div className="msd-package-price">{formatUSD(pkg.price)}</div>
+                    <div className="msd-package-price">
+                      {formatUSD(pkg.price)}
+                    </div>
                     <div className="msd-package-duration">
                       <svg
                         width="16"
@@ -451,8 +463,8 @@ const ServicesDetail = () => {
               <div key={idx} className="msd-value-card">
                 <div className="msd-value-image">
                   {prop.imageUrl ? (
-                    <LazyImage 
-                      src={imageSrc(prop.imageUrl)} 
+                    <LazyImage
+                      src={imageSrc(prop.imageUrl)}
                       alt={prop.title}
                       className="msd-value-real-image"
                     />
@@ -510,8 +522,8 @@ const ServicesDetail = () => {
               >
                 <div className="msd-related-image">
                   {service.imageUrl ? (
-                    <LazyImage 
-                      src={imageSrc(service.imageUrl)} 
+                    <LazyImage
+                      src={imageSrc(service.imageUrl)}
                       alt={service.name}
                       className="msd-related-real-image"
                     />
@@ -530,7 +542,9 @@ const ServicesDetail = () => {
                 </div>
                 <div className="msd-related-content">
                   <h3 className="msd-related-name">{service.name}</h3>
-                      <p className="msd-related-price">{formatUSD(service.price)}</p>
+                  <p className="msd-related-price">
+                    {formatUSD(service.price)}
+                  </p>
                 </div>
               </Link>
             ))}
@@ -542,7 +556,7 @@ const ServicesDetail = () => {
           <h2 className="msd-cta-title">Ready to Start Your Adventure?</h2>
           <p className="msd-cta-desc">Contact us now to book your experience</p>
           <a
-            href="https://wa.me/628123456789"
+            href="https://wa.me/62818520525"
             className="msd-cta-btn"
             target="_blank"
             rel="noopener noreferrer"
@@ -559,4 +573,3 @@ const ServicesDetail = () => {
 };
 
 export default ServicesDetail;
-
