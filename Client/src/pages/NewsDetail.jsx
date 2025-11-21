@@ -34,7 +34,6 @@ export default function NewsDetail() {
   const [article, setArticle] = useState(null);
   const [listAll, setListAll] = useState([]);
   const [error, setError] = useState("");
-  const [imageErrors, setImageErrors] = useState({});
 
   // progress bar
   useEffect(() => {
@@ -92,10 +91,6 @@ export default function NewsDetail() {
 
   const prev = idx > 0 ? listAll[idx - 1] : null;
   const next = idx >= 0 && idx < listAll.length - 1 ? listAll[idx + 1] : null;
-
-  const handleImageError = (id) => {
-    setImageErrors((prev) => ({ ...prev, [id]: true }));
-  };
 
   const moreStories = useMemo(() => {
     if (!article) return [];
@@ -181,12 +176,8 @@ export default function NewsDetail() {
           {/* LEFT: Main article (70%) */}
           <main className="maND3-main">
             <header className="maND3-hero">
-              {article.imageUrl && !imageErrors['hero'] ? (
-                <img 
-                  src={imageSrc(article.imageUrl)} 
-                  alt="" 
-                  onError={() => handleImageError('hero')}
-                />
+              {article.imageUrl ? (
+                <img src={imageSrc(article.imageUrl)} alt="" />
               ) : null}
             </header>
 
@@ -239,12 +230,11 @@ export default function NewsDetail() {
                   <li key={it.slug}>
                     <Link to={`/news/${it.slug}`} className="maND3-cardItem">
                       <div className="maND3-cardThumb">
-                        {it.imageUrl && !imageErrors[it.slug] ? (
+                        {it.imageUrl ? (
                           <img
                             src={imageSrc(it.imageUrl)}
                             alt=""
                             loading="lazy"
-                            onError={() => handleImageError(it.slug)}
                           />
                         ) : null}
                       </div>
