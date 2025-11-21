@@ -1,7 +1,7 @@
 import axios from "axios";
 
-const BASE_API_URL = "https://malayaadventures.com/api/v1";
-export const BASE_URL = "https://malayaadventures.com/";
+const BASE_API_URL = "https://api.malayaadventures.com/api/v1";
+export const BASE_URL = "https://api.malayaadventures.com/";
 
 const api = axios.create({
   baseURL: BASE_API_URL,
