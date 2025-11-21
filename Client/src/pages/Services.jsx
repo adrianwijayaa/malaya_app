@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import api, { BASE_URL } from "../api/axiosConfig";
+import LazyImage from "../components/LazyImage";
 import "./Services.css";
 
 // Helper function untuk image URL
@@ -66,7 +67,7 @@ const Services = () => {
               >
                 <div className="ms-card-bg">
                   {service.imageUrl ? (
-                    <img
+                    <LazyImage
                       src={imageSrc(service.imageUrl)}
                       alt={service.name}
                       className="ms-card-image"

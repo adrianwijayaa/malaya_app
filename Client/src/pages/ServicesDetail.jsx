@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useMemo } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
 import api, { BASE_URL } from "../api/axiosConfig";
+import LazyImage from "../components/LazyImage";
 import "./ServicesDetail.css";
 
 // Helper function untuk image URL
@@ -140,7 +141,7 @@ const ServicesDetail = () => {
       <div className="msd-hero">
         <div className="msd-hero-bg">
           {serviceData.imageUrl ? (
-            <img 
+            <LazyImage 
               src={imageSrc(serviceData.imageUrl)} 
               alt={serviceData.title}
               className="msd-hero-real-image"
@@ -378,7 +379,7 @@ const ServicesDetail = () => {
               <div key={pkg.id} className="msd-package-card">
                 <div className="msd-package-image">
                   {pkg.imageUrl ? (
-                    <img 
+                    <LazyImage 
                       src={imageSrc(pkg.imageUrl)} 
                       alt={pkg.name}
                       className="msd-package-real-image"
@@ -450,7 +451,7 @@ const ServicesDetail = () => {
               <div key={idx} className="msd-value-card">
                 <div className="msd-value-image">
                   {prop.imageUrl ? (
-                    <img 
+                    <LazyImage 
                       src={imageSrc(prop.imageUrl)} 
                       alt={prop.title}
                       className="msd-value-real-image"
@@ -509,7 +510,7 @@ const ServicesDetail = () => {
               >
                 <div className="msd-related-image">
                   {service.imageUrl ? (
-                    <img 
+                    <LazyImage 
                       src={imageSrc(service.imageUrl)} 
                       alt={service.name}
                       className="msd-related-real-image"
