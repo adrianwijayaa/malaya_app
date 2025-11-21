@@ -57,6 +57,7 @@ export default function News() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [itemsAll, setItemsAll] = useState([]);
+  const [imageErrors, setImageErrors] = useState({});
 
   const sort = get("sort", "new"); // 'new' | 'old'
   const p = Math.max(1, parseInt(get("p", "1"), 10) || 1);
@@ -123,6 +124,10 @@ export default function News() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
+  const handleImageError = (id) => {
+    setImageErrors((prev) => ({ ...prev, [id]: true }));
+  };
+
   return (
     <section className="maRail-page" aria-label="News">
       <div className={`maRail-sticky ${showSticky ? "is-show" : ""}`}>
@@ -159,7 +164,14 @@ export default function News() {
                 {(featured || []).map((it) => (
                   <li key={it.slug}>
                     <Link to={`/news/${it.slug}`} className="maRail-miniItem">
-                      <img src={imageSrc(it.imageUrl)} alt="" loading="lazy" />
+                      {it.imageUrl && !imageErrors[`featured-${it.slug}`] ? (
+                        <img 
+                          src={imageSrc(it.imageUrl)} 
+                          alt="" 
+                          loading="lazy"
+                          onError={() => handleImageError(`featured-${it.slug}`)}
+                        />
+                      ) : null}
                       <span>{it.title}</span>
                     </Link>
                   </li>
@@ -200,7 +212,14 @@ export default function News() {
               items.map((it) => (
                 <article key={it.slug} className="maRail-row" role="listitem">
                   <Link to={`/news/${it.slug}`} className="maRail-thumb">
-                    <img src={imageSrc(it.imageUrl)} alt="" loading="lazy" />
+                    {it.imageUrl && !imageErrors[`main-${it.slug}`] ? (
+                      <img 
+                        src={imageSrc(it.imageUrl)} 
+                        alt="" 
+                        loading="lazy"
+                        onError={() => handleImageError(`main-${it.slug}`)}
+                      />
+                    ) : null}
                   </Link>
                   <div className="maRail-body">
                     <h2 className="maRail-itemTitle">
