@@ -21,7 +21,11 @@ const Services = () => {
     const fetchServices = async () => {
       try {
         const response = await api.get("/services?status=active");
-        setServices(response.data);
+        // Handle both response.data and response.data.data structures
+        const servicesData = Array.isArray(response.data)
+          ? response.data
+          : response.data?.data || [];
+        setServices(servicesData);
         setError(null);
       } catch (err) {
         console.error("Error fetching services:", err);
