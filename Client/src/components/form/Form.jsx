@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from "react";
 import "./Form.css";
 import api from "../../api/axiosConfig";
+import { useLenis } from "lenis/react";
 
 const Form = ({ isOpen, onClose }) => {
+  const lenis = useLenis();
   const [currentStep, setCurrentStep] = useState(1);
   const [showSuccessPopup, setShowSuccessPopup] = useState(false);
   const initialFormData = {
@@ -139,6 +141,14 @@ const Form = ({ isOpen, onClose }) => {
       }
     }
   };
+
+  useEffect(() => {
+    if (isOpen) {
+      lenis?.stop();
+    } else {
+      lenis?.start();
+    }
+  }, [isOpen, lenis]);
 
   useEffect(() => {
     setIsStepValid(validateStep(currentStep));
@@ -1187,7 +1197,11 @@ const Form = ({ isOpen, onClose }) => {
         className={`modal-overlay ${isOpen ? "active" : ""}`}
         onClick={onClose}
       >
-        <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+        <div
+          className="modal-content"
+          data-lenis-prevent
+          onClick={(e) => e.stopPropagation()}
+        >
           <button className="close-modal" onClick={onClose}>
             ×
           </button>

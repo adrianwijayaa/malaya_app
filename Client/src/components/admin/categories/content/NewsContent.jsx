@@ -1,17 +1,15 @@
 import React, { useEffect, useMemo, useState } from "react";
+import { useLenis } from "lenis/react";
 import api from "../../../../api/axiosConfig";
+import DeleteModal from "../../modals/DeleteModal";
 import "./NewsContent.css";
 
 export default function NewsContent() {
+  const lenis = useLenis();
   const [statusFilter, setStatusFilter] = useState("active");
   const [newsList, setNewsList] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [toast, setToast] = useState(null);
-
-  const [searchTerm, setSearchTerm] = useState("");
-  const [sortBy, setSortBy] = useState("date");
-  const [sortOrder, setSortOrder] = useState("desc");
-
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [selectedNews, setSelectedNews] = useState(null);
   const [uploading, setUploading] = useState(false);
@@ -35,7 +33,7 @@ export default function NewsContent() {
 
   const showToast = (msg, type = "success") => {
     setToast({ msg, type });
-    setTimeout(() => setToast(null), 2800);
+    setTimeout(() => setToast(null), 3000);
   };
 
   const tokenHeader = () => {
@@ -65,26 +63,23 @@ export default function NewsContent() {
 
   useEffect(() => {
     fetchNews();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [statusFilter]);
 
+  useEffect(() => {
+    if (drawerOpen) {
+      lenis?.stop();
+    } else {
+      lenis?.start();
+    }
+  }, [drawerOpen, lenis]);
+
   const filteredNews = useMemo(() => {
-    const q = searchTerm.trim().toLowerCase();
-    const base = newsList.filter(
-      (n) =>
-        !q ||
-        n.title?.toLowerCase().includes(q) ||
-        n.slug?.toLowerCase().includes(q)
-    );
-    const order = sortOrder === "asc" ? 1 : -1;
-    const sorted = [...base].sort((a, b) => {
-      if (sortBy === "name") return order * a.title.localeCompare(b.title);
+    return [...newsList].sort((a, b) => {
       const da = a.date ? new Date(a.date) : new Date(0);
       const db = b.date ? new Date(b.date) : new Date(0);
-      return order * (da - db);
+      return db - da;
     });
-    return sorted;
-  }, [newsList, searchTerm, sortBy, sortOrder]);
+  }, [newsList]);
 
   const openDrawer = async (row = null) => {
     setDrawerOpen(true);
@@ -144,7 +139,7 @@ export default function NewsContent() {
     setTimeout(() => {
       setSelectedNews(null);
       setErrors({});
-    }, 250);
+    }, 300);
   };
 
   const onChange = (e) => {
@@ -160,7 +155,7 @@ export default function NewsContent() {
     if (!form.date) err.date = "Required";
     if (!String(form.readTime).trim()) err.readTime = "Required";
     else if (!Number.isInteger(+form.readTime) || +form.readTime < 1)
-      err.readTime = "Must be an integer ≥ 1";
+      err.readTime = "Must be integer ≥ 1";
     setErrors(err);
     return Object.keys(err).length === 0;
   };
@@ -199,9 +194,7 @@ export default function NewsContent() {
         setErrors((p) => ({ ...p, slug: "Slug already exists" }));
       } else if (status === 400) {
         if (/readTime/i.test(msg || "")) {
-          setErrors((p) => ({ ...p, readTime: "Must be an integer ≥ 1" }));
-        } else if (/imageUrl/i.test(msg || "")) {
-          showToast("Image URL invalid (upload image again)", "error");
+          setErrors((p) => ({ ...p, readTime: "Must be integer ≥ 1" }));
         } else {
           showToast(msg || "Invalid input", "error");
         }
@@ -212,7 +205,12 @@ export default function NewsContent() {
   };
 
   const confirmDelete = (row) => {
-    setToDelete(row);
+    setToDelete({
+      ...row,
+      fullname: row.title,
+      email: row.slug,
+      status: row.isActive ? "Active" : "Archived",
+    });
     setShowDeleteModal(true);
   };
 
@@ -228,21 +226,6 @@ export default function NewsContent() {
       setToDelete(null);
       if (selectedNews?.id === toDelete?.id) closeDrawer();
     }
-  };
-
-  const toggleActive = async (row, nextActive) => {
-    try {
-      await api.put(
-        `/news/${row.id}`,
-        { isActive: !!nextActive },
-        tokenHeader()
-      );
-    } catch {
-      showToast("Update status failed", "error");
-      return;
-    }
-    showToast(nextActive ? "Restored to Active" : "Archived");
-    await fetchNews();
   };
 
   const handleUpload = async (e) => {
@@ -265,259 +248,237 @@ export default function NewsContent() {
   };
 
   return (
-    <div className="news-admin">
-      {toast && <div className={`nc-toast ${toast.type}`}>{toast.msg}</div>}
+    <div className="news-container">
+      {toast && <div className={`news-toast ${toast.type}`}>{toast.msg}</div>}
 
-      <header className="nc-header">
-        <div className="nc-title">
+      <div className="news-header">
+        <div className="news-header-left">
           <h3>News Management</h3>
-          <p>Create, edit, publish, and manage status.</p>
+          <div className="news-tabs">
+            <button
+              className={statusFilter === "active" ? "active" : ""}
+              onClick={() => setStatusFilter("active")}
+              type="button"
+            >
+              Active
+            </button>
+            <button
+              className={statusFilter === "archived" ? "active" : ""}
+              onClick={() => setStatusFilter("archived")}
+              type="button"
+            >
+              Archived
+            </button>
+            <button
+              className={statusFilter === "" ? "active" : ""}
+              onClick={() => setStatusFilter("")}
+              type="button"
+            >
+              All
+            </button>
+          </div>
         </div>
-        <button className="nc-add" onClick={() => openDrawer()}>
+        <button className="news-btn-add" onClick={() => openDrawer()}>
           + Add News
-        </button>
-      </header>
-
-      <div className="nc-status-tabs">
-        <button
-          className={`nc-status-chip ${
-            statusFilter === "active" ? "active" : ""
-          }`}
-          onClick={() => setStatusFilter("active")}
-          type="button"
-        >
-          Active
-        </button>
-        <button
-          className={`nc-status-chip ${
-            statusFilter === "archived" ? "active" : ""
-          }`}
-          onClick={() => setStatusFilter("archived")}
-          type="button"
-        >
-          Archived
-        </button>
-      </div>
-
-      <div className="nc-controls">
-        <input
-          className="nc-search"
-          placeholder="Search by title or slug…"
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-        />
-        <select
-          className="nc-select"
-          value={sortBy}
-          onChange={(e) => setSortBy(e.target.value)}
-        >
-          <option value="date">Sort by Date</option>
-          <option value="name">Sort by Title</option>
-        </select>
-        <button
-          className="nc-order"
-          onClick={() => setSortOrder((o) => (o === "asc" ? "desc" : "asc"))}
-          title="Toggle sort order"
-        >
-          {sortOrder === "asc" ? "↑" : "↓"}
         </button>
       </div>
 
       {isLoading ? (
-        <div className="nc-loading">
-          <div className="nc-spinner" />
-          <p>Loading news…</p>
-        </div>
-      ) : filteredNews.length === 0 ? (
-        <div className="nc-empty">
-          <i className="fas fa-newspaper" />
-          <p>No news found</p>
+        <div className="news-loading">
+          <div className="news-spinner" />
+          <p>Loading news...</p>
         </div>
       ) : (
-        <div className="nc-list">
-          {filteredNews.map((n) => (
-            <div className="nc-card" key={n.id}>
-              <div className="nc-card-top">
-                <div className="nc-card-meta">
-                  <h4>{n.title}</h4>
-                  <span className={`nc-badge ${n.featured ? "featured" : ""}`}>
-                    {n.featured ? "Featured" : "Standard"}
-                  </span>
-                  <span
-                    className={`nc-badge status ${
-                      n.isActive ? "active" : "archived"
-                    }`}
-                  >
-                    {n.isActive ? "Active" : "Archived"}
-                  </span>
-                </div>
-                <div className="nc-card-sub">
-                  <span className="nc-date">
+        <div className="news-table-wrapper">
+          <table className="news-table">
+            <thead>
+              <tr>
+                <th>Title</th>
+                <th>Slug</th>
+                <th>Date</th>
+                <th>Read Time</th>
+                <th>Featured</th>
+                <th>Status</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {filteredNews.map((n) => (
+                <tr key={n.id}>
+                  <td>{n.title}</td>
+                  <td>{n.slug}</td>
+                  <td>
                     {n.date
                       ? new Date(n.date).toLocaleDateString("en-GB")
-                      : "No Date"}
-                  </span>
-                  <span className="nc-dot">·</span>
-                  <span className="nc-read">{n.readTime} min read</span>
-                  <span className="nc-dot">·</span>
-                  <span className="nc-slug">{n.slug}</span>
-                </div>
-              </div>
-
-              <div className="nc-actions">
-                <button onClick={() => openDrawer(n)}>Edit</button>
-                {n.isActive ? (
-                  <button
-                    className="neutral"
-                    onClick={() => toggleActive(n, false)}
-                    title="Archive"
-                  >
-                    Archive
-                  </button>
-                ) : (
-                  <button
-                    className="restore"
-                    onClick={() => toggleActive(n, true)}
-                    title="Restore to Active"
-                  >
-                    Restore
-                  </button>
-                )}
-                <button className="danger" onClick={() => confirmDelete(n)}>
-                  Delete
-                </button>
-              </div>
-            </div>
-          ))}
+                      : "-"}
+                  </td>
+                  <td>{n.readTime} min</td>
+                  <td>
+                    <span className={`news-badge ${n.featured ? "yes" : ""}`}>
+                      {n.featured ? "Yes" : "No"}
+                    </span>
+                  </td>
+                  <td>
+                    <span
+                      className={`news-status-badge ${
+                        n.isActive ? "active" : "inactive"
+                      }`}
+                    >
+                      {n.isActive ? "Active" : "Archived"}
+                    </span>
+                  </td>
+                  <td>
+                    <button
+                      className="news-action-btn edit"
+                      onClick={() => openDrawer(n)}
+                    >
+                      Edit
+                    </button>
+                    <button
+                      className="news-action-btn delete"
+                      onClick={() => confirmDelete(n)}
+                    >
+                      Delete
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         </div>
       )}
 
-      <div className={`nc-drawer ${drawerOpen ? "open" : ""}`}>
-        <div className="nc-drawer-head">
+      <div
+        className={`news-drawer ${drawerOpen ? "open" : ""}`}
+        data-lenis-prevent
+      >
+        <div className="news-drawer-header">
           <h4>{form.id ? "Edit News" : "Create News"}</h4>
-          <button className="nc-close" onClick={closeDrawer}>
-            ×
-          </button>
+          <button onClick={closeDrawer}>×</button>
         </div>
 
-        <form className="nc-form" onSubmit={submit}>
-          <label>Title {errors.title && <em>{errors.title}</em>}</label>
-          <input name="title" value={form.title} onChange={onChange} />
-
-          <label>Slug {errors.slug && <em>{errors.slug}</em>}</label>
-          <input
-            name="slug"
-            value={form.slug}
-            onChange={onChange}
-            placeholder="my-awesome-article"
-          />
-
-          <label>Excerpt / Desc {errors.desc && <em>{errors.desc}</em>}</label>
-          <textarea
-            name="desc"
-            value={form.desc}
-            onChange={onChange}
-            placeholder="Short summary shown in list…"
-          />
-
-          <div className="nc-row">
-            <div className="nc-col">
-              <label>Date {errors.date && <em>{errors.date}</em>}</label>
-              <input
-                type="date"
-                name="date"
-                value={form.date}
-                onChange={onChange}
-              />
-            </div>
-            <div className="nc-col">
-              <label>
-                Read Time (min) {errors.readTime && <em>{errors.readTime}</em>}
-              </label>
-              <input
-                name="readTime"
-                value={form.readTime}
-                onChange={onChange}
-                inputMode="numeric"
-              />
-            </div>
+        <form className="news-form" onSubmit={submit}>
+          <div>
+            <label>
+              Title *{" "}
+              {errors.title && <span className="error">{errors.title}</span>}
+            </label>
+            <input name="title" value={form.title} onChange={onChange} />
           </div>
 
-          <label className="nc-check">
+          <div>
+            <label>
+              Slug *{" "}
+              {errors.slug && <span className="error">{errors.slug}</span>}
+            </label>
+            <input
+              name="slug"
+              value={form.slug}
+              onChange={onChange}
+              placeholder="my-awesome-article"
+            />
+          </div>
+
+          <div>
+            <label>
+              Description *{" "}
+              {errors.desc && <span className="error">{errors.desc}</span>}
+            </label>
+            <textarea
+              name="desc"
+              value={form.desc}
+              onChange={onChange}
+              placeholder="Short summary..."
+              rows="3"
+            />
+          </div>
+
+          <div>
+            <label>
+              Date *{" "}
+              {errors.date && <span className="error">{errors.date}</span>}
+            </label>
+            <input
+              type="date"
+              name="date"
+              value={form.date}
+              onChange={onChange}
+            />
+          </div>
+
+          <div>
+            <label>
+              Read Time (min) *{" "}
+              {errors.readTime && (
+                <span className="error">{errors.readTime}</span>
+              )}
+            </label>
+            <input
+              type="number"
+              name="readTime"
+              value={form.readTime}
+              onChange={onChange}
+              min="1"
+            />
+          </div>
+
+          <div>
+            <label>Cover Image {uploading && "(Uploading...)"}</label>
+            <input
+              type="file"
+              accept="image/*"
+              onChange={handleUpload}
+              disabled={uploading}
+            />
+            {form.imageUrl && (
+              <img src={form.imageUrl} alt="Preview" className="news-preview" />
+            )}
+          </div>
+
+          <div className="news-status">
             <input
               type="checkbox"
               name="featured"
               checked={form.featured}
               onChange={onChange}
             />
-            <span>Featured</span>
-          </label>
+            <label>Featured Article</label>
+          </div>
 
-          <label className="nc-check">
+          <div className="news-status">
             <input
               type="checkbox"
               name="isActive"
               checked={form.isActive}
               onChange={onChange}
             />
-            <span>Active (uncheck = Archive)</span>
-          </label>
+            <label>Active (visible to public)</label>
+          </div>
 
-          {/* File-only image uploader (tanpa input URL, tanpa preview) */}
-          <div className="nc-upload">
-            <input
-              id="nc-file"
-              type="file"
-              accept="image/*"
-              onChange={handleUpload}
+          <div>
+            <label>Body Content</label>
+            <textarea
+              className="news-body"
+              name="body"
+              value={form.body}
+              onChange={onChange}
+              placeholder="Full article content..."
+              rows="10"
             />
-            <label htmlFor="nc-file">Upload cover image</label>
-            {uploading && <span className="nc-hint">Uploading…</span>}
-            {!uploading && !form.imageUrl && (
-              <span className="nc-hint">No image attached</span>
-            )}
           </div>
 
-          <label>Body (Markdown/plain)</label>
-          <textarea
-            className="nc-body"
-            name="body"
-            value={form.body}
-            onChange={onChange}
-            placeholder="Full content…"
-          />
-
-          <div className="nc-preview">
-            <div className="nc-preview-head">Preview (plain)</div>
-            <div className="nc-preview-body">
-              {form.body ? <pre>{form.body}</pre> : <i>No content</i>}
-            </div>
-          </div>
-
-          <button type="submit" className="nc-save">
+          <button type="submit" className="news-submit-btn">
             {form.id ? "Update News" : "Create News"}
           </button>
         </form>
       </div>
 
-      {showDeleteModal && (
-        <div className="nc-modal-overlay">
-          <div className="nc-modal">
-            <p>Delete this news?</p>
-            <div className="nc-modal-actions">
-              <button className="danger" onClick={doDelete}>
-                Yes, Delete
-              </button>
-              <button
-                className="cancel"
-                onClick={() => setShowDeleteModal(false)}
-              >
-                Cancel
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
+      <DeleteModal
+        isOpen={showDeleteModal}
+        request={toDelete}
+        onConfirm={doDelete}
+        onCancel={() => setShowDeleteModal(false)}
+      />
     </div>
   );
 }

@@ -9,6 +9,7 @@ const upload = require("../middlewares/uploadMiddleware.js");
 const { register, login } = require("../controllers/auth-Controller.js");
 const uploadController = require("../controllers/upload-controller.js");
 const newsC = require("../controllers/news-controller.js");
+const serviceC = require("../controllers/service-controller.js");
 
 // Forms
 const personalInfoC = require("../controllers/personalInformation-controller.js");
@@ -47,6 +48,11 @@ router.post("/login", login);
 router.get("/news", newsC.getAllNews);
 router.get("/news/:id", newsC.getNewsById);
 router.get("/news/slug/:slug", newsC.getNewsBySlug);
+
+// Services (Public)
+router.get("/services", serviceC.getAllServices);
+router.get("/services/:id", serviceC.getServiceById);
+router.get("/services/slug/:slug", serviceC.getServiceBySlug);
 
 // Tailor Made Trip (Public)
 router.get("/tailor-trips", tailorTripC.getAllTrips);
@@ -118,6 +124,11 @@ router.post("/submission", submissionC.createSubmission);
 router.post("/news", newsC.createNews);
 router.put("/news/:id", newsC.updateNews);
 router.delete("/news/:id", newsC.deleteNews);
+
+// Services (Admin)
+router.post("/services", serviceC.createService);
+router.put("/services/:id", serviceC.updateService);
+router.delete("/services/:id", serviceC.deleteService);
 
 // Tailor Made Trip (Admin)
 router.post("/tailor-trip", tailorTripC.createTrip);

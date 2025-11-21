@@ -2,8 +2,11 @@ import React, { useState, useEffect, useRef } from "react";
 import api from "../../../../api/axiosConfig";
 import DeleteModal from "../../modals/DeleteModal";
 import "./TailormadeTripTab.css";
+import { useLenis } from "lenis/react";
 
 const TailormadeTripTab = () => {
+  const lenis = useLenis();
+
   // State management
   const [trips, setTrips] = useState([]);
   const [activeFilter, setActiveFilter] = useState("active");
@@ -43,12 +46,36 @@ const TailormadeTripTab = () => {
     priceDetails: [],
   });
 
-  // Fetch trips on mount
+  useEffect(() => {
+    if (drawerOpen) {
+      lenis?.stop();
+    } else {
+      lenis?.start();
+    }
+  }, [drawerOpen, lenis]);
+
+  // ===== Helpers =====
+  const showToast = (msg, type = "success") => {
+    setToast({ msg, type });
+    setTimeout(() => setToast(null), 3000);
+  };
+
+  // Sanitize currency-like input to a plain decimal string (ke BE: STRING angka mentah)
+  const sanitizeMoney = (v) => {
+    const s = String(v ?? "");
+    const cleaned = s.replace(/[^\d.,-]/g, "").replace(/,/g, ".");
+    const parts = cleaned.split(".");
+    return parts.length > 2
+      ? `${parts[0]}.${parts.slice(1).join("")}`
+      : cleaned;
+  };
+
+  // ===== Effects =====
   useEffect(() => {
     fetchTrips();
   }, []);
 
-  // API Functions
+  // ===== API =====
   const fetchTrips = async () => {
     try {
       const res = await api.get("/tailor-trips");
@@ -58,13 +85,7 @@ const TailormadeTripTab = () => {
     }
   };
 
-  // Toast notification
-  const showToast = (msg, type = "success") => {
-    setToast({ msg, type });
-    setTimeout(() => setToast(null), 3000);
-  };
-
-  // Form handlers
+  // ===== Handlers =====
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
     setForm((prev) => ({
@@ -116,15 +137,13 @@ const TailormadeTripTab = () => {
     }
   };
 
-  // Submit handler
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       let tripId = form.id;
 
-      // Save main trip data
+      // Save main trip data (tanpa relasi)
       if (tripId) {
-        // Update existing trip
         const payload = { ...form };
         delete payload.highlights;
         delete payload.includes;
@@ -133,25 +152,16 @@ const TailormadeTripTab = () => {
         delete payload.priceDetails;
         await api.put(`/tailor-trip/${tripId}`, payload);
       } else {
-        // Create new trip
         const res = await api.post("/tailor-trip", form);
         tripId = res.data?.data?.id;
       }
 
-      // Save highlights
+      // Save relations
       await saveHighlights(tripId);
-
-      // Save includes
       await saveIncludes(tripId);
-
-      // Save excludes
       await saveExcludes(tripId);
-
-      // Save facts
       await saveFacts(tripId);
-
-      // Save price details
-      await savePriceDetails(tripId);
+      await savePriceDetails(tripId); // ⬅️ price dijadikan STRING angka mentah
 
       showToast(
         form.id ? "Trip updated successfully" : "Trip created successfully"
@@ -164,7 +174,6 @@ const TailormadeTripTab = () => {
     }
   };
 
-  // Save sub-items functions
   const saveHighlights = async (tripId) => {
     const currentIds = [];
 
@@ -181,9 +190,7 @@ const TailormadeTripTab = () => {
         currentIds.push(highlight.id);
       } else if (highlight.imageUrl || highlight.caption) {
         const response = await api.post("/tailor-trip-highlight", body);
-        if (response.data?.data?.id) {
-          currentIds.push(response.data.data.id);
-        }
+        if (response.data?.data?.id) currentIds.push(response.data.data.id);
       }
     }
 
@@ -212,9 +219,7 @@ const TailormadeTripTab = () => {
         currentIds.push(include.id);
       } else if (include.label) {
         const response = await api.post("/tailor-trip-include", body);
-        if (response.data?.data?.id) {
-          currentIds.push(response.data.data.id);
-        }
+        if (response.data?.data?.id) currentIds.push(response.data.data.id);
       }
     }
 
@@ -243,9 +248,7 @@ const TailormadeTripTab = () => {
         currentIds.push(exclude.id);
       } else if (exclude.label) {
         const response = await api.post("/tailor-trip-exclude", body);
-        if (response.data?.data?.id) {
-          currentIds.push(response.data.data.id);
-        }
+        if (response.data?.data?.id) currentIds.push(response.data.data.id);
       }
     }
 
@@ -275,9 +278,7 @@ const TailormadeTripTab = () => {
         currentIds.push(fact.id);
       } else if (fact.key && fact.value) {
         const response = await api.post("/tailor-trip-fact", body);
-        if (response.data?.data?.id) {
-          currentIds.push(response.data.data.id);
-        }
+        if (response.data?.data?.id) currentIds.push(response.data.data.id);
       }
     }
 
@@ -297,9 +298,9 @@ const TailormadeTripTab = () => {
     for (const priceDetail of form.priceDetails) {
       const body = {
         TripID: tripId,
-        pax: priceDetail.pax,
-        price: priceDetail.price,
-        sortOrder: priceDetail.sortOrder ?? 0,
+        pax: String(priceDetail.pax || ""),
+        price: String(sanitizeMoney(priceDetail.price || "")), // ⬅️ kirim sebagai STRING angka mentah
+        sortOrder: Number(priceDetail.sortOrder ?? 0),
       };
 
       if (priceDetail.id) {
@@ -307,9 +308,7 @@ const TailormadeTripTab = () => {
         currentIds.push(priceDetail.id);
       } else if (priceDetail.pax && priceDetail.price) {
         const response = await api.post("/tailor-trip-price-detail", body);
-        if (response.data?.data?.id) {
-          currentIds.push(response.data.data.id);
-        }
+        if (response.data?.data?.id) currentIds.push(response.data.data.id);
       }
     }
 
@@ -372,7 +371,7 @@ const TailormadeTripTab = () => {
           priceDetails: (data.priceDetails || []).map((item) => ({
             id: item.id,
             pax: item.pax || "",
-            price: item.price || "",
+            price: item.price || "", // UI tampil apa adanya; disanitasi saat submit
             sortOrder: item.sortOrder ?? 0,
           })),
         });
@@ -577,7 +576,10 @@ const TailormadeTripTab = () => {
       </div>
 
       {/* Drawer Form */}
-      <div className={`ttrip-drawer ${drawerOpen ? "open" : ""}`}>
+      <div
+        className={`ttrip-drawer ${drawerOpen ? "open" : ""}`}
+        data-lenis-prevent
+      >
         <div className="ttrip-drawer-header">
           <h4>{selectedTrip ? "Edit Trip" : "Create New Trip"}</h4>
           <button onClick={closeDrawer}>×</button>
@@ -684,6 +686,8 @@ const TailormadeTripTab = () => {
             <input
               type="number"
               name="idealPaxMin"
+              min={0}
+              step={1}
               value={form.idealPaxMin}
               onChange={handleChange}
               placeholder="Minimum participants"
@@ -695,6 +699,8 @@ const TailormadeTripTab = () => {
             <input
               type="number"
               name="idealPaxMax"
+              min={0}
+              step={1}
               value={form.idealPaxMax}
               onChange={handleChange}
               placeholder="Maximum participants"
@@ -891,7 +897,7 @@ const TailormadeTripTab = () => {
               <div key={index} className="ttrip-subitem-vertical">
                 <input
                   type="text"
-                  placeholder="Pax (e.g., 2 Pax)"
+                  placeholder="Pax (e.g., 2 pax or 2–4 pax)"
                   value={priceDetail.pax}
                   onChange={(e) => {
                     const updated = [...form.priceDetails];
@@ -901,10 +907,12 @@ const TailormadeTripTab = () => {
                 />
                 <input
                   type="text"
-                  placeholder="Price (e.g., $3,034)"
+                  inputMode="decimal"
+                  placeholder="Price (e.g., 3034.50)"
                   value={priceDetail.price}
                   onChange={(e) => {
                     const updated = [...form.priceDetails];
+                    // Simpan apa adanya di UI; disanitasi ketika submit
                     updated[index].price = e.target.value;
                     setForm({ ...form, priceDetails: updated });
                   }}

@@ -5,30 +5,44 @@ import api, { BASE_URL } from "../api/axiosConfig";
 import heroImg from "../assets/img/tailorHero.jpg";
 import "./TailorMadePage.css";
 
-const toSlug = (s) =>
-  s
+const createSlug = (text) => {
+  return text
     .toLowerCase()
+    .trim()
     .replace(/[^a-z0-9]+/g, "-")
-    .replace(/(^-|-$)/g, "");
+    .replace(/^-+|-+$/g, "");
+};
 
 const TailormadePage = () => {
   const [trips, setTrips] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const fetchTrips = async () => {
-      try {
-        const res = await api.get("/tailor-trips");
-        setTrips(res.data.filter((t) => t.isActive)); // tampilkan hanya trip aktif
-      } catch (err) {
-        console.error("Failed to fetch trips:", err);
-      }
-    };
     fetchTrips();
   }, []);
 
+  const fetchTrips = async () => {
+    try {
+      const response = await api.get("/tailor-trips");
+      const activeTrips = response.data.filter((trip) => trip.isActive);
+      setTrips(activeTrips);
+    } catch (error) {
+      console.error("Error fetching trips:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const getImageUrl = (imagePath) => {
+    if (!imagePath) return "";
+    return imagePath.startsWith("/uploads")
+      ? `${BASE_URL}${imagePath}`
+      : imagePath;
+  };
+
   return (
     <div className="tailormade-page">
-      {/* ===== HEADER CINEMATIC ===== */}
+      {/* Hero Section */}
       <header
         className="tmslim-hero"
         style={{ backgroundImage: `url(${heroImg})` }}
@@ -70,7 +84,7 @@ const TailormadePage = () => {
         </div>
       </header>
 
-      {/* ===== TRIP COLLECTION (UNCHANGED CARD) ===== */}
+      {/* Trip Collection Section */}
       <section className="tailor-collection" id="tailor-collection">
         <Container>
           <Row className="justify-content-center text-center mb-5">
@@ -85,48 +99,64 @@ const TailormadePage = () => {
             </Col>
           </Row>
 
-          <Row className="g-4">
-            {trips.map((trip) => {
-              const slug = toSlug(trip.slug);
-              const imageUrl = trip.heroImage?.startsWith("/uploads")
-                ? `${BASE_URL}${trip.heroImage}`
-                : trip.heroImage;
+          {loading ? (
+            <div className="text-center py-5">
+              <p>Loading trips...</p>
+            </div>
+          ) : trips.length === 0 ? (
+            <div className="text-center py-5">
+              <p>No trips available at the moment.</p>
+            </div>
+          ) : (
+            <Row className="g-4">
+              {trips.map((trip) => {
+                const slug = createSlug(trip.slug || trip.title);
+                const imageUrl = getImageUrl(trip.heroImage);
 
-              return (
-                <Col md={6} lg={4} key={trip.id}>
-                  <article className="trip-card">
-                    <div
-                      className="trip-visual"
-                      style={{ backgroundImage: `url("${imageUrl}")` }}
-                      role="img"
-                      aria-label={trip.title}
-                    />
-                    <div className="trip-body">
-                      <div className="trip-chip">{trip.pace}</div>
-                      <h3 className="trip-heading">{trip.title}</h3>
-                      <p className="trip-summary">{trip.overview}</p>
-                      <div className="trip-meta">
-                        <span>
-                          {trip.bestSeasonStart} - {trip.bestSeasonEnd}
-                        </span>
-                        <span>
-                          {trip.idealPaxMin}–{trip.idealPaxMax} pax
-                        </span>
+                return (
+                  <Col md={6} lg={4} key={trip.id}>
+                    <article className="trip-card">
+                      <div
+                        className="trip-visual"
+                        style={{ backgroundImage: `url("${imageUrl}")` }}
+                        role="img"
+                        aria-label={trip.title}
+                      />
+                      <div className="trip-body">
+                        {trip.pace && (
+                          <div className="trip-chip">{trip.pace}</div>
+                        )}
+                        <h3 className="trip-heading">{trip.title}</h3>
+                        <p className="trip-summary">{trip.overview}</p>
+
+                        <div className="trip-meta">
+                          {trip.bestSeasonStart && trip.bestSeasonEnd && (
+                            <span>
+                              {trip.bestSeasonStart} - {trip.bestSeasonEnd}
+                            </span>
+                          )}
+                          {trip.idealPaxMin && trip.idealPaxMax && (
+                            <span>
+                              {trip.idealPaxMin}–{trip.idealPaxMax} pax
+                            </span>
+                          )}
+                        </div>
+
+                        <Button
+                          as={Link}
+                          to={`/open-trip/${slug}`}
+                          state={{ trip }}
+                          className="trip-cta"
+                        >
+                          View Journey
+                        </Button>
                       </div>
-                      <Button
-                        as={Link}
-                        to={`/tailor-made/${slug}`}
-                        state={{ trip }}
-                        className="trip-cta"
-                      >
-                        View Journey
-                      </Button>
-                    </div>
-                  </article>
-                </Col>
-              );
-            })}
-          </Row>
+                    </article>
+                  </Col>
+                );
+              })}
+            </Row>
+          )}
         </Container>
       </section>
     </div>

@@ -2,7 +2,7 @@
    TAILORMADE DETAIL PAGE (Unique Prefix: tmdet-)
    ========================================================= */
 
-/* ===== Scope & Tokens ===== */
+/* ===== Scope & Design Tokens ===== */
 .tmdet.editorial {
   --bg: #f4fbff;
   --ink: #163b5a;
@@ -14,27 +14,22 @@
   --line-2: rgba(22, 59, 90, 0.08);
   --soft: #ffffff;
   --badge: #e8f6fb;
-
-  /* Satu sumber kebenaran untuk gutter */
   --gutter: clamp(22px, 5vw, 56px);
 
   font-family: "Poppins", system-ui, -apple-system, Segoe UI, Roboto,
     "Helvetica Neue", Arial, sans-serif;
   color: var(--ink);
   background: var(--bg);
-
-  /* Cegah overflow horizontal */
   overflow-x: hidden;
 }
 
-/* Global border-box di dalam scope */
 .tmdet.editorial,
 .tmdet.editorial * {
   box-sizing: border-box;
 }
 
 /* ===========================
-   HERO
+   HERO SECTION
    =========================== */
 .tmdet-hero {
   position: relative;
@@ -44,13 +39,10 @@
   display: flex;
   align-items: end;
   isolation: isolate;
-
-  /* Konsisten gutter kanan-kiri */
   padding-inline: var(--gutter);
 }
 
 .tmdet-hero-overlay {
-  content: "";
   position: absolute;
   inset: 0;
   z-index: 0;
@@ -137,11 +129,23 @@
 }
 
 /* ===========================
+   LOADING STATE
+   =========================== */
+.tmdet-loading {
+  min-height: 60vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+  color: var(--ink-2);
+}
+
+/* ===========================
    BODY WRAPPER
    =========================== */
 .tmdet-body {
   padding: clamp(28px, 5vw, 64px) 0 clamp(60px, 7vw, 100px);
-  padding-inline: var(--gutter); /* konsisten gutter */
+  padding-inline: var(--gutter);
   margin-inline: auto;
   max-width: 1320px;
   background: radial-gradient(
@@ -157,7 +161,6 @@
     linear-gradient(180deg, #f4fbff 0%, #eff6fb 100%);
 }
 
-/* Pastikan elemen di dalam tidak melebihi kontainer */
 .tmdet-body > * {
   max-width: 100%;
 }
@@ -190,7 +193,7 @@
 }
 
 /* ===========================
-   ARTICLE / SECTIONS
+   ARTICLE & SECTION CARDS
    =========================== */
 .tmdet-article-card,
 .tmdet-section-card {
@@ -200,13 +203,6 @@
   padding: clamp(16px, 2.2vw, 22px);
   box-shadow: 0 10px 24px rgba(22, 59, 90, 0.07);
   width: 100%;
-}
-
-.tmdet-article-card {
-  margin-bottom: 16px;
-}
-
-.tmdet-section-card {
   margin-bottom: 16px;
 }
 
@@ -287,7 +283,7 @@
 }
 
 /* ===========================
-   LIST / INCLUDES
+   INCLUDES LIST
    =========================== */
 .tmdet-list {
   margin: 0;
@@ -324,11 +320,119 @@
 }
 
 /* ===========================
-   ASIDE / STICKY
+   EXCLUDES LIST
    =========================== */
+.tmdet-list-exclude {
+  margin: 0;
+  padding-left: 0;
+  list-style: none;
+}
+
+.tmdet-list-item-exclude {
+  position: relative;
+  padding: 10px 0 10px 26px;
+  border-bottom: 1px dashed var(--line-2);
+  color: var(--ink-2);
+}
+
+.tmdet-list-item-exclude:last-child {
+  border-bottom: 0;
+}
+
+.tmdet-list-item-exclude::before {
+  content: "\2715";
+  position: absolute;
+  left: 0;
+  top: 10px;
+  width: 18px;
+  height: 18px;
+  line-height: 18px;
+  text-align: center;
+  border-radius: 50%;
+  font-size: 0.75rem;
+  font-weight: 800;
+  color: #8b2e2e;
+  background: #ffe5e5;
+  border: 1px solid rgba(139, 46, 46, 0.35);
+}
+
+/* ===========================
+   PRICE TABLE (NEW DESIGN)
+   =========================== */
+.tmdet-price-table {
+  width: 100%;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  overflow: hidden;
+  background: #ffffff;
+}
+
+.tmdet-price-header {
+  display: grid;
+  grid-template-columns: 80px 1fr 1fr;
+  background: linear-gradient(135deg, #5ce1e6 0%, #35b7b3 100%);
+  font-weight: 700;
+  color: #ffffff;
+  border-bottom: 2px solid rgba(53, 183, 179, 0.4);
+}
+
+.tmdet-price-header .tmdet-price-cell {
+  padding: 14px 12px;
+  text-align: center;
+  font-size: 0.95rem;
+  letter-spacing: 0.3px;
+}
+
+.tmdet-price-body {
+  background: #ffffff;
+}
+
+.tmdet-price-row {
+  display: grid;
+  grid-template-columns: 80px 1fr 1fr;
+  border-bottom: 1px solid var(--line-2);
+}
+
+.tmdet-price-row:last-child {
+  border-bottom: none;
+}
+
+.tmdet-price-row:nth-child(even) {
+  background: #f8fbff;
+}
+
+.tmdet-price-cell {
+  padding: 14px 12px;
+  text-align: center;
+  color: var(--ink-2);
+  font-size: 0.92rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.tmdet-price-row .tmdet-price-cell:first-child {
+  color: var(--ink-3);
+  font-weight: 600;
+}
+
+.tmdet-price-amount {
+  font-weight: 700;
+  color: var(--brand);
+  font-size: 0.98rem;
+}
+
+/* ===========================
+   SIDEBAR STICKY (FIXED)
+   =========================== */
+.tmdet-sidebar-col {
+  position: relative;
+}
+
 .tmdet-sticky {
   position: sticky;
-  top: 104px;
+  top: 100px;
+  z-index: 10;
 }
 
 /* ===========================
@@ -388,6 +492,7 @@
   transform: translateY(-1px) scale(1.012);
   filter: brightness(1.04);
   box-shadow: 0 18px 36px rgba(25, 98, 155, 0.36);
+  color: #ffffff;
 }
 
 /* ===========================
@@ -406,6 +511,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+  padding: 8px 0;
   border-bottom: 1px dashed var(--line-2);
   color: var(--ink-2);
 }
@@ -416,6 +522,12 @@
 
 .tmdet-fact-row span {
   color: var(--ink-3);
+  font-size: 0.9rem;
+}
+
+.tmdet-fact-row strong {
+  color: var(--ink);
+  font-weight: 600;
 }
 
 /* ===========================
@@ -434,13 +546,13 @@
   margin: 0;
   color: var(--ink-2);
   line-height: 1.5;
+  font-size: 0.92rem;
 }
 
 /* =========================================================
-   RESPONSIVE BREAKPOINTS (lengkap)
+   RESPONSIVE BREAKPOINTS
    ========================================================= */
 
-/* ≤ 1024px */
 @media (max-width: 1024px) {
   .tmdet-hero,
   .tmdet-body {
@@ -448,12 +560,12 @@
   }
 
   .tmdet-sticky {
-    position: static; /* lepas sticky agar aman lebar */
+    position: static;
     top: auto;
   }
 
   .tmdet-masonry {
-    column-gap: 10px; /* kecilkan gap agar tidak melebar */
+    column-gap: 10px;
   }
 
   .tmdet-masonry-img {
@@ -461,7 +573,6 @@
   }
 }
 
-/* ≤ 820px */
 @media (max-width: 820px) {
   .tmdet-hero,
   .tmdet-body {
@@ -473,16 +584,26 @@
   }
 
   .tmdet-masonry {
-    column-count: 2; /* tetap 2 kolom */
+    column-count: 2;
     column-gap: 10px;
   }
 
   .tmdet-masonry-img {
     height: 164px;
   }
+
+  .tmdet-price-header,
+  .tmdet-price-row {
+    grid-template-columns: 70px 1fr 1fr;
+  }
+
+  .tmdet-price-header .tmdet-price-cell,
+  .tmdet-price-cell {
+    font-size: 0.88rem;
+    padding: 12px 10px;
+  }
 }
 
-/* ≤ 768px */
 @media (max-width: 768px) {
   .tmdet-hero,
   .tmdet-body {
@@ -501,13 +622,23 @@
   .tmdet-masonry-img {
     height: 156px;
   }
+
+  .tmdet-price-header,
+  .tmdet-price-row {
+    grid-template-columns: 60px 1fr 1fr;
+  }
+
+  .tmdet-price-header .tmdet-price-cell,
+  .tmdet-price-cell {
+    font-size: 0.85rem;
+    padding: 11px 8px;
+  }
 }
 
-/* ≤ 600px */
 @media (max-width: 600px) {
   .tmdet-hero,
   .tmdet-body {
-    padding-inline: 14px; /* tegas kecil */
+    padding-inline: 14px;
   }
 
   .tmdet-masonry {
@@ -527,9 +658,19 @@
   .tmdet-cta-card {
     border-radius: 12px;
   }
+
+  .tmdet-price-header,
+  .tmdet-price-row {
+    grid-template-columns: 50px 1fr 1fr;
+  }
+
+  .tmdet-price-header .tmdet-price-cell,
+  .tmdet-price-cell {
+    font-size: 0.82rem;
+    padding: 10px 6px;
+  }
 }
 
-/* ≤ 480px */
 @media (max-width: 480px) {
   .tmdet-hero,
   .tmdet-body {
@@ -541,7 +682,7 @@
   }
 
   .tmdet-masonry {
-    column-count: 2; /* masih 2 agar visual rapih */
+    column-count: 2;
     column-gap: 8px;
   }
 
@@ -552,9 +693,19 @@
   .tmdet-meta {
     gap: 8px 10px;
   }
+
+  .tmdet-price-header,
+  .tmdet-price-row {
+    grid-template-columns: 45px 1fr 1fr;
+  }
+
+  .tmdet-price-header .tmdet-price-cell,
+  .tmdet-price-cell {
+    font-size: 0.8rem;
+    padding: 9px 5px;
+  }
 }
 
-/* ≤ 430px */
 @media (max-width: 430px) {
   .tmdet-hero,
   .tmdet-body {
@@ -577,9 +728,13 @@
   .tmdet-cta-card {
     padding: 14px;
   }
+
+  .tmdet-price-header,
+  .tmdet-price-row {
+    grid-template-columns: 40px 1fr 1fr;
+  }
 }
 
-/* ≤ 375px */
 @media (max-width: 375px) {
   .tmdet-hero,
   .tmdet-body {
@@ -591,11 +746,22 @@
   }
 
   .tmdet-masonry {
-    column-count: 1; /* satu kolom agar aman lebar kecil */
+    column-count: 1;
     column-gap: 0;
   }
 
   .tmdet-masonry-img {
     height: 190px;
+  }
+
+  .tmdet-price-header,
+  .tmdet-price-row {
+    grid-template-columns: 38px 1fr 1fr;
+  }
+
+  .tmdet-price-header .tmdet-price-cell,
+  .tmdet-price-cell {
+    font-size: 0.78rem;
+    padding: 8px 4px;
   }
 }

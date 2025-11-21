@@ -1,0 +1,421 @@
+@import url("https://fonts.googleapis.com/css2?family=Unbounded:wght@400;500;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap");
+
+/* ===== Wrapper ===== */
+.ms-services {
+  min-height: 100vh;
+  background: linear-gradient(180deg, #f8fafc 0%, #e2e8f0 100%);
+  padding: clamp(120px, 12vh, 160px) 0 clamp(3rem, 6vh, 5rem);
+}
+
+.ms-services.ms-loading {
+  opacity: 0;
+}
+
+.ms-container {
+  width: 100%;
+  max-width: 1300px;
+  margin: 0 auto;
+  padding: 0 clamp(1.5rem, 4vw, 3rem);
+}
+
+/* ===== Hero ===== */
+.ms-hero {
+  text-align: center;
+  margin-bottom: clamp(3rem, 6vh, 5rem);
+}
+
+.ms-hero-title {
+  font-family: "Unbounded", sans-serif;
+  font-size: clamp(2.5rem, 5vw, 4.5rem);
+  font-weight: 700;
+  color: #0f172a;
+  line-height: 1.1;
+  letter-spacing: -1px;
+  margin-bottom: 1rem;
+  background: linear-gradient(135deg, #0f172a 0%, #334155 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.ms-hero-desc {
+  font-family: "Plus Jakarta Sans", sans-serif;
+  font-size: clamp(1rem, 1.8vw, 1.25rem);
+  color: #64748b;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+/* ===== Grid ===== */
+.ms-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: clamp(1.5rem, 3vw, 2rem);
+  animation: fadeInUp 0.6s ease-out;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ===== Card ===== */
+.ms-card {
+  position: relative;
+  background: #ffffff;
+  border-radius: 20px;
+  overflow: hidden;
+  text-decoration: none;
+  color: inherit;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+  border: 2px solid transparent;
+  min-height: 320px;
+  display: flex;
+  flex-direction: column;
+}
+
+.ms-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 6px;
+  background: linear-gradient(90deg, #b8fdff 0%, #7dd3fc 100%);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 3;
+}
+
+.ms-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 20px 40px rgba(125, 211, 252, 0.25);
+  border-color: rgba(184, 253, 255, 0.5);
+}
+
+.ms-card:hover::before {
+  transform: scaleX(1);
+}
+
+/* ===== Card Background ===== */
+.ms-card-bg {
+  position: relative;
+  width: 100%;
+  height: 160px;
+  overflow: hidden;
+}
+
+.ms-card-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.4s ease;
+}
+
+.ms-card:hover .ms-card-image {
+  transform: scale(1.05);
+}
+
+.ms-bg-sky {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, #7dd3fc 0%, #38bdf8 100%);
+}
+
+.ms-bg-sun {
+  position: absolute;
+  width: 50px;
+  height: 50px;
+  background: radial-gradient(circle, #fbbf24 0%, #f59e0b 100%);
+  border-radius: 50%;
+  top: 15px;
+  right: 20px;
+  box-shadow: 0 0 30px rgba(251, 191, 36, 0.6);
+}
+
+.ms-bg-cloud {
+  position: absolute;
+  background: #ffffff;
+  border-radius: 50%;
+  opacity: 0.8;
+}
+
+.ms-bg-cloud-1 {
+  width: 50px;
+  height: 16px;
+  top: 25%;
+  left: 15%;
+  box-shadow: 25px 0 0 -4px #ffffff, -25px 0 0 -4px #ffffff;
+  animation: cloudFloat 8s ease-in-out infinite;
+}
+
+.ms-bg-cloud-2 {
+  width: 40px;
+  height: 14px;
+  top: 45%;
+  right: 25%;
+  box-shadow: 20px 0 0 -3px #ffffff, -20px 0 0 -3px #ffffff;
+  animation: cloudFloat 10s ease-in-out infinite reverse;
+}
+
+@keyframes cloudFloat {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  50% {
+    transform: translateX(10px);
+  }
+}
+
+.ms-bg-ocean {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 45%;
+}
+
+.ms-bg-wave {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 200%;
+  height: 100%;
+  background: linear-gradient(180deg, transparent, #0ea5e9);
+  border-radius: 50% 50% 0 0;
+  opacity: 0.6;
+}
+
+.ms-bg-wave-1 {
+  animation: wave 8s ease-in-out infinite;
+  opacity: 0.4;
+}
+
+.ms-bg-wave-2 {
+  animation: wave 6s ease-in-out infinite reverse;
+  opacity: 0.5;
+}
+
+.ms-bg-wave-3 {
+  background: linear-gradient(180deg, transparent, #0284c7);
+  animation: wave 10s ease-in-out infinite;
+  opacity: 0.6;
+}
+
+@keyframes wave {
+  0%,
+  100% {
+    transform: translateX(0) translateY(0);
+  }
+  50% {
+    transform: translateX(-25%) translateY(-5px);
+  }
+}
+
+/* ===== Card Content ===== */
+.ms-card-content {
+  padding: clamp(1.5rem, 3vw, 2rem);
+  text-align: center;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background: #ffffff;
+  position: relative;
+  z-index: 2;
+}
+
+.ms-card-title {
+  font-family: "Unbounded", sans-serif;
+  font-size: clamp(1.35rem, 2.2vw, 1.75rem);
+  font-weight: 700;
+  color: #0f172a;
+  margin-bottom: 0.75rem;
+  line-height: 1.3;
+}
+
+.ms-card-desc {
+  font-family: "Plus Jakarta Sans", sans-serif;
+  font-size: clamp(0.95rem, 1.4vw, 1.05rem);
+  color: #64748b;
+  line-height: 1.6;
+  margin-bottom: 1.5rem;
+}
+
+.ms-card-price {
+  font-family: "Plus Jakarta Sans", sans-serif;
+  font-size: clamp(1rem, 1.5vw, 1.15rem);
+  font-weight: 700;
+  color: #0ea5e9;
+  padding: 0.6rem 1.2rem;
+  background: linear-gradient(
+    135deg,
+    rgba(184, 253, 255, 0.15),
+    rgba(125, 211, 252, 0.15)
+  );
+  border-radius: 12px;
+  display: inline-block;
+  border: 1px solid rgba(125, 211, 252, 0.3);
+}
+
+/* ===== Error & Empty States ===== */
+.ms-error,
+.ms-empty {
+  text-align: center;
+  padding: clamp(3rem, 6vh, 5rem);
+  background: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+}
+
+.ms-error p,
+.ms-empty p {
+  font-family: "Plus Jakarta Sans", sans-serif;
+  font-size: clamp(1rem, 1.5vw, 1.125rem);
+  color: #64748b;
+  margin: 0;
+}
+
+.ms-error p {
+  color: #ef4444;
+}
+
+/* ===== Responsive ===== */
+
+/* ≥1600px */
+@media (min-width: 1600px) {
+  .ms-container {
+    max-width: 1400px;
+  }
+}
+
+/* ≥1400px */
+@media (min-width: 1400px) {
+  .ms-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* ≥1200px */
+@media (min-width: 1200px) {
+  .ms-hero-title {
+    font-size: 4rem;
+  }
+}
+
+/* ≤980px */
+@media (max-width: 980px) {
+  .ms-services {
+    padding: 100px 0 2.5rem;
+  }
+  .ms-grid {
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  }
+}
+
+/* ≤768px */
+@media (max-width: 768px) {
+  .ms-grid {
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 1.25rem;
+  }
+  .ms-card {
+    min-height: 300px;
+  }
+  .ms-card-bg {
+    height: 140px;
+  }
+  .ms-card-content {
+    padding: 1.5rem;
+  }
+}
+
+/* ≤600px */
+@media (max-width: 600px) {
+  .ms-container {
+    padding: 0 1.25rem;
+  }
+  .ms-hero {
+    margin-bottom: 2.5rem;
+  }
+  .ms-card-bg {
+    height: 130px;
+  }
+}
+
+/* ≤560px */
+@media (max-width: 560px) {
+  .ms-grid {
+    grid-template-columns: 1fr;
+  }
+  .ms-card {
+    min-height: 280px;
+  }
+}
+
+/* ≤480px */
+@media (max-width: 480px) {
+  .ms-services {
+    padding: 90px 0 2rem;
+  }
+  .ms-grid {
+    gap: 1rem;
+  }
+  .ms-card {
+    min-height: 270px;
+  }
+  .ms-card-bg {
+    height: 120px;
+  }
+  .ms-card-content {
+    padding: 1.25rem;
+  }
+  .ms-bg-sun {
+    width: 40px;
+    height: 40px;
+    top: 12px;
+    right: 15px;
+  }
+}
+
+/* ≤430px */
+@media (max-width: 430px) {
+  .ms-hero-title {
+    font-size: 2.25rem;
+  }
+  .ms-card-title {
+    font-size: 1.25rem;
+  }
+  .ms-card-bg {
+    height: 110px;
+  }
+}
+
+/* ≤375px */
+@media (max-width: 375px) {
+  .ms-services {
+    padding: 80px 0 1.75rem;
+  }
+  .ms-container {
+    padding: 0 1rem;
+  }
+  .ms-card {
+    min-height: 260px;
+  }
+  .ms-card-bg {
+    height: 100px;
+  }
+  .ms-card-content {
+    padding: 1rem;
+  }
+}

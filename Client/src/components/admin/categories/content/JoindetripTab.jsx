@@ -2,8 +2,11 @@ import React, { useState, useEffect, useRef } from "react";
 import api from "../../../../api/axiosConfig";
 import DeleteModal from "../../modals/DeleteModal";
 import "./JoindetripTab.css";
+import { useLenis } from "lenis/react";
 
 const JoindetripTab = () => {
+  const lenis = useLenis();
+
   // State management
   const [trips, setTrips] = useState([]);
   const [activeFilter, setActiveFilter] = useState("active");
@@ -39,6 +42,14 @@ const JoindetripTab = () => {
     excludes: [],
     priceDetails: [],
   });
+
+  useEffect(() => {
+    if (drawerOpen) {
+      lenis?.stop();
+    } else {
+      lenis?.start();
+    }
+  }, [drawerOpen, lenis]);
 
   // Fetch trips on mount
   useEffect(() => {
@@ -535,7 +546,10 @@ const JoindetripTab = () => {
       </div>
 
       {/* Drawer Form */}
-      <div className={`jtrip-drawer ${drawerOpen ? "open" : ""}`}>
+      <div
+        className={`jtrip-drawer ${drawerOpen ? "open" : ""}`}
+        data-lenis-prevent
+      >
         <div className="jtrip-drawer-header">
           <h4>{jtripSelected ? "Edit Trip" : "Create New Trip"}</h4>
           <button onClick={closeDrawer}>×</button>

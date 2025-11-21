@@ -26,6 +26,8 @@ import "lenis/dist/lenis.css";
 import { ReactLenis, useLenis } from "lenis/react";
 import News from "./pages/News";
 import NewsDetail from "./pages/NewsDetail";
+import Services from "./pages/Services";
+import ServicesDetail from "./pages/ServicesDetail";
 
 const AppContent = () => {
   const [isFormOpen, setIsFormOpen] = useState(false);
@@ -81,6 +83,8 @@ const AppContent = () => {
           />
           <Route path="/news" element={<News />} />
           <Route path="/news/:slug" element={<NewsDetail />} />
+          <Route path="/services" element={<Services />} />
+          <Route path="/services/:serviceId" element={<ServicesDetail />} />
         </Routes>
         {!isAdminRoute && <Footer onBookNowClick={handleBookNowClick} />}
         <Form isOpen={isFormOpen} onClose={() => setIsFormOpen(false)} />

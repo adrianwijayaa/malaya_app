@@ -59,6 +59,8 @@ function Navbars() {
     else if (location.pathname.startsWith("/open-trip"))
       setActiveItem("Open Trip");
     else if (location.pathname.startsWith("/news")) setActiveItem("News");
+    else if (location.pathname.startsWith("/services"))
+      setActiveItem("Services");
     else setActiveItem("Home");
   }, [location.pathname]);
 
@@ -110,6 +112,10 @@ function Navbars() {
         navigate("/news", { state: { mode: "compact" } });
         window.scrollTo({ top: 0, behavior: "smooth" });
         break;
+      case "Services":
+        navigate("/services", { state: { mode: "compact" } });
+        window.scrollTo({ top: 0, behavior: "smooth" });
+        break;
       default:
         navigate("/");
         window.scrollTo({ top: 0, behavior: "smooth" });
@@ -120,7 +126,9 @@ function Navbars() {
     <Navbar
       fixed="top"
       className={`nav ${
-        colorChange || location.pathname.startsWith("/news")
+        colorChange ||
+        location.pathname.startsWith("/news") ||
+        location.pathname.startsWith("/services")
           ? "colorChange"
           : ""
       }`}

@@ -5,11 +5,14 @@ const Loading = () => {
   return (
     <div className="loading-container">
       <div className="loading-content">
-        <div className="loading-compass">
-          <div className="compass-ring"></div>
-          <div className="compass-center"></div>
-          <div className="compass-arrow"></div>
+        {/* Animated Waves */}
+        <div className="loading-waves">
+          <div className="wave wave-1"></div>
+          <div className="wave wave-2"></div>
+          <div className="wave wave-3"></div>
         </div>
+
+        {/* Main Logo */}
         <div className="loading-logo">
           <span>M</span>
           <span>A</span>
@@ -18,16 +21,27 @@ const Loading = () => {
           <span>Y</span>
           <span>A</span>
         </div>
-        <div className="loading-tagline">www.malayaadventures.com</div>
-        <div className="loading-tagline">under the maintainance</div>
-        <div className="loading-progress">
-          <div className="progress-bar"></div>
+
+        {/* Subtitle */}
+        <div className="loading-subtitle">Adventures Await</div>
+
+        {/* Website URL */}
+        <div className="loading-url">www.malayaadventures.com</div>
+
+        {/* Loading Dots Animation */}
+        <div className="loading-dots">
+          <span></span>
+          <span></span>
+          <span></span>
         </div>
       </div>
-      <div className="loading-mountains">
-        <div className="mountain"></div>
-        <div className="mountain"></div>
-        <div className="mountain"></div>
+
+      {/* Background Decorative Elements */}
+      <div className="loading-bg-shapes">
+        <div className="shape shape-1"></div>
+        <div className="shape shape-2"></div>
+        <div className="shape shape-3"></div>
+        <div className="shape shape-4"></div>
       </div>
     </div>
   );

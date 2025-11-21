@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import TailormadeTripTab from "./TailormadeTripTab";
 import JoindetripTab from "./JoindetripTab";
 import NewsContent from "./NewsContent";
+import ServicesContent from "./ServicesContent";
 import "./ContentTab.css";
 
 const ContentTab = () => {
@@ -43,6 +44,14 @@ const ContentTab = () => {
         >
           News
         </button>
+
+        <button
+          className={`content-btn ${activeContent === "services" ? "active" : ""}`}
+          onClick={() => setActiveContent("services")}
+          type="button"
+        >
+          Services
+        </button>
       </div>
 
       {/* 🔹 Render kategori aktif */}
@@ -52,6 +61,8 @@ const ContentTab = () => {
         {activeContent === "joindetrip" && <JoindetripTab />}
 
         {activeContent === "news" && <NewsContent />}
+
+        {activeContent === "services" && <ServicesContent />}
       </div>
     </div>
   );

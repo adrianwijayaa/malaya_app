@@ -136,7 +136,7 @@ function Hero({ onBookNow }) {
           </p>
 
           <div
-            className="ma-hero__controls ma-hero__glass ma-hero__reveal"
+            className="ma-hero__controls ma-hero__reveal"
             style={{ animationDelay: "160ms" }}
           >
             <div className="ma-hero__selectWrap">
