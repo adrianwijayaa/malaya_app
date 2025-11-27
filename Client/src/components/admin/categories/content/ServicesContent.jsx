@@ -260,12 +260,8 @@ export default function ServicesContent() {
     try {
       const fd = new FormData();
       fd.append("image", file);
-      const token = localStorage.getItem("adminToken");
       const res = await api.post("/upload-image", fd, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-          ...(token && { Authorization: `Bearer ${token}` }),
-        },
+        headers: { "Content-Type": "multipart/form-data" },
       });
       setForm((p) => ({ ...p, imageUrl: res.data?.url || "" }));
       showToast("Image uploaded");
@@ -311,12 +307,8 @@ export default function ServicesContent() {
     try {
       const fd = new FormData();
       fd.append("image", file);
-      const token = localStorage.getItem("adminToken");
       const res = await api.post("/upload-image", fd, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-          ...(token && { Authorization: `Bearer ${token}` }),
-        },
+        headers: { "Content-Type": "multipart/form-data" },
       });
       updatePackage(pkgIdx, "imageUrl", res.data?.url || "");
       showToast("Package image uploaded");
@@ -394,12 +386,8 @@ export default function ServicesContent() {
     try {
       const fd = new FormData();
       fd.append("image", file);
-      const token = localStorage.getItem("adminToken");
       const res = await api.post("/upload-image", fd, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-          ...(token && { Authorization: `Bearer ${token}` }),
-        },
+        headers: { "Content-Type": "multipart/form-data" },
       });
       updateValueProp(vpIdx, "imageUrl", res.data?.url || "");
       showToast("Value prop image uploaded");

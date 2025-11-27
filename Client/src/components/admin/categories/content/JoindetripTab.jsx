@@ -89,12 +89,8 @@ const JoindetripTab = () => {
     try {
       const formData = new FormData();
       formData.append("image", file);
-      const token = localStorage.getItem("adminToken");
       const res = await api.post("/upload-image", formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-          ...(token && { Authorization: `Bearer ${token}` }),
-        },
+        headers: { "Content-Type": "multipart/form-data" },
       });
       setJtripForm((prev) => ({ ...prev, heroImage: res.data.url }));
       showToast("Image uploaded successfully");
@@ -113,12 +109,8 @@ const JoindetripTab = () => {
     try {
       const formData = new FormData();
       formData.append("image", file);
-      const token = localStorage.getItem("adminToken");
       const res = await api.post("/upload-image", formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-          ...(token && { Authorization: `Bearer ${token}` }),
-        },
+        headers: { "Content-Type": "multipart/form-data" },
       });
 
       const updated = [...jtripForm.highlights];
