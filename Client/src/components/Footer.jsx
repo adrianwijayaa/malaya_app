@@ -1,6 +1,6 @@
 import React from "react";
 import "./Footer.css";
-import logo1 from "../assets/img/BookingLiveaboard2.png";
+import logo1 from "../assets/img/BookingLiveaboard5.png";
 
 const Footer = ({ onBookNowClick, page }) => {
   const handleWhatsAppClick = (e) => {
