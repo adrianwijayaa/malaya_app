@@ -1165,16 +1165,15 @@ export default function ServicesContent() {
         </form>
       </div>
 
-      {showDeleteModal && (
-        <DeleteModal
-          data={toDelete}
-          onConfirm={doDelete}
-          onCancel={() => {
-            setShowDeleteModal(false);
-            setToDelete(null);
-          }}
-        />
-      )}
+      <DeleteModal
+        isOpen={showDeleteModal}
+        request={toDelete}
+        onConfirm={doDelete}
+        onCancel={() => {
+          setShowDeleteModal(false);
+          setToDelete(null);
+        }}
+      />
     </div>
   );
 }
