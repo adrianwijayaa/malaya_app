@@ -29,6 +29,6 @@ const router = require("./src/routes/index.js");
 app.use("/api/v1", router);
 
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, "127.0.0.1", () => {
-  console.log(`Server is running on port http://127.0.0.1:${PORT}.`);
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
 });
