@@ -35,9 +35,10 @@ const TailormadePage = () => {
 
   const getImageUrl = (imagePath) => {
     if (!imagePath) return "";
-    return imagePath.startsWith("/uploads")
-      ? `${BASE_URL}${imagePath}`
-      : imagePath;
+    if (/^https?:\/\//i.test(imagePath)) return imagePath;
+    const base = BASE_URL?.replace(/\/+$/, "") || "";
+    const path = String(imagePath).startsWith("/") ? imagePath : `/${imagePath}`;
+    return `${base}${path}`;
   };
 
   return (

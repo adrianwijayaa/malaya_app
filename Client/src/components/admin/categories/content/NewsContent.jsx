@@ -1,11 +1,21 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { useLenis } from "lenis/react";
-import api from "../../../../api/axiosConfig";
+import api, { BASE_URL } from "../../../../api/axiosConfig";
 import DeleteModal from "../../modals/DeleteModal";
 import "./NewsContent.css";
 
 export default function NewsContent() {
   const lenis = useLenis();
+
+  // Helper function untuk preview image
+  const imageSrc = (url) => {
+    if (!url) return "";
+    if (/^https?:\/\//i.test(url)) return url;
+    const base = BASE_URL?.replace(/\/+$/, "") || "";
+    const path = String(url).startsWith("/") ? url : `/${url}`;
+    return `${base}${path}`;
+  };
+
   const [statusFilter, setStatusFilter] = useState("active");
   const [newsList, setNewsList] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -435,7 +445,7 @@ export default function NewsContent() {
               disabled={uploading}
             />
             {form.imageUrl && (
-              <img src={form.imageUrl} alt="Preview" className="news-preview" />
+              <img src={imageSrc(form.imageUrl)} alt="Preview" className="news-preview" />
             )}
           </div>
 

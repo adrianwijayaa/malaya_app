@@ -1,11 +1,21 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { useLenis } from "lenis/react";
-import api from "../../../../api/axiosConfig";
+import api, { BASE_URL } from "../../../../api/axiosConfig";
 import DeleteModal from "../../modals/DeleteModal";
 import "./ServicesContent.css";
 
 export default function ServicesContent() {
   const lenis = useLenis();
+
+  // Helper function untuk preview image
+  const imageSrc = (url) => {
+    if (!url) return "";
+    if (/^https?:\/\//i.test(url)) return url;
+    const base = BASE_URL?.replace(/\/+$/, "") || "";
+    const path = String(url).startsWith("/") ? url : `/${url}`;
+    return `${base}${path}`;
+  };
+
   const [statusFilter, setStatusFilter] = useState("active");
   const [servicesList, setServicesList] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -260,8 +270,12 @@ export default function ServicesContent() {
     try {
       const fd = new FormData();
       fd.append("image", file);
+      const token = localStorage.getItem("adminToken");
       const res = await api.post("/upload-image", fd, {
-        headers: { "Content-Type": "multipart/form-data" },
+        headers: {
+          "Content-Type": "multipart/form-data",
+          ...(token && { Authorization: `Bearer ${token}` }),
+        },
       });
       setForm((p) => ({ ...p, imageUrl: res.data?.url || "" }));
       showToast("Image uploaded");
@@ -307,8 +321,12 @@ export default function ServicesContent() {
     try {
       const fd = new FormData();
       fd.append("image", file);
+      const token = localStorage.getItem("adminToken");
       const res = await api.post("/upload-image", fd, {
-        headers: { "Content-Type": "multipart/form-data" },
+        headers: {
+          "Content-Type": "multipart/form-data",
+          ...(token && { Authorization: `Bearer ${token}` }),
+        },
       });
       updatePackage(pkgIdx, "imageUrl", res.data?.url || "");
       showToast("Package image uploaded");
@@ -386,8 +404,12 @@ export default function ServicesContent() {
     try {
       const fd = new FormData();
       fd.append("image", file);
+      const token = localStorage.getItem("adminToken");
       const res = await api.post("/upload-image", fd, {
-        headers: { "Content-Type": "multipart/form-data" },
+        headers: {
+          "Content-Type": "multipart/form-data",
+          ...(token && { Authorization: `Bearer ${token}` }),
+        },
       });
       updateValueProp(vpIdx, "imageUrl", res.data?.url || "");
       showToast("Value prop image uploaded");
@@ -813,11 +835,7 @@ export default function ServicesContent() {
                       {pkg.imageUrl && (
                         <div className="services-image-preview">
                           <img
-                            src={
-                              pkg.imageUrl.startsWith("http")
-                                ? pkg.imageUrl
-                                : `http://127.0.0.1:3000${pkg.imageUrl}`
-                            }
+                            src={imageSrc(pkg.imageUrl)}
                             alt="Preview"
                           />
                         </div>
@@ -987,11 +1005,7 @@ export default function ServicesContent() {
                       {prop.imageUrl && (
                         <div className="services-image-preview">
                           <img
-                            src={
-                              prop.imageUrl.startsWith("http")
-                                ? prop.imageUrl
-                                : `http://127.0.0.1:3000${prop.imageUrl}`
-                            }
+                            src={imageSrc(prop.imageUrl)}
                             alt="Preview"
                           />
                         </div>

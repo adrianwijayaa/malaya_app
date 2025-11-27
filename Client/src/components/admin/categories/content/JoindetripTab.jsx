@@ -1,11 +1,20 @@
 import React, { useState, useEffect, useRef } from "react";
-import api from "../../../../api/axiosConfig";
+import api, { BASE_URL } from "../../../../api/axiosConfig";
 import DeleteModal from "../../modals/DeleteModal";
 import "./JoindetripTab.css";
 import { useLenis } from "lenis/react";
 
 const JoindetripTab = () => {
   const lenis = useLenis();
+
+  // Helper function untuk preview image
+  const imageSrc = (url) => {
+    if (!url) return "";
+    if (/^https?:\/\//i.test(url)) return url;
+    const base = BASE_URL?.replace(/\/+$/, "") || "";
+    const path = String(url).startsWith("/") ? url : `/${url}`;
+    return `${base}${path}`;
+  };
 
   // State management
   const [trips, setTrips] = useState([]);
@@ -598,7 +607,7 @@ const JoindetripTab = () => {
             />
             {jtripForm.heroImage && (
               <img
-                src={jtripForm.heroImage}
+                src={imageSrc(jtripForm.heroImage)}
                 alt="Preview"
                 className="jtrip-preview"
               />
@@ -705,7 +714,7 @@ const JoindetripTab = () => {
                 />
                 {highlight.imageUrl && (
                   <div className="jtrip-thumb">
-                    <img src={highlight.imageUrl} alt="Highlight" />
+                    <img src={imageSrc(highlight.imageUrl)} alt="Highlight" />
                   </div>
                 )}
                 <textarea

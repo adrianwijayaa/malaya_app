@@ -68,7 +68,10 @@ export default function JoinDeTripDetail() {
 
   const imgUrl = (path) => {
     if (!path) return "";
-    return path.startsWith("/uploads") ? `${BASE_URL}${path}` : path;
+    if (/^https?:\/\//i.test(path)) return path;
+    const base = BASE_URL?.replace(/\/+$/, "") || "";
+    const imgPath = String(path).startsWith("/") ? path : `/${path}`;
+    return `${base}${imgPath}`;
   };
 
   const formatMoney = (
