@@ -693,6 +693,14 @@ export default function ServicesContent() {
                 />
               </label>
             </div>
+            {form.imageUrl && (
+              <div className="services-image-preview">
+                <img
+                  src={imageSrc(form.imageUrl)}
+                  alt="Service Preview"
+                />
+              </div>
+            )}
           </div>
 
           <div className="services-form-group">
